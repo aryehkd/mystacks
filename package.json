@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve mystacks"
+    "start": "nx serve mystacks",
+    "generate:component": "echo Component Name: && read component_name && nx g @nx/react:component apps/mystacks/src/components/$component_name/$component_name"
   },
   "private": true,
   "dependencies": {
