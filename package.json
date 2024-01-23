@@ -3,13 +3,17 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve mystacks",
-    "generate:component": "echo Component Name: && read component_name && nx g @nx/react:component apps/mystacks/src/components/$component_name/$component_name"
+    "start": "nx serve mystacks-web",
+    "storybook": "nx run mystacks-web:storybook",
+    "test": "echo test",
+    "test:e2e": "echo test e2e",
+    "generate:component": "echo Component Name: && read component_name && nx g @nx/react:component apps/mystacks-web/src/components/$component_name/$component_name"
   },
   "private": true,
   "dependencies": {
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
+    "@mui/material": "^5.15.6",
     "@swc/helpers": "~0.5.2",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -21,8 +25,16 @@
     "@nx/eslint-plugin": "17.2.8",
     "@nx/js": "17.2.8",
     "@nx/react": "17.2.8",
+    "@nx/storybook": "^17.2.8",
     "@nx/vite": "17.2.8",
     "@nx/workspace": "17.2.8",
+    "@storybook/addon-essentials": "^7.5.3",
+    "@storybook/addon-interactions": "^7.5.3",
+    "@storybook/core-server": "^7.5.3",
+    "@storybook/jest": "^0.2.3",
+    "@storybook/react-vite": "^7.5.3",
+    "@storybook/test-runner": "^0.13.0",
+    "@storybook/testing-library": "^0.2.2",
     "@swc-node/register": "~1.6.7",
     "@swc/cli": "~0.1.62",
     "@swc/core": "~1.3.85",
@@ -46,6 +58,7 @@
     "jsdom": "~22.1.0",
     "nx": "17.2.8",
     "prettier": "^2.6.2",
+    "ts-node": "10.9.1",
     "typescript": "~5.2.2",
     "vite": "^5.0.0",
     "vitest": "~0.34.6"
