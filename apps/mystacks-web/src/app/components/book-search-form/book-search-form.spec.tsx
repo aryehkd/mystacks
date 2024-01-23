@@ -1,20 +1,11 @@
 import { render } from '@testing-library/react';
 
-import BookSearchForm from './book-search-form';
-import { useBookSearchForm } from '@mystacks/book-search-form'
-
+import { BookSearchFormStory } from './book-search-form.stories';
 
 describe('BookSearchForm', () => {
   it('should render successfully', () => {
-    const { inputValue, handleInputValueChange, search } = useBookSearchForm()
 
-    const { baseElement } = render(
-        <BookSearchForm 
-          inputValue={inputValue} 
-          handleInputValueChange={handleInputValueChange}
-          search={search}
-        />
-    );
+    const { baseElement } = render(<BookSearchFormStory />);
     expect(baseElement).toBeTruthy();
   });
 });

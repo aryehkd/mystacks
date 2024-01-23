@@ -5,7 +5,7 @@ import { Box, Grid, TextField, Button } from '@mui/material'
 export interface BookSearchFormProps {
   inputValue: string
   handleInputValueChange: (newInputValue: string) => void
-  search: () => void
+  handleBookSeach: () => void
 }
 
 const StyledTextFieldContainer = styled(Grid)(({ theme }) => ({
@@ -22,7 +22,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export function BookSearchForm(props: BookSearchFormProps) {
-  const { inputValue, handleInputValueChange, search } = props
+  const { inputValue, handleInputValueChange, handleBookSeach } = props
 
   return (
      <Box sx={{ flexGrow: 1 }}>
@@ -39,7 +39,7 @@ export function BookSearchForm(props: BookSearchFormProps) {
           />
         </StyledTextFieldContainer>
         <Grid item xs={2}>
-          <StyledButton variant="outlined" onClick={search}>Search</StyledButton>
+          <StyledButton variant="outlined" onClick={handleBookSeach}>Search</StyledButton>
         </Grid>
       </Grid>
     </Box>

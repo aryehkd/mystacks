@@ -16,6 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@mystacks/book-search-form": ["libs/book-search-form/src/index.ts"],
+      "@mystacks/book-search-results": [
+        "libs/book-search-results/src/index.ts"
+      ],
+      "@mystacks/types": ["libs/types/src/index.ts"],
       "@mystacks/utils": ["libs/utils/src/index.ts"]
     }
   },

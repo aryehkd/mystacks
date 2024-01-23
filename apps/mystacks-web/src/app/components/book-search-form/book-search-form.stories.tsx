@@ -3,14 +3,14 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { BookSearchForm } from './book-search-form';
 import { useBookSearchForm } from '@mystacks/book-search-form'
 
-const BookSearchFormStory = () => {
-  const { inputValue, handleInputValueChange, search } = useBookSearchForm()
+export const BookSearchFormStory = () => {
+  const { inputValue, handleInputValueChange, handleBookSeach } = useBookSearchForm()
 
   return (
     <BookSearchForm 
       inputValue={inputValue} 
       handleInputValueChange={handleInputValueChange}
-      search={search}
+      handleBookSeach={handleBookSeach}
     />
   )
 }
