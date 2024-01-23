@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export const useBookInput = () => {
+export const useBookSearchForm = () => {
     const [ inputValue, setInputValue ] = useState('')
 
     const handleInputValueChange = (newInputValue: string) => {
@@ -26,4 +26,4 @@ export const useBookInput = () => {
     }
 }
 
-export default useBookInput;
+export default useBookSearchForm;

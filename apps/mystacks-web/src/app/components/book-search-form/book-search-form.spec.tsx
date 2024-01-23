@@ -1,15 +1,15 @@
 import { render } from '@testing-library/react';
 
-import BookInput from './book-input';
-import { useBookInput } from '@mystacks/book-input'
+import BookSearchForm from './book-search-form';
+import { useBookSearchForm } from '@mystacks/book-search-form'
 
 
-describe('BookInput', () => {
+describe('BookSearchForm', () => {
   it('should render successfully', () => {
-    const { inputValue, handleInputValueChange, search } = useBookInput()
+    const { inputValue, handleInputValueChange, search } = useBookSearchForm()
 
     const { baseElement } = render(
-        <BookInput 
+        <BookSearchForm 
           inputValue={inputValue} 
           handleInputValueChange={handleInputValueChange}
           search={search}

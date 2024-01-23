@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Grid, TextField, Button } from '@mui/material'
 
 /* eslint-disable-next-line */
-export interface BookInputProps {
+export interface BookSearchFormProps {
   inputValue: string
   handleInputValueChange: (newInputValue: string) => void
   search: () => void
@@ -21,7 +21,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   height: '100%'
 }));
 
-export function BookInput(props: BookInputProps) {
+export function BookSearchForm(props: BookSearchFormProps) {
   const { inputValue, handleInputValueChange, search } = props
 
   return (
@@ -29,7 +29,7 @@ export function BookInput(props: BookInputProps) {
       <Grid container>
         <StyledTextFieldContainer item xs={10}>
           <StyledTextField 
-            id="book-input" 
+            id="book-search-form" 
             label="Book Title" 
             variant="outlined" 
             value={inputValue}
@@ -46,4 +46,4 @@ export function BookInput(props: BookInputProps) {
   );
 }
 
-export default BookInput;
+export default BookSearchForm;
