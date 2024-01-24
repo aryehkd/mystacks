@@ -8,14 +8,15 @@ export interface CardProps {
     title: string
     subtitle?: string
     imgUrl?: string
+    cardClickAction?: (param: any) => void 
   }
 
 export const Card = (props: CardProps) => {
-    const { title, subtitle, imgUrl } = props;
+    const { title, subtitle, imgUrl, cardClickAction } = props;
 
     return (
         <StyledBox className='card'>
-            <StyledPaper>
+            <StyledPaper onClick={() => cardClickAction?.({title, author: subtitle, imgUrl})}>
                 {imgUrl &&
                     <img
                         src={`${imgUrl}?w=164&h=164&fit=crop&auto=format`}

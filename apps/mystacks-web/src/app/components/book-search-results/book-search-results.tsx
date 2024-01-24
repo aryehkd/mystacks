@@ -11,10 +11,11 @@ import { Card } from '../card'
 /* eslint-disable-next-line */
 export interface BookSearchResultsProps {
   SearchResults: Book[]
+  saveBook?: (toSave: Book) => void
 }
 
 export function BookSearchResults(props: BookSearchResultsProps) {
-  const { SearchResults } = props
+  const { SearchResults, saveBook } = props
 
   const sliderSettings = {
     speed: 1,
@@ -27,7 +28,7 @@ export function BookSearchResults(props: BookSearchResultsProps) {
   return (
     <StyledBox>
       <Slider {...sliderSettings}>
-        {SearchResults.map(item => <div><Card title={item.title} subtitle={item.author} imgUrl={item.imgUrl}/></div>)}      
+        {SearchResults.map(item => <div><Card title={item.title} subtitle={item.author} imgUrl={item.imgUrl} cardClickAction={saveBook}/></div>)}      
       </Slider>
     </StyledBox>
 

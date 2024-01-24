@@ -17,29 +17,49 @@ initializeApp();
 const db = getFirestore();
 
 export const storeBook = onRequest((request, response) => {
-  const book = request.body.book;
+  response.set("Access-Control-Allow-Origin", "*");
 
-  // TODO: add type check and error handling for response
-  db.collection("books").add(book);
+  if (request.method === "OPTIONS") {
+    // Send response to OPTIONS requests
+    response.set("Access-Control-Allow-Methods", "POST");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+  } else {
+    const book = request.body.book;
 
-  response.send("Book saved!");
+    // TODO: add type check and error handling for response
+    db.collection("books").add(book);
+
+    response.send("Book saved!");
+  }
 });
 
 export const getStoredBooks = onRequest(async (request, response) => {
-  const booksRef = db.collection("books");
-  const snapshot = await booksRef.get();
-  if (snapshot.empty) {
-    console.log("No matching documents.");
-    return;
+  response.set("Access-Control-Allow-Origin", "*");
+
+  if (request.method === "OPTIONS") {
+    // Send response to OPTIONS requests
+    response.set("Access-Control-Allow-Methods", "GET");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+  } else {
+    const booksRef = db.collection("books");
+    const snapshot = await booksRef.get();
+    if (snapshot.empty) {
+      console.log("No matching documents.");
+      return;
+    }
+
+    // get types
+    const responseData: any[] = [];
+
+    snapshot.forEach((doc) => {
+      responseData.push(doc.data());
+    });
+
+
+    response.json({"data": responseData});
   }
-
-  // get types
-  const responseData: any[] = [];
-
-  snapshot.forEach((doc) => {
-    responseData.push(doc.data());
-  });
-
-
-  response.json({"data": responseData});
 });

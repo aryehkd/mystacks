@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { BookSearchResults } from './book-search-results';
-import { useBookSearchResults } from '@mystacks/book-search-results'
+import { useBookSearchForm } from '@mystacks/book-search-form';
 
 export const BookSearchResultsStory = () => {
-  const {} = useBookSearchResults()
+  const { saveBook } = useBookSearchForm()
 
   return (
     <BookSearchResults 
@@ -25,6 +25,7 @@ export const BookSearchResultsStory = () => {
           imgUrl: "http://books.google.com/books/content?id=FuwCBAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
         }
       ]}
+      saveBook={saveBook}
     />
   )
 }

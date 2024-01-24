@@ -1,7 +1,8 @@
 import React from 'react'
-import { Box, Paper, Typography } from '@mui/material/';
+import { Box, Typography } from '@mui/material/';
 import { styled } from '@mui/material/styles';
 import { useBookSearchForm } from '@mystacks/book-search-form'
+import { useSavedBooks } from '@mystacks/saved-books'
 import { BookSearchForm } from '../book-search-form';
 import { BookSearchResults } from '../book-search-results';
 
@@ -11,17 +12,24 @@ export interface BookSearchProps {
 }
 
 export const BookSearch = (props: BookSearchProps) => {
+    const { savedBooks, addSavedBook } = useSavedBooks()
+
     const { 
         inputValue,
         searchResults,
         handleInputValueChange,
-        handleBookSeach
-     } = useBookSearchForm()
-
+        handleBookSeach,
+        saveBook
+     } = useBookSearchForm(addSavedBook)
+    
     return (
         <StyledBox>
             <BookSearchForm inputValue={inputValue} handleInputValueChange={handleInputValueChange} handleBookSeach={handleBookSeach}/>
-            <BookSearchResults SearchResults={searchResults} />
+            <BookSearchResults SearchResults={searchResults} saveBook={saveBook}/>
+
+
+            <Typography>Saved Books</Typography>
+            <BookSearchResults SearchResults={savedBooks} />
         </StyledBox>
     )
 }
