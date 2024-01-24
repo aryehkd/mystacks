@@ -19,6 +19,7 @@
       "@mystacks/book-search-results": [
         "libs/book-search-results/src/index.ts"
       ],
+      "@mystacks/saved-books": ["libs/saved-books/src/index.ts"],
       "@mystacks/types": ["libs/types/src/index.ts"],
       "@mystacks/utils": ["libs/utils/src/index.ts"]
     }
