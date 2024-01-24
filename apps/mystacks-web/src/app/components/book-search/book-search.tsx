@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Typography } from '@mui/material/';
+import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useBookSearchForm } from '@mystacks/book-search-form'
 import { useSavedBooks } from '@mystacks/saved-books'

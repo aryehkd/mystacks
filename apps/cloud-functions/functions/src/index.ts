@@ -63,3 +63,22 @@ export const getStoredBooks = onRequest(async (request, response) => {
     response.json({"data": responseData});
   }
 });
+
+export const createUserAccount = onRequest(async (request, response) => {
+  response.set("Access-Control-Allow-Origin", "*");
+
+  if (request.method === "OPTIONS") {
+    // Send response to OPTIONS requests
+    response.set("Access-Control-Allow-Methods", "POST");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+  } else {
+    const account = request.body.account;
+
+    // TODO: add server side validation
+    db.collection("users").add(account);
+
+    response.send("Account Created!");
+  }
+});
