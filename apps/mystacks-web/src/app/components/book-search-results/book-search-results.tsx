@@ -1,18 +1,31 @@
-import styled from '@emotion/styled';
+import React from 'react'
+import { Box, Paper, Typography } from '@mui/material/';
+import { styled } from '@mui/material/styles';
+import { Book } from '@mystacks/types'
+import { Card } from '../card'
 
 /* eslint-disable-next-line */
-export interface BookSearchResultsProps {}
-
-const StyledBookSearchResults = styled.div`
-  color: pink;
-`;
+export interface BookSearchResultsProps {
+  SearchResults: Book[]
+}
 
 export function BookSearchResults(props: BookSearchResultsProps) {
+  const { SearchResults } = props
+
   return (
-    <StyledBookSearchResults>
-      <h1>Welcome to BookSearchResults!</h1>
-    </StyledBookSearchResults>
+    <StyledBox>
+      {SearchResults.map(item => <Card title={item.title} subtitle={item.author} imgUrl={item.imgUrl}/>)}
+    </StyledBox>
   );
 }
 
 export default BookSearchResults;
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+
+  "& > .card": {
+    margin: "0 20px;"
+  }
+}));

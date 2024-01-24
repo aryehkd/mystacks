@@ -8,19 +8,6 @@ export interface BookSearchFormProps {
   handleBookSeach: () => void
 }
 
-const StyledTextFieldContainer = styled(Grid)(({ theme }) => ({
-  paddingRight: '10px'
-}));
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  width: '100%'
-}));
-
-const StyledButton = styled(Button)(({ theme }) => ({
-  width: '100%',
-  height: '100%'
-}));
-
 export function BookSearchForm(props: BookSearchFormProps) {
   const { inputValue, handleInputValueChange, handleBookSeach } = props
 
@@ -47,3 +34,16 @@ export function BookSearchForm(props: BookSearchFormProps) {
 }
 
 export default BookSearchForm;
+
+const StyledTextFieldContainer = styled(Grid)(({ theme }) => ({
+  paddingRight: '10px'
+}));
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  width: '100%'
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  width: '100%',
+  height: '100%'
+}));

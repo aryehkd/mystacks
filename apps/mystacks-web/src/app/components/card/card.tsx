@@ -10,47 +10,18 @@ export interface CardProps {
     imgUrl?: string
   }
 
-const StyledBox = styled(Box)(({ theme }) => ({
-    display: "flex",
-}));
-
-const StyledPaper = styled(Paper)(({ theme }) => ({
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    padding: "10px 20px",
-
-    "&:hover": {
-        background: '#F0F7FF',
-
-        "& > .card-text": {
-            // TODO: add theme and colors, text styled, etc
-            color: "#0072E5"
-        }
-    }
-}));
-
-const StyledTitle = styled(Typography)(({ theme }) => ({
-    marginTop: "20px",
-    cursor: "pointer",
-}));
-
-const StyledSubTitle = styled(Typography)(({ theme }) => ({
-    cursor: "pointer",
-}));
-
 export const Card = (props: CardProps) => {
     const { title, subtitle, imgUrl } = props;
 
     return (
-        <StyledBox>
+        <StyledBox className='card'>
             <StyledPaper>
                 {imgUrl &&
                     <img
                         src={`${imgUrl}?w=164&h=164&fit=crop&auto=format`}
                         alt={title+"-img"}
                         loading="lazy"
-                        style={{cursor: "pointer"}}
+                        style={{cursor: "pointer", width: "150px", height: "auto"}}
                     />
                 }
                 <StyledTitle variant="h6" className="card-text">
@@ -67,3 +38,35 @@ export const Card = (props: CardProps) => {
 }
 
 export default Card;
+
+
+const StyledBox = styled(Box)(({ theme }) => ({
+    display: "flex",
+}));
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "10px 20px",
+    cursor: "pointer",
+
+    "&:hover": {
+        background: '#F0F7FF',
+
+        "& > .card-text": {
+            // TODO: add theme and colors, text styled, etc
+            color: "#0072E5"
+        }
+    }
+}));
+
+const StyledTitle = styled(Typography)(({ theme }) => ({
+    marginTop: "20px",
+    cursor: "pointer",
+    maxWidth: "200px",
+}));
+
+const StyledSubTitle = styled(Typography)(({ theme }) => ({
+    cursor: "pointer",
+}));
