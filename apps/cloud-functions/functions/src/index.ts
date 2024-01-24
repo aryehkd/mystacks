@@ -8,7 +8,7 @@
  */
 
 import {onRequest} from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
+// import * as logger from "firebase-functions/logger";
 
 import {initializeApp} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
@@ -17,15 +17,29 @@ initializeApp();
 const db = getFirestore();
 
 export const storeBook = onRequest((request, response) => {
-  logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
+  const book = request.body.book;
 
-  const name = request.body.text;
+  // TODO: add type check and error handling for response
+  db.collection("books").add(book);
 
-  db.collection("users").add({name});
+  response.send("Book saved!");
 });
 
-export const getStoredBooks = onRequest((request, response) => {
-  logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase!");
+export const getStoredBooks = onRequest(async (request, response) => {
+  const booksRef = db.collection("books");
+  const snapshot = await booksRef.get();
+  if (snapshot.empty) {
+    console.log("No matching documents.");
+    return;
+  }
+
+  // get types
+  const responseData: any[] = [];
+
+  snapshot.forEach((doc) => {
+    responseData.push(doc.data());
+  });
+
+
+  response.json({"data": responseData});
 });
