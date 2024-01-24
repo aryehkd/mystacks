@@ -27,9 +27,6 @@ export const BookSearch = (props: BookSearchProps) => {
             <BookSearchForm inputValue={inputValue} handleInputValueChange={handleInputValueChange} handleBookSeach={handleBookSeach}/>
             <BookSearchResults SearchResults={searchResults} saveBook={saveBook}/>
 
-
-            <Typography>Saved Books</Typography>
-            <BookSearchResults SearchResults={savedBooks} />
         </StyledBox>
     )
 }
