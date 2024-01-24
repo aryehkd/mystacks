@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import BookSearchResults from './book-search-results';
+import { BookSearchResultsStory } from './book-search-results.stories';
 
 describe('BookSearchResults', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<BookSearchResults />);
+    const { baseElement } = render(<BookSearchResultsStory />);
     expect(baseElement).toBeTruthy();
   });
 });
