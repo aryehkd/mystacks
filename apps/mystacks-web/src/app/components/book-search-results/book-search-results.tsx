@@ -22,10 +22,18 @@ export function BookSearchResults(props: BookSearchResultsProps) {
 export default BookSearchResults;
 
 const StyledBox = styled(Box)(({ theme }) => ({
+  width: "100%",
   display: "flex",
   flexDirection: "row",
+  flexWrap: "wrap",
 
   "& > .card": {
-    margin: "0 20px;"
+    margin: "20px 20px;"
+  },
+
+  "& .card-text": {
+    lineHeight: "1.5em",
+    height: "1.5em",
+    overflow: "hidden",
   }
 }));

@@ -45,6 +45,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
+    width: "200px",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -64,7 +65,6 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 const StyledTitle = styled(Typography)(({ theme }) => ({
     marginTop: "20px",
     cursor: "pointer",
-    maxWidth: "200px",
 }));
 
 const StyledSubTitle = styled(Typography)(({ theme }) => ({
