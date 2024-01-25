@@ -1,15 +1,14 @@
 import styled from '@emotion/styled';
 
-import NxWelcome from './nx-welcome';
 
 const StyledApp = styled.div`
-  // Your style here
+  width: '100%'
 `;
+
 
 export function App() {
   return (
     <StyledApp>
-      <NxWelcome title="mystacks" />
     </StyledApp>
   );
 }

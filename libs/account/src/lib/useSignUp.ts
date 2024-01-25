@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { request } from '@mystacks/utils'
+import { useNavigate } from "react-router-dom";
 
 export type SignUpFieldName = 'username' | 'password' | 'email'
 

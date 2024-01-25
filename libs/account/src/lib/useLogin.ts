@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { request } from '@mystacks/utils'
+import { useNavigate } from "react-router-dom";
 
 export type LoginFieldName = 'username' | 'password'
 
 export const useLogin = () => {
   const [ username, setUsername ] = useState('')
   const [ password, setPassword ] = useState('')
+
+  const navigate = useNavigate();
 
   const handleLoginInputChange = (newInputValue: string, fieldName: LoginFieldName) => {
     switch (fieldName) {

@@ -2,7 +2,7 @@
 
 ## Start the app locally
 
-To start the development server run `nx serve mystacks`. Open your browser and navigate to http://localhost:4200/. 
+To start the development server run `nx serve mystacks-web`. Open your browser and navigate to http://localhost:4200/. 
 
 ## Generate code
 
