@@ -2,10 +2,6 @@ import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { hookstate } from '@hookstate/core';
 
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -21,14 +17,27 @@ import { AppState } from '@mystacks/types'
 import {
   createBrowserRouter,
   RouterProvider,
+  LoaderFunctionArgs,
+  redirect
 } from "react-router-dom";
 
 const appState = hookstate<Partial<AppState>>({});
+
+const requireLogin = async (args: LoaderFunctionArgs<any>) => {
+  const currentState = appState.get()
+
+  if (!currentState?.userId) {
+    return redirect("/login");
+  }
+
+  return null
+}
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage appState={appState}/>,
+    loader: requireLogin,
   },
   {
     path: "/login",
@@ -41,6 +50,7 @@ const router = createBrowserRouter([
   {
     path: "/account",
     element: <AccountPage appState={appState}/>,
+    loader: requireLogin,
   },
 ]);
 
