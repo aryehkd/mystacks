@@ -82,3 +82,39 @@ export const createUserAccount = onRequest(async (request, response) => {
     response.send("Account Created!");
   }
 });
+
+export const login = onRequest(async (request, response) => {
+  response.set("Access-Control-Allow-Origin", "*");
+
+  if (request.method === "OPTIONS") {
+    // Send response to OPTIONS requests
+    response.set("Access-Control-Allow-Methods", "POST");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+  } else {
+    const account = request.body.account;
+
+    const accountRef = db.collection("users")
+      .where("username", "==", account.username);
+    const snapshot = await accountRef.get();
+    if (snapshot.empty) {
+      // TODO: Error for login handling
+      console.log("No matching documents.");
+      return;
+    }
+
+    // get types
+    const responseData: any[] = [];
+
+    snapshot.forEach((doc) => {
+      responseData.push({...doc.data(), id: doc.id});
+    });
+
+    if (responseData[0].password == account.password) {
+      response.json({"data": {"account": responseData[0].id}});
+    } else {
+      response.json({"error": "account not found"});
+    }
+  }
+});

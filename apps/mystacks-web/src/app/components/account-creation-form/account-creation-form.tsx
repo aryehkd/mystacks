@@ -1,13 +1,13 @@
 import { Box, TextField, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { FieldName } from '@mystacks/account'
+import { SignUpFieldName } from '@mystacks/account'
 
 /* eslint-disable-next-line */
 export interface AccountCreationFormProps {
     username: string
     password: string
     email: string
-    handleSignupInputChange: (newValue: string, fieldName: FieldName) => void
+    handleSignupInputChange: (newValue: string, fieldName: SignUpFieldName) => void
     submitSignUp: () => void
 }
 

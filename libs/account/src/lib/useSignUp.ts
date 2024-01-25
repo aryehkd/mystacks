@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { request } from '@mystacks/utils'
 
-export type FieldName = 'username' | 'password' | 'email'
+export type SignUpFieldName = 'username' | 'password' | 'email'
 
 export const useSignUp = () => {
   const [ username, setUsername ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ email, setEmail ] = useState('')
 
-  const handleSignupInputChange = (newInputValue: string, fieldName: FieldName) => {
+  const handleSignupInputChange = (newInputValue: string, fieldName: SignUpFieldName) => {
     switch (fieldName) {
       case 'username':
         setUsername(newInputValue)
