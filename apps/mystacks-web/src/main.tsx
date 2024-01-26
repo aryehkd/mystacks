@@ -1,6 +1,8 @@
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { hookstate } from '@hookstate/core';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './theme'
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -59,6 +61,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </StrictMode>
 );

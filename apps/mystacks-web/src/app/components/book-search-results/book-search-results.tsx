@@ -25,6 +25,7 @@ export function BookSearchResults(props: BookSearchResultsProps) {
     draggable: true,
   };
 
+  // TODO: search results should probably just be a list with pagination, not a slider
   return (
     <StyledBox>
       <Slider {...sliderSettings}>
