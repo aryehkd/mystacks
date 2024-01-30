@@ -29,6 +29,11 @@ export const AccountLoginForm = (props: AccountLoginFormProps) => {
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     handleLoginInputChange(event.target.value, 'username');
                 }}
+                InputLabelProps={{
+                    sx: {
+                        color: 'black'
+                    }
+                }}
             />
             <StyledTextField 
                 id="account-login-password-field" 
@@ -38,6 +43,11 @@ export const AccountLoginForm = (props: AccountLoginFormProps) => {
                 value={password}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                     handleLoginInputChange(event.target.value, 'password');
+                }}
+                InputLabelProps={{
+                    sx: {
+                        color: 'black'
+                    }
                 }}
             />
             <StyledButton onClick={submitLogin} variant="contained">Submit</StyledButton>
@@ -83,5 +93,8 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
         borderColor: 'black',
         borderWidth: 4,
     },
+    '& .MuiFormControl-root': {
+        color: "black"
+    }
 
 }));
