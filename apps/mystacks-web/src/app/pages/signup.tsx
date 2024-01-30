@@ -10,7 +10,7 @@ export interface SignUpPapeProps extends PageProps {
 }
 
 export const SignUpPage = (props: SignUpPapeProps) => {
-    const AccountCreationProps = useSignUp()
+    const AccountCreationProps = useSignUp(props.appState)
 
     return (
         <AccountCreationForm 

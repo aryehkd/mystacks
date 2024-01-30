@@ -1,26 +1,36 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material';
+import { reactRouterParameters, withRouter } from 'storybook-addon-react-router-v6';
 
 import { AccountLoginForm } from './account-login-form';
 import { useLogin } from '@mystacks/account';
+import { StorybookThemeProvider } from '../../../../.storybook/decorators/storybook-theme-provider'
 
 export const AccountLoginFormStory = () => {
-  const AccountLoginProps = useLogin()
+  const accountLoginProps = useLogin({} as any, true)
 
   return (
-    <AccountLoginForm 
-      {...AccountLoginProps}
-    />
+    <StoryContainer>
+      <AccountLoginForm 
+        {...accountLoginProps}
+        isStoryBook={true}
+      />
+    </StoryContainer>
   )
 }
 
-const meta: Meta<typeof AccountLoginFormStory> = {
-  component: AccountLoginFormStory,
+export default {
+  title: 'User Login',
+  render: () => <AccountLoginFormStory />,
+  decorators: [withRouter, StorybookThemeProvider],
+  parameters: {
+    reactRouter: reactRouterParameters({
+      routing: { path: '/login' },
+    }),
+  },
 };
 
-export default meta;
-type Story = StoryObj<typeof AccountLoginFormStory>;
-
-//👇 Throws a type error it the args don't match the component props
-export const Primary: Story = {
-  args: {},
-};
+const StoryContainer = styled(Box)(({ theme }) => ({
+  width: "500px",
+}));

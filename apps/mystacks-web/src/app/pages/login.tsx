@@ -9,7 +9,7 @@ export interface LoginPageProps extends PageProps {
 }
 
 export const LoginPage = (props: LoginPageProps) => {
-    const AccountLoginProps = useLogin()
+    const AccountLoginProps = useLogin(props.appState)
 
     return (
       <AccountLoginForm 

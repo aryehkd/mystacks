@@ -1,14 +1,18 @@
 import { useState } from 'react'
 import { request } from '@mystacks/utils'
+import { useHookstate, State } from '@hookstate/core';
+import { AppState } from "@mystacks/types"
 import { useNavigate } from "react-router-dom";
+
 
 export type LoginFieldName = 'username' | 'password'
 
-export const useLogin = () => {
+export const useLogin = (appState:  State<Partial<AppState>>, isStoryBook?: boolean) => {
+  const globalState = useHookstate(appState);
+  const navigate = isStoryBook ? () => null : useNavigate();
+
   const [ username, setUsername ] = useState('')
   const [ password, setPassword ] = useState('')
-
-  const navigate = useNavigate();
 
   const handleLoginInputChange = (newInputValue: string, fieldName: LoginFieldName) => {
     switch (fieldName) {
@@ -52,6 +56,9 @@ export const useLogin = () => {
           if (result?.error) throw new Error(result?.error)
           else {
             console.log('login successful', result.data.account)
+            globalState.set(currentState => {return {...currentState, userId: result.data.account}})
+            console.log('redirect')
+            navigate("/")
           }
         })
         .catch(error => console.log('error', error));

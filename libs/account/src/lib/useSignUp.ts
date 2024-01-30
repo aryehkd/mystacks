@@ -1,10 +1,15 @@
 import { useState } from 'react'
 import { request } from '@mystacks/utils'
 import { useNavigate } from "react-router-dom";
+import { useHookstate, State } from '@hookstate/core';
+import { AppState } from "@mystacks/types"
 
 export type SignUpFieldName = 'username' | 'password' | 'email'
 
-export const useSignUp = () => {
+export const useSignUp = (appState:  State<Partial<AppState>>) => {
+  const globalState = useHookstate(appState);
+  const navigate = useNavigate();
+
   const [ username, setUsername ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ email, setEmail ] = useState('')
@@ -54,8 +59,10 @@ export const useSignUp = () => {
         request("https://createuseraccount-u6erzcpcda-uc.a.run.app", requestOptions)
             .then(response => response.text())
             .then(result => {
-                // TODO: sign user in here when router is added 
                 console.log(result)
+                // TODO: get id
+                globalState.set(currentState => {return {...currentState, userId: "getID"}})
+                navigate("/")
             })
             .catch(error => console.log('error', error));
   }

@@ -2,9 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { AccountCreationForm } from './account-creation-form';
 import { useSignUp } from '@mystacks/account';
+import { reactRouterParameters, withRouter } from 'storybook-addon-react-router-v6';
 
 export const AccountCreationFormStory = () => {
-  const AccountCreationProps = useSignUp()
+  const AccountCreationProps = useSignUp({} as any)
 
   return (
     <AccountCreationForm 
@@ -13,14 +14,13 @@ export const AccountCreationFormStory = () => {
   )
 }
 
-const meta: Meta<typeof AccountCreationFormStory> = {
-  component: AccountCreationFormStory,
-};
-
-export default meta;
-type Story = StoryObj<typeof AccountCreationFormStory>;
-
-//👇 Throws a type error it the args don't match the component props
-export const Primary: Story = {
-  args: {},
+export default {
+  title: 'User SignUp',
+  render: () => <AccountCreationFormStory />,
+  decorators: [withRouter],
+  parameters: {
+    reactRouter: reactRouterParameters({
+      routing: { path: '/sign-up' },
+    }),
+  },
 };

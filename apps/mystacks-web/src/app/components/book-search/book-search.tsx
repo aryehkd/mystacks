@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useBookSearchForm } from '@mystacks/book-search-form'
 import { useSavedBooks } from '@mystacks/saved-books'
@@ -24,6 +24,7 @@ export const BookSearch = (props: BookSearchProps) => {
     
     return (
         <StyledBox>
+            <Typography variant="h2">Home Page</Typography>
             <BookSearchForm inputValue={inputValue} handleInputValueChange={handleInputValueChange} handleBookSeach={handleBookSeach}/>
             <BookSearchResults SearchResults={searchResults} saveBook={saveBook}/>
 

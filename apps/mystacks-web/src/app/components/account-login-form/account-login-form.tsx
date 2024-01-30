@@ -1,6 +1,7 @@
-import { Box, TextField, Button, Typography } from '@mui/material';
+import { Box, TextField, Button, Typography, Link, InputClasses } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { LoginFieldName } from '@mystacks/account'
+import { useRouterWrapper } from "@mystacks/utils";
 
 /* eslint-disable-next-line */
 export interface AccountLoginFormProps {
@@ -8,15 +9,18 @@ export interface AccountLoginFormProps {
     password: string
     handleLoginInputChange: (newValue: string, fieldName: LoginFieldName) => void
     submitLogin: () => void
+    isStoryBook?: boolean
 }
 
 
 export const AccountLoginForm = (props: AccountLoginFormProps) => {
-    const { username, password, handleLoginInputChange, submitLogin } = props
+    const { username, password, handleLoginInputChange, submitLogin, isStoryBook } = props
 
+    const navigate = useRouterWrapper()
+    
     return (
         <StyledBox>
-            <Typography variant='h4'>Account Login</Typography>
+            <ComponentHeadline variant='h4'>Sign In.</ComponentHeadline>
             <StyledTextField 
                 id="account-login-username-field" 
                 label="Username" 
@@ -36,7 +40,12 @@ export const AccountLoginForm = (props: AccountLoginFormProps) => {
                     handleLoginInputChange(event.target.value, 'password');
                 }}
             />
-            <Button onClick={submitLogin} variant="outlined">Submit</Button>
+            <StyledButton onClick={submitLogin} variant="contained">Submit</StyledButton>
+
+            <Typography variant='body1'>Don't have an account?</Typography>
+            <StyledLink href="#" variant="body2" underline="hover">
+                Create One Now
+            </StyledLink>
         </StyledBox>
     )
 }
@@ -47,10 +56,32 @@ const StyledBox = styled(Box)(({ theme }) => ({
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "flex-start"
 }));
+
+const ComponentHeadline = styled(Typography)(({ theme }) => ({
+    margin: "0 0 20px 0",
+    fontWeight: 700
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+    margin: "20px 0 15px 0",
+    background: theme.palette.primary.contrastText,
+    color: "white"
+}));
+
+
+const StyledLink = styled(Link)(({ theme }) => ({
+    color: theme.palette.primary.contrastText
+}));
+
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
     width: '100%',
-    margin: "10px 0"
-  }));
+    margin: "10px 0",
+    '& fieldset': {
+        borderColor: 'black',
+        borderWidth: 4,
+    },
+
+}));
