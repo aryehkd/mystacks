@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { request } from '@mystacks/utils'
 import { useHookstate, State } from '@hookstate/core';
-import { AppState } from "@mystacks/types"
+import { AppState, LoginFieldName, LoginFieldNames } from "@mystacks/types"
 import { useNavigate } from "react-router-dom";
 
-
-export type LoginFieldName = 'username' | 'password'
 
 export const useLogin = (appState:  State<Partial<AppState>>, isStoryBook?: boolean) => {
   const globalState = useHookstate(appState);
@@ -16,10 +14,10 @@ export const useLogin = (appState:  State<Partial<AppState>>, isStoryBook?: bool
 
   const handleLoginInputChange = (newInputValue: string, fieldName: LoginFieldName) => {
     switch (fieldName) {
-      case 'username':
+      case LoginFieldNames.Username:
         setUsername(newInputValue)
         break;
-      case 'password':
+      case LoginFieldNames.Password:
         setPassword(newInputValue)
         break;
       default:

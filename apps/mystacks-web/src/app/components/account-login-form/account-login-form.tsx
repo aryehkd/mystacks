@@ -1,7 +1,7 @@
-import { Box, TextField, Button, Typography, Link, InputClasses } from '@mui/material';
+import { Box, Typography, Link } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { LoginFieldName } from '@mystacks/account'
-import { useRouterWrapper } from "@mystacks/utils";
+import { LoginFieldName, LoginFieldNames } from '@mystacks/types'
+import { OutlinedTextInput, PrimaryButton } from "../../elements" 
 
 /* eslint-disable-next-line */
 export interface AccountLoginFormProps {
@@ -16,44 +16,31 @@ export interface AccountLoginFormProps {
 export const AccountLoginForm = (props: AccountLoginFormProps) => {
     const { username, password, handleLoginInputChange, submitLogin, isStoryBook } = props
 
-    const navigate = useRouterWrapper()
+    const handleChange = (newValue: string, id: string) => {
+        handleLoginInputChange(newValue, id as LoginFieldName)
+    }
     
     return (
         <StyledBox>
             <ComponentHeadline variant='h4'>Sign In.</ComponentHeadline>
-            <StyledTextField 
-                id="account-login-username-field" 
+            <OutlinedTextInput 
+                id={LoginFieldNames.Username} 
                 label="Username" 
-                variant="outlined" 
                 value={username}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    handleLoginInputChange(event.target.value, 'username');
-                }}
-                InputLabelProps={{
-                    sx: {
-                        color: 'black'
-                    }
-                }}
+                handleChange={handleChange}
             />
-            <StyledTextField 
-                id="account-login-password-field" 
+            <OutlinedTextInput 
+                id={LoginFieldNames.Password} 
                 label="Password" 
-                variant="outlined" 
-                type="password"
                 value={password}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    handleLoginInputChange(event.target.value, 'password');
-                }}
-                InputLabelProps={{
-                    sx: {
-                        color: 'black'
-                    }
-                }}
+                type="password"
+
+                handleChange={handleChange}
             />
-            <StyledButton onClick={submitLogin} variant="contained">Submit</StyledButton>
+            <PrimaryButton onClick={submitLogin}>Submit</PrimaryButton>
 
             <Typography variant='body1'>Don't have an account?</Typography>
-            <StyledLink href="#" variant="body2" underline="hover">
+            <StyledLink href="/sign-up" variant="body2" underline="hover">
                 Create One Now
             </StyledLink>
         </StyledBox>
@@ -74,27 +61,6 @@ const ComponentHeadline = styled(Typography)(({ theme }) => ({
     fontWeight: 700
 }));
 
-const StyledButton = styled(Button)(({ theme }) => ({
-    margin: "20px 0 15px 0",
-    background: theme.palette.primary.contrastText,
-    color: "white"
-}));
-
-
 const StyledLink = styled(Link)(({ theme }) => ({
     color: theme.palette.primary.contrastText
-}));
-
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-    width: '100%',
-    margin: "10px 0",
-    '& fieldset': {
-        borderColor: 'black',
-        borderWidth: 4,
-    },
-    '& .MuiFormControl-root': {
-        color: "black"
-    }
-
 }));

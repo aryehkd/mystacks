@@ -2,9 +2,7 @@ import { useState } from 'react'
 import { request } from '@mystacks/utils'
 import { useNavigate } from "react-router-dom";
 import { useHookstate, State } from '@hookstate/core';
-import { AppState } from "@mystacks/types"
-
-export type SignUpFieldName = 'username' | 'password' | 'email'
+import { AppState, SignUpFieldName, SignUpFieldNames } from "@mystacks/types"
 
 export const useSignUp = (appState:  State<Partial<AppState>>) => {
   const globalState = useHookstate(appState);
@@ -16,13 +14,13 @@ export const useSignUp = (appState:  State<Partial<AppState>>) => {
 
   const handleSignupInputChange = (newInputValue: string, fieldName: SignUpFieldName) => {
     switch (fieldName) {
-      case 'username':
+      case SignUpFieldNames.Username:
         setUsername(newInputValue)
         break;
-      case 'password':
+      case SignUpFieldNames.Password:
         setPassword(newInputValue)
         break;
-      case 'email':
+      case SignUpFieldNames.Email:
         setEmail(newInputValue)
         break;
       default:

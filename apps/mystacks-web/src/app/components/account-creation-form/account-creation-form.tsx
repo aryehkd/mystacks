@@ -1,6 +1,7 @@
-import { Box, TextField, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { SignUpFieldName } from '@mystacks/account'
+import { SignUpFieldName, SignUpFieldNames } from '@mystacks/types'
+import { OutlinedTextInput, PrimaryButton } from "../../elements" 
 
 /* eslint-disable-next-line */
 export interface AccountCreationFormProps {
@@ -15,38 +16,33 @@ export interface AccountCreationFormProps {
 export const AccountCreationForm = (props: AccountCreationFormProps) => {
     const { username, password, email, handleSignupInputChange, submitSignUp } = props
 
+    const handleChange = (newValue: string, id: string) => {
+        handleSignupInputChange(newValue, id as SignUpFieldName)
+    }
+
     return (
         <StyledBox>
             <Typography variant='h4'>Account Creation</Typography>
-            <StyledTextField 
-                id="account-creation-username-field" 
+            <OutlinedTextInput 
+                id={SignUpFieldNames.Username} 
                 label="Username" 
-                variant="outlined" 
                 value={username}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    handleSignupInputChange(event.target.value, 'username');
-                }}
+                handleChange={handleChange}
             />
-            <StyledTextField 
-                id="account-creation-password-field" 
+            <OutlinedTextInput 
+                id={SignUpFieldNames.Password} 
                 label="Password" 
-                variant="outlined" 
                 type="password"
                 value={password}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    handleSignupInputChange(event.target.value, 'password');
-                }}
+                handleChange={handleChange}
             />
-            <StyledTextField 
-                id="account-creation-email-field" 
+            <OutlinedTextInput 
+                id={SignUpFieldNames.Email} 
                 label="Email" 
-                variant="outlined" 
                 value={email}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                    handleSignupInputChange(event.target.value, 'email');
-                }}
+                handleChange={handleChange}
             />
-            <Button onClick={submitSignUp} variant="outlined">Submit</Button>
+            <PrimaryButton onClick={submitSignUp}>Submit</PrimaryButton>
         </StyledBox>
     )
 }
@@ -59,8 +55,3 @@ const StyledBox = styled(Box)(({ theme }) => ({
     flexDirection: "column",
     alignItems: "center"
 }));
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-    width: '100%',
-    margin: "10px 0"
-  }));
