@@ -16,24 +16,24 @@ export const Card = (props: CardProps) => {
 
     return (
         <StyledBox className='card'>
-            <StyledPaper onClick={() => cardClickAction?.({title, author: subtitle, imgUrl})}>
                 {imgUrl &&
                     <img
                         src={`${imgUrl}?w=164&h=164&fit=crop&auto=format`}
                         alt={title+"-img"}
                         loading="lazy"
-                        style={{cursor: "pointer", width: "150px", height: "auto"}}
+                        style={{cursor: "pointer", width: "100px", height: "auto"}}
                     />
                 }
-                <StyledTitle variant="h6" className="card-text">
-                    {title}
-                </StyledTitle>
-                {subtitle && 
-                    <StyledSubTitle variant="subtitle2" className="card-text">
-                        {subtitle}
-                    </StyledSubTitle>
-                }
-            </StyledPaper>
+                <TextContainer>
+                    <StyledTitle variant="h6" className="card-text">
+                        {title}
+                    </StyledTitle>
+                    {subtitle && 
+                        <StyledSubTitle variant="subtitle2" className="card-text">
+                            {subtitle}
+                        </StyledSubTitle>
+                    }
+                </TextContainer>
         </StyledBox>
     )
 }
@@ -43,6 +43,14 @@ export default Card;
 
 const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
+    flexDirection: "row"
+}));
+
+const TextContainer = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    margin: "0 0 0 20px"
 }));
 
 const StyledPaper = styled(Paper)(({ theme }) => ({

@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { styled } from '@mui/material/styles';
+import { Box } from '@mui/material';
 
 import { BookSearchResults } from './book-search-results';
 import { useBookSearchForm } from '@mystacks/book-search-form';
+import { StorybookThemeProvider } from '../../../../.storybook/decorators/storybook-theme-provider'
 
 export const BookSearchResultsStory = () => {
   const { saveBook } = useBookSearchForm()
@@ -30,14 +33,12 @@ export const BookSearchResultsStory = () => {
   )
 }
 
-const meta: Meta<typeof BookSearchResultsStory> = {
-  component: BookSearchResultsStory,
+export default {
+  title: 'Search Results',
+  render: () => <BookSearchResultsStory />,
+  decorators: [StorybookThemeProvider],
 };
 
-export default meta;
-type Story = StoryObj<typeof BookSearchResultsStory>;
-
-//👇 Throws a type error it the args don't match the component props
-export const Primary: Story = {
-  args: {},
-};
+const StoryContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+}));

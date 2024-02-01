@@ -19,6 +19,7 @@ export const BookItem = (props: BookItemProps) => {
                     style={{cursor: "pointer", width: "80px", height: "auto"}}
                 />
             }
+            
             <StyledTitle variant="subtitle1" className="card-text">
                 {book.title}
             </StyledTitle>

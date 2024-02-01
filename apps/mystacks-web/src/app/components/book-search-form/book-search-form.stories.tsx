@@ -21,12 +21,7 @@ export const BookSearchFormStory = () => {
 export default {
   title: 'Book Search',
   render: () => <BookSearchFormStory />,
-  decorators: [withRouter, StorybookThemeProvider],
-  parameters: {
-    reactRouter: reactRouterParameters({
-      routing: { path: '/login' },
-    }),
-  },
+  decorators: [StorybookThemeProvider]
 };
 
 const StoryContainer = styled(Box)(({ theme }) => ({
