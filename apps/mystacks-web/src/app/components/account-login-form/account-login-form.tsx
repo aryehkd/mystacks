@@ -34,7 +34,6 @@ export const AccountLoginForm = (props: AccountLoginFormProps) => {
                 label="Password" 
                 value={password}
                 type="password"
-
                 handleChange={handleChange}
             />
             <PrimaryButton onClick={submitLogin}>Submit</PrimaryButton>

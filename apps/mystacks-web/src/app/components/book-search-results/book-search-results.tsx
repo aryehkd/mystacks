@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { Book } from '@mystacks/types'
-import { Card } from '../card'
+import { Card } from '../../elements/card'
 
 /* eslint-disable-next-line */
 export interface BookSearchResultsProps {

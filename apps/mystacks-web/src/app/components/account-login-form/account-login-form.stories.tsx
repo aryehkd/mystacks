@@ -1,4 +1,3 @@
-import type { Meta, StoryObj } from '@storybook/react';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import { reactRouterParameters, withRouter } from 'storybook-addon-react-router-v6';

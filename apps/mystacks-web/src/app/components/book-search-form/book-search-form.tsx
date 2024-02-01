@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
-import { Box, Grid, TextField, Button } from '@mui/material'
+import { Box, Grid } from '@mui/material'
+import { OutlinedTextInput, PrimaryButton } from "../../elements" 
 
 /* eslint-disable-next-line */
 export interface BookSearchFormProps {
@@ -11,22 +12,23 @@ export interface BookSearchFormProps {
 export function BookSearchForm(props: BookSearchFormProps) {
   const { inputValue, handleInputValueChange, handleBookSeach } = props
 
+  const handleChange = (newValue: string, id: string) => {
+    handleInputValueChange(newValue);
+  }
+
   return (
      <Box sx={{ flexGrow: 1 }}>
       <Grid container>
         <StyledTextFieldContainer item xs={10}>
-          <StyledTextField 
+          <OutlinedTextInput 
             id="book-search-form" 
             label="Book Title" 
-            variant="outlined" 
             value={inputValue}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              handleInputValueChange(event.target.value);
-            }}
+            handleChange={handleChange}
           />
         </StyledTextFieldContainer>
         <Grid item xs={2}>
-          <StyledButton variant="outlined" onClick={handleBookSeach}>Search</StyledButton>
+          <PrimaryButton onClick={handleBookSeach}>Search</PrimaryButton>
         </Grid>
       </Grid>
     </Box>
@@ -37,13 +39,4 @@ export default BookSearchForm;
 
 const StyledTextFieldContainer = styled(Grid)(({ theme }) => ({
   paddingRight: '10px'
-}));
-
-const StyledTextField = styled(TextField)(({ theme }) => ({
-  width: '100%'
-}));
-
-const StyledButton = styled(Button)(({ theme }) => ({
-  width: '100%',
-  height: '100%'
 }));
