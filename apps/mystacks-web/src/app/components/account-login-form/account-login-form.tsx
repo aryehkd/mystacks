@@ -36,7 +36,7 @@ export const AccountLoginForm = (props: AccountLoginFormProps) => {
                 type="password"
                 handleChange={handleChange}
             />
-            <PrimaryButton onClick={submitLogin}>Submit</PrimaryButton>
+            <PrimaryButton onClick={submitLogin}>Login</PrimaryButton>
 
             <Typography variant='body1'>Don't have an account?</Typography>
             <StyledLink href="/sign-up" variant="body2" underline="hover">

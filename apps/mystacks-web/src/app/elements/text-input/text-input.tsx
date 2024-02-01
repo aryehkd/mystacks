@@ -21,6 +21,7 @@ export const OutlinedTextInput = (props: TextInputProps) => {
             value={value}
             autoComplete='off'
             type={type??''}
+            color="secondary"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                 handleChange(event.target.value, id);
             }}

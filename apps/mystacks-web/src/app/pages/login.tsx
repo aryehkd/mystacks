@@ -4,6 +4,7 @@ import { Box } from '@mui/material';
 
 import { PageProps } from '@mystacks/types'
 import { AccountLoginForm } from '../components/account-login-form';
+import { CustomAppBar } from '../components/app-bar/app-bar';
 import { useLogin } from '@mystacks/account';
 
 /* eslint-disable-next-line */
@@ -15,22 +16,18 @@ export const LoginPage = (props: LoginPageProps) => {
     const AccountLoginProps = useLogin(props.appState)
 
     return (
-      <SignUpOuterContainer>
+      
+      <CustomAppBar logoSize='lg'>
         <SignUpInnerContainer>
           <AccountLoginForm 
             {...AccountLoginProps}
           />
         </SignUpInnerContainer>
-      </SignUpOuterContainer>
+      </CustomAppBar>
     )
 }
 
 export default LoginPage;
-
-const SignUpOuterContainer = styled(Box)(({ theme }) => ({
-  display: "flex", 
-  justifyContent: "center"
-}));
 
 const SignUpInnerContainer = styled(Box)(({ theme }) => ({
   width: "50%",
