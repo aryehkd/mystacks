@@ -1,7 +1,7 @@
 import React from 'react'
-import { Box, Paper, Typography } from '@mui/material/';
+import { Box, Paper, Typography, IconButton } from '@mui/material/';
 import { styled } from '@mui/material/styles';
-
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 /* eslint-disable-next-line */
 export interface CardProps {
@@ -16,6 +16,7 @@ export const Card = (props: CardProps) => {
 
     return (
         <StyledBox className='card'>
+            <BookInfoContainer>
                 {imgUrl &&
                     <img
                         src={`${imgUrl}?w=164&h=164&fit=crop&auto=format`}
@@ -34,6 +35,10 @@ export const Card = (props: CardProps) => {
                         </StyledSubTitle>
                     }
                 </TextContainer>
+            </BookInfoContainer>
+            <StyledAddButton aria-label="add">
+                <AddCircleIcon />
+            </StyledAddButton>
         </StyledBox>
     )
 }
@@ -43,7 +48,10 @@ export default Card;
 
 const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
 }));
 
 const TextContainer = styled(Box)(({ theme }) => ({
@@ -53,27 +61,19 @@ const TextContainer = styled(Box)(({ theme }) => ({
     margin: "0 0 0 20px"
 }));
 
-const StyledPaper = styled(Paper)(({ theme }) => ({
-    width: "200px",
+const BookInfoContainer = styled(Box)(({ theme }) => ({
     display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    padding: "10px 20px",
-    cursor: "pointer",
-
-    "&:hover": {
-        background: '#F0F7FF',
-
-        "& > .card-text": {
-            // TODO: add theme and colors, text styled, etc
-            color: "#0072E5"
-        }
-    }
-}));
+    flexDirection: "row",
+    justifyContent: "flex-start",
+}))
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
     marginTop: "20px",
     cursor: "pointer",
+}));
+
+const StyledAddButton = styled(IconButton)(({ theme }) => ({
+    height: "40px"
 }));
 
 const StyledSubTitle = styled(Typography)(({ theme }) => ({
