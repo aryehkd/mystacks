@@ -17,7 +17,7 @@ export const useBookSearchForm = () => {
             redirect: 'follow' as RequestRedirect
           };
           
-        request("https://www.googleapis.com/books/v1/volumes?q="+inputValue.replaceAll(" ", "+"), requestOptions)
+        request("https://www.googleapis.com/books/v1/volumes?q="+inputValue.replace("/ /g", "+"), requestOptions)
             .then(response => response.json())
             .then(result => formatBookSearchResults(result))
             .then(result => setFormattedSearchResults(result))
