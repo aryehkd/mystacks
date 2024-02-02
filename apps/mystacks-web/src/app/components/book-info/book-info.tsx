@@ -4,23 +4,20 @@ import { PrimaryButton } from '../../elements/button/button'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
-import { Book } from '@mystacks/types'
+import { Book, BookProgressStates, BookProgressState, BookRating } from '@mystacks/types'
 
 
 export interface BookInfoProps {
     book: Book
+    bookProgress: BookProgressState
+    rating: BookRating
+    handleBookProgressChange: (newBookProgressState: BookProgressState) => void
+    handleBookRatingChange: (newBookRating: BookRating) => void
+    saveBook: () => void
 }
 
 export const BookInfo = (props: BookInfoProps) => {
-    const { book } = props
-    const [alignment, setAlignment] = React.useState('to-read');
-
-    const handleChange = (
-      event: React.MouseEvent<HTMLElement>,
-      newAlignment: string,
-    ) => {
-      setAlignment(newAlignment);
-    };
+    const { book, bookProgress, rating, handleBookProgressChange, handleBookRatingChange, saveBook } = props
 
     // TODO: make img component and reuse 
     return (
@@ -44,23 +41,30 @@ export const BookInfo = (props: BookInfoProps) => {
                 <Grid container>
                     <Grid item xs={6}>
                         <ToggleButtonGroup
+                            id="book-info-category"
                             color="secondary"
-                            value={alignment}
+                            value={bookProgress}
                             exclusive
-                            onChange={handleChange}
+                            onChange={(
+                                event: React.MouseEvent<HTMLElement>,
+                                newValue: string,
+                              ) => handleBookProgressChange(newValue as BookProgressState)}
                             aria-label="Platform"
                         >
-                            <CustomButton value="to-read">To Read</CustomButton>
-                            <CustomButton value="currently-reading">Currently Reading</CustomButton>
-                            <CustomButton value="recommended">Recommended</CustomButton>
-                            <CustomButton value="completed">Completed</CustomButton>
+                            <CustomButton value={BookProgressStates.ToRead}>To Read</CustomButton>
+                            <CustomButton value={BookProgressStates.CurrentlyReading}>Currently Reading</CustomButton>
+                            <CustomButton value={BookProgressStates.Recommended}>Recommended</CustomButton>
+                            <CustomButton value={BookProgressStates.Completed}>Completed</CustomButton>
                         </ToggleButtonGroup>
                     </Grid>
                     <RatingContainer item xs={6}>
                         <Typography variant='subtitle1'>My Rating</Typography>
                         <StyledRating
                             name="customized-color"
-                            defaultValue={0}
+                            value={rating}
+                            onChange={(event, newValue) => {
+                                handleBookRatingChange(newValue as BookRating);
+                            }}
                             getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
                             precision={0.5}
                             icon={<FavoriteIcon fontSize="inherit" />}
@@ -68,7 +72,7 @@ export const BookInfo = (props: BookInfoProps) => {
                         />
                     </RatingContainer>
                     <Grid item xs={12} sx={{margin: "20px 0"}}>
-                        <PrimaryButton onClick={() => console.log('')}>Save</PrimaryButton>
+                        <PrimaryButton onClick={saveBook}>Save</PrimaryButton>
                     </Grid>
                 </Grid>
             </Grid>

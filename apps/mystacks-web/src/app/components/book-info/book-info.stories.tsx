@@ -4,8 +4,14 @@ import { reactRouterParameters, withRouter } from 'storybook-addon-react-router-
 
 import { BookInfo } from './book-info';
 import { StorybookThemeProvider } from '../../../../.storybook/decorators/storybook-theme-provider'
+import { useBookInfo } from '@mystacks/book-search-form';
 
 export const BookInfoStory = () => {
+    const bookInfoProps = useBookInfo({
+        title: "Aliss at the Fire",
+        author: "Jon Fosse",
+        imgUrl: "http://books.google.com/books/content?id=UDXpzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+      })
 
   return (
     <StoryContainer>
@@ -13,7 +19,9 @@ export const BookInfoStory = () => {
           title: "Aliss at the Fire",
           author: "Jon Fosse",
           imgUrl: "http://books.google.com/books/content?id=UDXpzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
-        }}/>
+        }}
+        {...bookInfoProps}
+        />
     </StoryContainer>
   )
 }
