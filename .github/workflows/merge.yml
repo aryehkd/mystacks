@@ -22,13 +22,6 @@ jobs:
       - uses: nrwl/nx-set-shas@v3
       # add linting 
       - run: npx nx affected -t test --parallel=3
-      - uses: actions/checkout@v4
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MYSTACKS_5421B }}'
-          channelId: live
-          projectId: mystacks-5421b
 
   build_and_deploy:
     needs: tests
