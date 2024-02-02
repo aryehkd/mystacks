@@ -15,7 +15,6 @@ export const AccountLoginFormStory = () => {
     <StoryContainer>
       <AccountLoginForm 
         {...accountLoginProps}
-        isStoryBook={true}
       />
     </StoryContainer>
   )
