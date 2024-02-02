@@ -9,7 +9,7 @@ import { useLogin } from '@mystacks/account';
 import { StorybookThemeProvider } from '../../../../.storybook/decorators/storybook-theme-provider'
 
 export const AccountLoginFormStory = () => {
-  const accountLoginProps = useLogin({} as State<Partial<AppState>>, true)
+  const accountLoginProps = useLogin({} as State<Partial<AppState>>)
 
   return (
     <StoryContainer>
