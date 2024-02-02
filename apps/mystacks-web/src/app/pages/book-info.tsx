@@ -13,7 +13,7 @@ export interface BookInfoPageProps extends PageProps {
 
 export const BookInfoPage = (props: BookInfoPageProps) => {
     const { state } = useLocation();
-    const bookInfoProps = useBookInfo(state.book)
+    const bookInfoProps = useBookInfo(state.book, props.appState)
 
     return (
         <CustomAppBar logoSize='sm'>

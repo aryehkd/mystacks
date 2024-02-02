@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, AppBar, Toolbar, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import AppLogo from '../../../assets/app-logo.png';
+import { useNavigate } from 'react-router-dom';
 
 /* eslint-disable-next-line */
 export interface AppBarProps {
@@ -10,12 +11,17 @@ export interface AppBarProps {
 }
 
 export const CustomAppBar = (props: AppBarProps) => {
+    const navigate = useNavigate();
 
+    const handleLogoClick = () => {
+        navigate('/');
+    }
+    
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" elevation={0}>
                 {props.logoSize == "lg" ? 
-                    <CustomToolbar>
+                    <CustomToolbar onClick={handleLogoClick}>
                         <img
                             src={AppLogo}
                             alt={"app-logo"}
@@ -23,7 +29,7 @@ export const CustomAppBar = (props: AppBarProps) => {
                         />
                     </CustomToolbar>
                 :
-                    <CustomToolbar>
+                    <CustomToolbar onClick={handleLogoClick}>
                         <img
                             src={AppLogo}
                             alt={"app-logo"}

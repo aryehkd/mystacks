@@ -1,9 +1,12 @@
 import { State } from "@hookstate/core"
 
 export interface Book {
+  id?: string
   title: string
   author: string
   imgUrl: string
+  bookProgress?: BookProgressState
+  rating?: BookRating
 }
 
 export interface AppState {

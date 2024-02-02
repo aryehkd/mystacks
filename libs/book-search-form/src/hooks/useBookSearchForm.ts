@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { request } from '@mystacks/utils'
 import { Book } from '@mystacks/types'
 
-export const useBookSearchForm = (addSavedBook?: (toAdd: Book) => void) => {
+export const useBookSearchForm = (addSavedBook?: () => void) => {
     const [ inputValue, setInputValue ] = useState('')
     const [ bookSearchError, setBookSearchError ] = useState(false)
 
@@ -42,41 +42,11 @@ export const useBookSearchForm = (addSavedBook?: (toAdd: Book) => void) => {
         return []
     }
 
-    const saveBook = (toSave: Book) => {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        const raw = JSON.stringify({
-            "book": {
-                "title": toSave.title,
-                "author": toSave.author,
-                "imgUrl": toSave.imgUrl
-            }
-        });
-
-        const requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow' as RequestRedirect
-        };
-          
-          
-        request("https://storebook-u6erzcpcda-uc.a.run.app", requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                addSavedBook?.(toSave)
-                console.log(result)
-            })
-            .catch(error => console.log('error', error));
-    }
-
     return {
         inputValue,
         searchResults: formattedSearchResults,
         handleInputValueChange,
         handleBookSeach,
-        saveBook
     }
 }
 

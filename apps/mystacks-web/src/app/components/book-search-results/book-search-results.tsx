@@ -8,17 +8,16 @@ import { Card } from '../../elements/card'
 /* eslint-disable-next-line */
 export interface BookSearchResultsProps {
   SearchResults: Book[]
-  saveBook?: (toSave: Book) => void
 }
 
 export const BookSearchResults = (props: BookSearchResultsProps) => {
-  const { SearchResults, saveBook } = props
+  const { SearchResults } = props
 
   // TODO: search results should probably just be a list with pagination on desktop
     // and then also just be a grid of titles authors and covers on mobile
   return (
     <StyledBox>
-        {SearchResults.map(item => <CardContainer><Card title={item.title} subtitle={item.author} imgUrl={item.imgUrl} cardClickAction={saveBook}/></CardContainer>)}      
+        {SearchResults.map(item => <CardContainer><Card title={item.title} subtitle={item.author} imgUrl={item.imgUrl}/></CardContainer>)}      
     </StyledBox>
 
   );

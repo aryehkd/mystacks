@@ -2,17 +2,25 @@ import React from 'react'
 import { Box, Paper, Typography, IconButton } from '@mui/material/';
 import { styled } from '@mui/material/styles';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { useNavigate } from 'react-router-dom';
 
 /* eslint-disable-next-line */
 export interface CardProps {
     title: string
     subtitle?: string
     imgUrl?: string
-    cardClickAction?: (param: any) => void 
   }
 
 export const Card = (props: CardProps) => {
-    const { title, subtitle, imgUrl, cardClickAction } = props;
+    const { title, subtitle, imgUrl } = props;
+
+
+    // TODO move out of here
+    const navigate = useNavigate();
+
+    const handleAdd = () => {
+        navigate('/book-info', { state: { book: {title, author: subtitle, imgUrl } } });
+    }
 
     return (
         <StyledBox className='card'>
@@ -36,7 +44,7 @@ export const Card = (props: CardProps) => {
                     }
                 </TextContainer>
             </BookInfoContainer>
-            <StyledAddButton aria-label="add">
+            <StyledAddButton aria-label="add" onClick={handleAdd}>
                 <AddCircleIcon />
             </StyledAddButton>
         </StyledBox>

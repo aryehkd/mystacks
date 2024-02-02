@@ -1,6 +1,7 @@
 import { Book } from "@mystacks/types"
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material/';
+import { useNavigate } from "react-router-dom";
 
 export interface BookItemProps {
     book: Book
@@ -9,8 +10,14 @@ export interface BookItemProps {
 export const BookItem = (props: BookItemProps) => {
     const { book } = props 
 
+    const navigate = useNavigate();
+
+    const handleBookClick = () => {
+        navigate('/book-info', { state: { book: { ...book } } });
+    }
+
     return (
-        <StyledBox className='card'>
+        <StyledBox className='card' onClick={handleBookClick}>
             {book?.imgUrl &&
                 <img
                     src={`${book?.imgUrl}?w=164&h=164&fit=crop&auto=format`}

@@ -9,9 +9,10 @@ import "slick-carousel/slick/slick-theme.css";
 
 import {
   HomePage,
-  AccountPage,
+  BookInfoPage,
   LoginPage,
   SignUpPage,
+  BookSearchPage
 } from './app/pages'
 
 import { AppState } from '@mystacks/types'
@@ -50,8 +51,13 @@ const router = createBrowserRouter([
     element: <SignUpPage appState={appState}/>,
   },
   {
-    path: "/account",
-    element: <AccountPage appState={appState}/>,
+    path: "/book-info",
+    element: <BookInfoPage appState={appState}/>,
+    loader: requireLogin,
+  },
+  {
+    path: "/search",
+    element: <BookSearchPage appState={appState}/>,
     loader: requireLogin,
   },
 ]);

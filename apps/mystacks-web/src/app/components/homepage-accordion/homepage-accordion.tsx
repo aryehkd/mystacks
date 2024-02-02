@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Accordion, AccordionSummary, AccordionDetails, Box } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Book } from '@mystacks/types';
+import { Book, BookProgressStates } from '@mystacks/types';
 import { BookItem } from '../../elements/book/book';
 import { styled } from '@mui/material/styles';
 
@@ -14,17 +14,17 @@ export interface HomepageAccordionProps {
 export const HomepageAccordion = (props: HomepageAccordionProps) => {
   return (
     <Box>
-      <Accordion>
+      <Accordion defaultExpanded>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          Currently Reading  ( {props.books.length} )
+          Currently Reading  ( {props.books.filter(book => book.bookProgress == BookProgressStates.CurrentlyReading).length} )
         </AccordionSummary>
         <AccordionDetails>
             <StyledBox>
-                {props.books.map(book => <BookContainer><BookItem book={book}/></BookContainer>)}
+                {props.books.filter(book => book.bookProgress == BookProgressStates.CurrentlyReading).map(book => <BookContainer><BookItem book={book}/></BookContainer>)}
             </StyledBox>
         </AccordionDetails>
       </Accordion>
@@ -34,34 +34,40 @@ export const HomepageAccordion = (props: HomepageAccordionProps) => {
           aria-controls="panel2-content"
           id="panel2-header"
         >
-          To Read
+          To Read ( {props.books.filter(book => book.bookProgress == BookProgressStates.ToRead).length} )
         </AccordionSummary>
         <AccordionDetails>
- 
+          <StyledBox>
+              {props.books.filter(book => book.bookProgress == BookProgressStates.ToRead).map(book => <BookContainer><BookItem book={book}/></BookContainer>)}
+          </StyledBox>
         </AccordionDetails>
       </Accordion>
-      <Accordion defaultExpanded>
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3-content"
           id="panel3-header"
         >
-          Completed Books
+          Completed Books ( {props.books.filter(book => book.bookProgress == BookProgressStates.Completed).length} )
         </AccordionSummary>
         <AccordionDetails>
- 
+          <StyledBox>
+              {props.books.filter(book => book.bookProgress == BookProgressStates.Completed).map(book => <BookContainer><BookItem book={book}/></BookContainer>)}
+          </StyledBox>
         </AccordionDetails>
       </Accordion>
-      <Accordion defaultExpanded>
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel4-content"
           id="panel4-header"
         >
-          Abandoned
+          Recommended ( {props.books.filter(book => book.bookProgress == BookProgressStates.Recommended).length} )
         </AccordionSummary>
         <AccordionDetails>
- 
+          <StyledBox>
+              {props.books.filter(book => book.bookProgress == BookProgressStates.Recommended).map(book => <BookContainer><BookItem book={book}/></BookContainer>)}
+          </StyledBox>
         </AccordionDetails>
       </Accordion>
     </Box>

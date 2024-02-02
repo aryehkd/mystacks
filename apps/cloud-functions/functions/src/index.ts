@@ -27,9 +27,25 @@ export const storeBook = onRequest((request, response) => {
     response.status(204).send("");
   } else {
     const book = request.body.book;
+    const userId = request.query.userId;
 
     // TODO: add type check and error handling for response
-    db.collection("books").add(book);
+
+    if (!book?.id) {
+      db.collection("users")
+        .doc(String(userId))
+        .collection("books")
+        .add(book);
+    } else {
+      db.collection("users")
+        .doc(String(userId))
+        .collection("books")
+        .doc(book.id)
+        .set({
+          id: book.id,
+          ...book,
+        }, {merge: true});
+    }
 
     response.send("Book saved!");
   }
@@ -45,7 +61,15 @@ export const getStoredBooks = onRequest(async (request, response) => {
     response.set("Access-Control-Max-Age", "3600");
     response.status(204).send("");
   } else {
-    const booksRef = db.collection("books");
+    // TODO: query param for user ID?
+    const userId = request.query.userId;
+
+    if (!userId) return;
+
+    const booksRef = db.collection("users")
+      .doc(String(userId))
+      .collection("books");
+
     const snapshot = await booksRef.get();
     if (snapshot.empty) {
       console.log("No matching documents.");
@@ -56,7 +80,7 @@ export const getStoredBooks = onRequest(async (request, response) => {
     const responseData: any[] = [];
 
     snapshot.forEach((doc) => {
-      responseData.push(doc.data());
+      responseData.push({id: doc.id, ...doc.data()});
     });
 
 

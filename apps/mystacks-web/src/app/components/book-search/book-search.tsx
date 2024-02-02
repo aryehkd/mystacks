@@ -12,21 +12,18 @@ export interface BookSearchProps {
 }
 
 export const BookSearch = (props: BookSearchProps) => {
-    const { savedBooks, addSavedBook } = useSavedBooks()
 
     const { 
         inputValue,
         searchResults,
         handleInputValueChange,
         handleBookSeach,
-        saveBook
-     } = useBookSearchForm(addSavedBook)
+     } = useBookSearchForm()
     
     return (
         <StyledBox>
-            <Typography variant="h2">Home Page</Typography>
             <BookSearchForm inputValue={inputValue} handleInputValueChange={handleInputValueChange} handleBookSeach={handleBookSeach}/>
-            <BookSearchResults SearchResults={searchResults} saveBook={saveBook}/>
+            <BookSearchResults SearchResults={searchResults}/>
 
         </StyledBox>
     )
