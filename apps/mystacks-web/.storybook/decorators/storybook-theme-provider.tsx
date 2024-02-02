@@ -3,7 +3,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../../src/theme'
 
 
-export const StorybookThemeProvider = (Story: any) => {
+export const StorybookThemeProvider = (Story: React.FC) => {
 
     return (
         <ThemeProvider theme={theme}>

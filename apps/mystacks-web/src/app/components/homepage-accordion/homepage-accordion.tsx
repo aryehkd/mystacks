@@ -24,7 +24,7 @@ export const HomepageAccordion = (props: HomepageAccordionProps) => {
         </AccordionSummary>
         <AccordionDetails>
             <StyledBox>
-                {props.books.filter(book => book.bookProgress == BookProgressStates.CurrentlyReading).map(book => <BookContainer><BookItem book={book}/></BookContainer>)}
+                {props.books.filter(book => book.bookProgress == BookProgressStates.CurrentlyReading).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
             </StyledBox>
         </AccordionDetails>
       </Accordion>
@@ -38,7 +38,7 @@ export const HomepageAccordion = (props: HomepageAccordionProps) => {
         </AccordionSummary>
         <AccordionDetails>
           <StyledBox>
-              {props.books.filter(book => book.bookProgress == BookProgressStates.ToRead).map(book => <BookContainer><BookItem book={book}/></BookContainer>)}
+              {props.books.filter(book => book.bookProgress == BookProgressStates.ToRead).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
           </StyledBox>
         </AccordionDetails>
       </Accordion>
@@ -52,7 +52,7 @@ export const HomepageAccordion = (props: HomepageAccordionProps) => {
         </AccordionSummary>
         <AccordionDetails>
           <StyledBox>
-              {props.books.filter(book => book.bookProgress == BookProgressStates.Completed).map(book => <BookContainer><BookItem book={book}/></BookContainer>)}
+              {props.books.filter(book => book.bookProgress == BookProgressStates.Completed).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
           </StyledBox>
         </AccordionDetails>
       </Accordion>
@@ -66,7 +66,7 @@ export const HomepageAccordion = (props: HomepageAccordionProps) => {
         </AccordionSummary>
         <AccordionDetails>
           <StyledBox>
-              {props.books.filter(book => book.bookProgress == BookProgressStates.Recommended).map(book => <BookContainer><BookItem book={book}/></BookContainer>)}
+              {props.books.filter(book => book.bookProgress == BookProgressStates.Recommended).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
           </StyledBox>
         </AccordionDetails>
       </Accordion>

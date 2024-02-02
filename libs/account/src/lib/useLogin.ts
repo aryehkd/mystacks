@@ -5,9 +5,9 @@ import { AppState, LoginFieldName, LoginFieldNames } from "@mystacks/types"
 import { useNavigate } from "react-router-dom";
 
 
-export const useLogin = (appState:  State<Partial<AppState>>, isStoryBook?: boolean) => {
+export const useLogin = (appState:  State<Partial<AppState>>) => {
   const globalState = useHookstate(appState);
-  const navigate = isStoryBook ? () => null : useNavigate();
+  const navigate = useNavigate();
 
   const [ username, setUsername ] = useState('')
   const [ password, setPassword ] = useState('')
@@ -30,9 +30,7 @@ export const useLogin = (appState:  State<Partial<AppState>>, isStoryBook?: bool
 
     const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
-
-      const d = new Date();
-
+      
       // TODO: this is a temp login setup till a real system is added
       const raw = JSON.stringify({
           "account": {

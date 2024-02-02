@@ -26,7 +26,7 @@ import {
 
 const appState = hookstate<Partial<AppState>>({});
 
-const requireLogin = async (args: LoaderFunctionArgs<any>) => {
+const requireLogin = async (args: LoaderFunctionArgs) => {
   const currentState = appState.get()
 
   if (!currentState?.userId) {

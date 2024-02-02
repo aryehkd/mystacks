@@ -17,7 +17,7 @@ export const BookSearchResults = (props: BookSearchResultsProps) => {
     // and then also just be a grid of titles authors and covers on mobile
   return (
     <StyledBox>
-        {SearchResults.map(item => <CardContainer><Card title={item.title} subtitle={item.author} imgUrl={item.imgUrl}/></CardContainer>)}      
+        {SearchResults.map((item, index) => <CardContainer key={index}><Card title={item.title} subtitle={item.author} imgUrl={item.imgUrl}/></CardContainer>)}      
     </StyledBox>
 
   );

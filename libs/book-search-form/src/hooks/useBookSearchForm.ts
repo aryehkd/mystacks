@@ -2,9 +2,8 @@ import { useState } from 'react'
 import { request } from '@mystacks/utils'
 import { Book } from '@mystacks/types'
 
-export const useBookSearchForm = (addSavedBook?: () => void) => {
+export const useBookSearchForm = () => {
     const [ inputValue, setInputValue ] = useState('')
-    const [ bookSearchError, setBookSearchError ] = useState(false)
 
     const [ formattedSearchResults, setFormattedSearchResults ] = useState<Book[]>([])
 
@@ -25,8 +24,10 @@ export const useBookSearchForm = (addSavedBook?: () => void) => {
             .catch(error => console.log('error', error));
     }
 
+    /* eslint-disable-next-line */ // TODO: fix type
     const formatBookSearchResults = (searchResults: any): Book[] => {
         if (searchResults?.items) { // TODO: need to handle multiple authors
+            /* eslint-disable-next-line */
             const formattedResults = searchResults.items.map((result: any) => {
                 return {
                     title: result.volumeInfo.title, 

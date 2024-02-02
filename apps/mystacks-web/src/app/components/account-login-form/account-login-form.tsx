@@ -9,12 +9,11 @@ export interface AccountLoginFormProps {
     password: string
     handleLoginInputChange: (newValue: string, fieldName: LoginFieldName) => void
     submitLogin: () => void
-    isStoryBook?: boolean
 }
 
 
 export const AccountLoginForm = (props: AccountLoginFormProps) => {
-    const { username, password, handleLoginInputChange, submitLogin, isStoryBook } = props
+    const { username, password, handleLoginInputChange, submitLogin } = props
 
     const handleChange = (newValue: string, id: string) => {
         handleLoginInputChange(newValue, id as LoginFieldName)

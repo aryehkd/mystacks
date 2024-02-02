@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { request } from '@mystacks/utils'
 import { AppState, Book } from '@mystacks/types'
 import { State, useHookstate } from '@hookstate/core'

@@ -1,13 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
-
 import { BookSearchResults } from './book-search-results';
-import { useBookSearchForm } from '@mystacks/book-search-form';
 import { StorybookThemeProvider } from '../../../../.storybook/decorators/storybook-theme-provider'
 
 export const BookSearchResultsStory = () => {
-  const { saveBook } = useBookSearchForm()
 
   return (
     <BookSearchResults 
@@ -28,7 +22,6 @@ export const BookSearchResultsStory = () => {
           imgUrl: "http://books.google.com/books/content?id=FuwCBAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
         }
       ]}
-      saveBook={saveBook}
     />
   )
 }
@@ -38,7 +31,3 @@ export default {
   render: () => <BookSearchResultsStory />,
   decorators: [StorybookThemeProvider],
 };
-
-const StoryContainer = styled(Box)(({ theme }) => ({
-  width: "100%",
-}));
