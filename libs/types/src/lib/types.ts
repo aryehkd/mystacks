@@ -7,7 +7,10 @@ export interface Book {
   imgUrl: string
   bookProgress?: BookProgressState
   rating?: BookRating
+  notes?: string
 }
+
+export type AppStateType = State<Partial<AppState>>
 
 export interface AppState {
   userId: string

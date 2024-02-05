@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { request } from '@mystacks/utils'
 import { useNavigate } from "react-router-dom";
-import { useHookstate, State } from '@hookstate/core';
-import { AppState, SignUpFieldName, SignUpFieldNames } from "@mystacks/types"
+import { useHookstate } from '@hookstate/core';
+import { AppStateType, SignUpFieldName, SignUpFieldNames } from "@mystacks/types"
 
-export const useSignUp = (appState:  State<Partial<AppState>>) => {
+export const useSignUp = (appState:  AppStateType) => {
   const globalState = useHookstate(appState);
   const navigate = useNavigate();
 

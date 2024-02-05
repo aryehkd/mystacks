@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { request } from '@mystacks/utils'
-import { useHookstate, State } from '@hookstate/core';
-import { AppState, LoginFieldName, LoginFieldNames } from "@mystacks/types"
+import { useHookstate } from '@hookstate/core';
+import { AppStateType, LoginFieldName, LoginFieldNames } from "@mystacks/types"
 import { useNavigate } from "react-router-dom";
 
 
-export const useLogin = (appState:  State<Partial<AppState>>) => {
+export const useLogin = (appState:  AppStateType) => {
   const globalState = useHookstate(appState);
   const navigate = useNavigate();
 
