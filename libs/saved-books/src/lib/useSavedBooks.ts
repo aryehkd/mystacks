@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { request } from '@mystacks/utils'
-import { AppState, Book } from '@mystacks/types'
-import { State, useHookstate } from '@hookstate/core'
+import { AppStateType, Book } from '@mystacks/types'
+import { useHookstate } from '@hookstate/core'
 
-export const useSavedBooks = (appState:  State<Partial<AppState>>) => {
+export const useSavedBooks = (appState:  AppStateType) => {
   const [ savedBooks, setSavedBooks ] = useState<Book[]>([])
   const globalState = useHookstate(appState);
 

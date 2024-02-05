@@ -1,5 +1,5 @@
 import React from 'react'
-import { Grid, styled, Typography, Rating, ToggleButtonGroup, ToggleButton } from '@mui/material'
+import { Grid, styled, Typography, Rating, ToggleButtonGroup, ToggleButton, TextField } from '@mui/material'
 import { PrimaryButton } from '../../elements/button/button'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -11,13 +11,15 @@ export interface BookInfoProps {
     book: Book
     bookProgress: BookProgressState
     rating: BookRating
+    notes: string
     handleBookProgressChange: (newBookProgressState: BookProgressState) => void
     handleBookRatingChange: (newBookRating: BookRating) => void
+    handlesNotesChange: (newNotes: string) => void
     saveBook: () => void
 }
 
 export const BookInfo = (props: BookInfoProps) => {
-    const { book, bookProgress, rating, handleBookProgressChange, handleBookRatingChange, saveBook } = props
+    const { book, bookProgress, rating, notes, handleBookProgressChange, handleBookRatingChange, handlesNotesChange, saveBook } = props
 
     // TODO: make img component and reuse 
     return (
@@ -71,6 +73,16 @@ export const BookInfo = (props: BookInfoProps) => {
                             emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
                         />
                     </RatingContainer>
+                    <Grid item xs={12} sx={{margin: "20px 0"}}>
+                        <TextField
+                            label="Notes"
+                            multiline
+                            fullWidth
+                            rows={4}
+                            value={notes}
+                            onChange={(event) => {handlesNotesChange(event.target.value);}}
+                        />
+                    </Grid>
                     <Grid item xs={12} sx={{margin: "20px 0"}}>
                         <PrimaryButton onClick={saveBook}>Save</PrimaryButton>
                     </Grid>

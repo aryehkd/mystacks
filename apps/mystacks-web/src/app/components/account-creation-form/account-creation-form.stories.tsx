@@ -5,7 +5,7 @@ import { AppState } from '@mystacks/types';
 import { State } from '@hookstate/core';
 
 export const AccountCreationFormStory = () => {
-  const AccountCreationProps = useSignUp({} as State<Partial<AppState>>)
+  const AccountCreationProps = useSignUp({} as AppStateType)
 
   return (
     <AccountCreationForm 

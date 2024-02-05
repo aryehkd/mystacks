@@ -1,15 +1,17 @@
 import { useState } from 'react'
 import { request } from '@mystacks/utils'
-import { Book, BookProgressStates, BookProgressState, BookRating, AppState } from '@mystacks/types'
-import { State, useHookstate } from '@hookstate/core'
+import { Book, BookProgressStates, BookProgressState, BookRating } from '@mystacks/types'
+import { useHookstate } from '@hookstate/core'
 import { useNavigate } from 'react-router-dom'
+import { AppStateType } from '@mystacks/types'
 
-export const useBookInfo = (book: Book, appState:  State<Partial<AppState>>) => {
+export const useBookInfo = (book: Book, appState:  AppStateType) => {
     const globalState = useHookstate(appState);
     const navigate = useNavigate();
 
     const [ bookProgress, setBookProgress ] = useState<BookProgressState>(book.bookProgress || BookProgressStates.ToRead)
     const [ rating, setRating ] = useState<BookRating>(book.rating || 0)
+    const [ notes, setNotes ] = useState<string>(book.notes || '')
 
     const handleBookProgressChange = (
         newBookProgressState: BookProgressState,
@@ -21,6 +23,12 @@ export const useBookInfo = (book: Book, appState:  State<Partial<AppState>>) => 
         newBookRating: BookRating,
       ) => {
         setRating(newBookRating);
+    };
+
+    const handlesNotesChange = (
+        newNotes: string,
+      ) => {
+        setNotes(newNotes);
     };
 
     const saveBook = () => {
@@ -38,7 +46,8 @@ export const useBookInfo = (book: Book, appState:  State<Partial<AppState>>) => 
                     "author": book.author,
                     "imgUrl": book.imgUrl,
                     "bookProgress": bookProgress,
-                    "rating": rating
+                    "rating": rating,
+                    "notes": notes
                 }
             });
     
@@ -71,8 +80,10 @@ export const useBookInfo = (book: Book, appState:  State<Partial<AppState>>) => 
     return {
         bookProgress,
         rating,
+        notes,
         handleBookProgressChange,
         handleBookRatingChange,
+        handlesNotesChange,
         saveBook
     }
 }

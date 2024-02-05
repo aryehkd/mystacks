@@ -1,4 +1,4 @@
-name: CI
+name: Run tests for PR
 on:
   pull_request:
 
