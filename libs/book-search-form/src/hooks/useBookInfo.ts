@@ -9,9 +9,9 @@ export const useBookInfo = (book: Book, appState:  AppStateType) => {
     const globalState = useHookstate(appState);
     const navigate = useNavigate();
 
-    const [ bookProgress, setBookProgress ] = useState<BookProgressState>(book.bookProgress || BookProgressStates.ToRead)
-    const [ rating, setRating ] = useState<BookRating>(book.rating || 0)
-    const [ notes, setNotes ] = useState<string>(book.notes || '')
+    const [ bookProgress, setBookProgress ] = useState<BookProgressState>(book.userRating?.bookProgress || BookProgressStates.ToRead)
+    const [ rating, setRating ] = useState<BookRating>(book.userRating?.rating || 0)
+    const [ notes, setNotes ] = useState<string>(book.userRating?.notes || '')
 
     const handleBookProgressChange = (
         newBookProgressState: BookProgressState,
@@ -42,12 +42,15 @@ export const useBookInfo = (book: Book, appState:  AppStateType) => {
     
             const raw = JSON.stringify({
                 "book": {
-                    "title": book.title,
-                    "author": book.author,
-                    "imgUrl": book.imgUrl,
-                    "bookProgress": bookProgress,
-                    "rating": rating,
-                    "notes": notes
+                    "id": book.id,
+                    "bookInfo": {
+                        ...book.bookInfo
+                    },
+                    "userRating": {
+                        "bookProgress": bookProgress,
+                        "rating": rating,
+                        "notes": notes
+                    }
                 }
             });
     

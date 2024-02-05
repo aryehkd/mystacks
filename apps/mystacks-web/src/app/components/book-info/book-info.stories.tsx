@@ -5,22 +5,34 @@ import { reactRouterParameters, withRouter } from 'storybook-addon-react-router-
 import { BookInfo } from './book-info';
 import { StorybookThemeProvider } from '../../../../.storybook/decorators/storybook-theme-provider'
 import { useBookInfo } from '@mystacks/book-search-form';
-import { AppStateType } from '@mystacks/types';
+import { AppStateType, BookProgressStates, BookRating } from '@mystacks/types';
 
 export const BookInfoStory = () => {
-    const bookInfoProps = useBookInfo({
-        title: "Aliss at the Fire",
-        author: "Jon Fosse",
-        imgUrl: "http://books.google.com/books/content?id=UDXpzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
-      }, {} as AppStateType)
+  const book = {
+    id: 'string,',
+    savedDate: 123,
+    bookInfo: {
+      title: "Aliss at the Fire",
+      author: "Jon Fosse",
+      imgUrl: "http://books.google.com/books/content?id=UDXpzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+      industryIdentifiers: {
+        isbn13: '',
+        isbn10: ''
+      },
+    },
+    userRating: {
+      rating: 5 as BookRating,
+      notes: "This is a great book",
+      bookProgress: BookProgressStates.Completed,
+      
+    }
+  }
+
+    const bookInfoProps = useBookInfo(book, {} as AppStateType)
 
   return (
     <StoryContainer>
-      <BookInfo book={{
-          title: "Aliss at the Fire",
-          author: "Jon Fosse",
-          imgUrl: "http://books.google.com/books/content?id=UDXpzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
-        }}
+      <BookInfo book={book}
         {...bookInfoProps}
         />
     </StoryContainer>

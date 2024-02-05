@@ -25,18 +25,18 @@ export const BookInfo = (props: BookInfoProps) => {
     return (
         <BookInfoContainer container spacing={2}>
             <Grid item xs={4}>
-                {book.imgUrl &&
+                {book.bookInfo.imgUrl &&
                     <img
-                        src={`${book.imgUrl}?w=164&h=164&fit=crop&auto=format`}
-                        alt={book.title+"-img"}
+                        src={`${book.bookInfo.imgUrl}?w=164&h=164&fit=crop&auto=format`}
+                        alt={book.bookInfo.title+"-img"}
                         loading="lazy"
                         style={{cursor: "pointer", width: "100px", height: "auto"}}
                     />
                 }
             </Grid>
             <Grid item xs={8}>
-                <Typography variant='subtitle1'>{book.title}</Typography>
-                <Typography variant='subtitle2'>{book.author}</Typography>
+                <Typography variant='subtitle1'>{book.bookInfo.title}</Typography>
+                <Typography variant='subtitle2'>{book.bookInfo.author}</Typography>
                 <div style={{marginTop: "20px"}}>more info to be added here</div>
             </Grid>
             <Grid item xs={12}  sx={{margin: "20px 0"}}>

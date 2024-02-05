@@ -30,11 +30,24 @@ export const useBookSearchForm = () => {
             /* eslint-disable-next-line */
             const formattedResults = searchResults.items.map((result: any) => {
                 return {
-                    title: result.volumeInfo.title, 
-                    author: result.volumeInfo?.authors?.[0]??"",
-                    imgUrl: result.volumeInfo?.imageLinks?.thumbnail??""
+                    id: undefined,
+                    savedDate: Date.now(),
+                    bookInfo: {
+                        title: result.volumeInfo.title, 
+                        author: result.volumeInfo?.authors?.[0]??"",
+                        imgUrl: result.volumeInfo?.imageLinks?.thumbnail??"",
+                        industryIdentifiers: {
+                            isbn13: result.volumeInfo.industryIdentifiers?.find((id: {type: string, identifier: string}) => id.type === "ISBN_13")?.identifier??"",
+                            isbn10: result.volumeInfo.industryIdentifiers?.find((id: {type: string, identifier: string}) => id.type === "ISBN_10")?.identifier??"",
+                        },
+                        publisher: result.volumeInfo.publisher,
+                        publishedDate: result.volumeInfo.publishedDate,
+                        pageCount: result.volumeInfo.pageCount,
+                    },
                 }
             })
+
+            console.log(formattedResults)
 
             return formattedResults;
         }
