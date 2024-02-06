@@ -8,31 +8,32 @@ export interface BookItemProps {
 }  
 
 export const BookItem = (props: BookItemProps) => {
-    const { book } = props 
+    const { bookInfo } = props.book
 
     const navigate = useNavigate();
 
     const handleBookClick = () => {
-        navigate('/book-info', { state: { book: { ...book } } });
+        navigate('/book-info', { state: { book: { ...props.book } } });
     }
+
 
     return (
         <StyledBox className='card' onClick={handleBookClick}>
-            {book?.imgUrl &&
+            {bookInfo?.imgUrl &&
                 <img
-                    src={`${book?.imgUrl}?w=164&h=164&fit=crop&auto=format`}
-                    alt={book.title+"-img"}
+                    src={`${bookInfo.imgUrl}?w=164&h=164&fit=crop&auto=format`}
+                    alt={bookInfo.title+"-img"}
                     loading="lazy"
                     style={{cursor: "pointer", width: "80px", height: "auto"}}
                 />
             }
             
             <StyledTitle variant="subtitle1" className="card-text">
-                {book.title}
+                {bookInfo.title}
             </StyledTitle>
-            {book.author && 
+            {bookInfo.author && 
                 <StyledSubTitle variant="subtitle2" className="card-text">
-                    {book.author}
+                    {bookInfo.author}
                 </StyledSubTitle>
             }
         </StyledBox>

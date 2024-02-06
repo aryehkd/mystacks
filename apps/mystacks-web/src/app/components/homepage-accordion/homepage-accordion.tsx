@@ -12,6 +12,7 @@ export interface HomepageAccordionProps {
 // TODO: "shelves" are hard coded, make these dynamic / editable, pulled from firestore  
 
 export const HomepageAccordion = (props: HomepageAccordionProps) => {
+
   return (
     <Box>
       <Accordion defaultExpanded>
@@ -20,11 +21,11 @@ export const HomepageAccordion = (props: HomepageAccordionProps) => {
           aria-controls="panel1-content"
           id="panel1-header"
         >
-          Currently Reading  ( {props.books.filter(book => book.bookProgress == BookProgressStates.CurrentlyReading).length} )
+          Currently Reading  ( {props.books.filter(book => book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading).length} )
         </AccordionSummary>
         <AccordionDetails>
             <StyledBox>
-                {props.books.filter(book => book.bookProgress == BookProgressStates.CurrentlyReading).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
+                {props.books.filter(book => book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
             </StyledBox>
         </AccordionDetails>
       </Accordion>
@@ -34,11 +35,11 @@ export const HomepageAccordion = (props: HomepageAccordionProps) => {
           aria-controls="panel2-content"
           id="panel2-header"
         >
-          To Read ( {props.books.filter(book => book.bookProgress == BookProgressStates.ToRead).length} )
+          To Read ( {props.books.filter(book => book?.userRating?.bookProgress == BookProgressStates.ToRead).length} )
         </AccordionSummary>
         <AccordionDetails>
           <StyledBox>
-              {props.books.filter(book => book.bookProgress == BookProgressStates.ToRead).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
+              {props.books.filter(book => book?.userRating?.bookProgress == BookProgressStates.ToRead).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
           </StyledBox>
         </AccordionDetails>
       </Accordion>
@@ -48,11 +49,11 @@ export const HomepageAccordion = (props: HomepageAccordionProps) => {
           aria-controls="panel3-content"
           id="panel3-header"
         >
-          Completed Books ( {props.books.filter(book => book.bookProgress == BookProgressStates.Completed).length} )
+          Completed Books ( {props.books.filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed).length} )
         </AccordionSummary>
         <AccordionDetails>
           <StyledBox>
-              {props.books.filter(book => book.bookProgress == BookProgressStates.Completed).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
+              {props.books.filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
           </StyledBox>
         </AccordionDetails>
       </Accordion>
@@ -62,11 +63,11 @@ export const HomepageAccordion = (props: HomepageAccordionProps) => {
           aria-controls="panel4-content"
           id="panel4-header"
         >
-          Recommended ( {props.books.filter(book => book.bookProgress == BookProgressStates.Recommended).length} )
+          Recommended ( {props.books.filter(book => book?.userRating?.bookProgress == BookProgressStates.Recommended).length} )
         </AccordionSummary>
         <AccordionDetails>
           <StyledBox>
-              {props.books.filter(book => book.bookProgress == BookProgressStates.Recommended).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
+              {props.books.filter(book => book?.userRating?.bookProgress == BookProgressStates.Recommended).map((book, index) => <BookContainer key={index}><BookItem book={book}/></BookContainer>)}
           </StyledBox>
         </AccordionDetails>
       </Accordion>

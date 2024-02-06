@@ -14,6 +14,7 @@ export const PrimaryButton = (props: TextInputProps) => {
         <StyledButton 
             onClick={onClick}
             variant="contained"
+            color="secondary"
         >
             {children}
         </StyledButton>

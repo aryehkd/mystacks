@@ -3,43 +3,42 @@ import { Box, Typography, IconButton } from '@mui/material/';
 import { styled } from '@mui/material/styles';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useNavigate } from 'react-router-dom';
+import { Book } from '@mystacks/types';
 
 /* eslint-disable-next-line */
 export interface CardProps {
-    title: string
-    subtitle?: string
-    imgUrl?: string
+    book: Book
   }
 
 export const Card = (props: CardProps) => {
-    const { title, subtitle, imgUrl } = props;
+    const { bookInfo } = props.book;
 
 
     // TODO move out of here
     const navigate = useNavigate();
 
     const handleAdd = () => {
-        navigate('/book-info', { state: { book: {title, author: subtitle, imgUrl } } });
+        navigate('/book-info', { state: { book: {...props.book} } });
     }
 
     return (
         <StyledBox className='card'>
             <BookInfoContainer>
-                {imgUrl &&
+                {bookInfo.imgUrl &&
                     <img
-                        src={`${imgUrl}?w=164&h=164&fit=crop&auto=format`}
-                        alt={title+"-img"}
+                        src={`${bookInfo.imgUrl}?w=164&h=164&fit=crop&auto=format`}
+                        alt={bookInfo.title+"-img"}
                         loading="lazy"
                         style={{cursor: "pointer", width: "100px", height: "auto"}}
                     />
                 }
                 <TextContainer>
                     <StyledTitle variant="h6" className="card-text">
-                        {title}
+                        {bookInfo.title}
                     </StyledTitle>
-                    {subtitle && 
+                    {bookInfo.author && 
                         <StyledSubTitle variant="subtitle2" className="card-text">
-                            {subtitle}
+                            {bookInfo.author}
                         </StyledSubTitle>
                     }
                 </TextContainer>

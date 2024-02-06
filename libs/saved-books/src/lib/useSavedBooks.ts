@@ -34,6 +34,8 @@ export const useSavedBooks = (appState:  AppStateType) => {
     setSavedBooks([...savedBooks, toAdd])
   }
 
+  console.log(savedBooks)
+
   return {
     savedBooks,
     addSavedBook,
