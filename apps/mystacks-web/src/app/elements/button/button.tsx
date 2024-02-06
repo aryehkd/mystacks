@@ -23,7 +23,7 @@ export const PrimaryButton = (props: TextInputProps) => {
 
 
 const StyledButton = styled(Button)(({ theme }) => ({
-    margin: "20px 0 15px 0",
     background: theme.palette.primary.contrastText,
-    color: "white"
+    color: "white",
+    height: "40px",
 }));

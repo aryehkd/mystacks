@@ -18,7 +18,7 @@ export const BookInfoPage = (props: BookInfoPageProps) => {
     return (
         <CustomAppBar logoSize='sm'>
             <BookInfoInnerContainer>
-                <BookInfo book={state.book} {...bookInfoProps}/>
+                <BookInfo book={bookInfoProps.currentBook} {...bookInfoProps}/>
 
             </BookInfoInnerContainer>
         </CustomAppBar>

@@ -5,6 +5,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import { Book, BookProgressStates, BookProgressState, BookRating } from '@mystacks/types'
+import ISBNField from '../../elements/isbn-field/isbn-field';
 
 
 export interface BookInfoProps {
@@ -12,14 +13,18 @@ export interface BookInfoProps {
     bookProgress: BookProgressState
     rating: BookRating
     notes: string
+    isbn: string
+    isbnError: string | undefined
+    loading: boolean
     handleBookProgressChange: (newBookProgressState: BookProgressState) => void
     handleBookRatingChange: (newBookRating: BookRating) => void
-    handlesNotesChange: (newNotes: string) => void
+    handleNotesChange: (newNotes: string) => void
+    handleISBNChange: (newISBN: string) => void
     saveBook: () => void
 }
 
 export const BookInfo = (props: BookInfoProps) => {
-    const { book, bookProgress, rating, notes, handleBookProgressChange, handleBookRatingChange, handlesNotesChange, saveBook } = props
+    const { book, bookProgress, rating, notes, isbn, isbnError, handleBookProgressChange, handleBookRatingChange, handleNotesChange, saveBook, handleISBNChange } = props
 
     // TODO: make img component and reuse 
     return (
@@ -37,7 +42,7 @@ export const BookInfo = (props: BookInfoProps) => {
             <Grid item xs={8}>
                 <Typography variant='subtitle1'>{book.bookInfo.title}</Typography>
                 <Typography variant='subtitle2'>{book.bookInfo.author}</Typography>
-                <div style={{marginTop: "20px"}}>more info to be added here</div>
+                <ISBNField isbn={isbn} handleISBNChange={handleISBNChange} isbnError={isbnError} />
             </Grid>
             <Grid item xs={12}  sx={{margin: "20px 0"}}>
                 <Grid container>
@@ -80,7 +85,7 @@ export const BookInfo = (props: BookInfoProps) => {
                             fullWidth
                             rows={4}
                             value={notes}
-                            onChange={(event) => {handlesNotesChange(event.target.value);}}
+                            onChange={(event) => {handleNotesChange(event.target.value);}}
                         />
                     </Grid>
                     <Grid item xs={12} sx={{margin: "20px 0"}}>

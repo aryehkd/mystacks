@@ -24,6 +24,23 @@ export const useBookSearchForm = () => {
             .catch(error => console.log('error', error));
     }
 
+    const handleISBNSearch = async (isbn: string): Promise<Book | undefined> => {
+        const requestOptions = {
+            method: 'GET',
+            redirect: 'follow' as RequestRedirect
+          };
+          
+        const result = await request("https://www.googleapis.com/books/v1/volumes?q=isbn:"+isbn, requestOptions)
+            .then(response => response.json())
+            .then(result => formatBookSearchResults(result))
+            .catch(error => console.log('error', error));
+
+        if (result && result.length > 0) {
+            return result[0];
+        }
+        return undefined;
+    }
+
     /* eslint-disable-next-line */ // TODO: fix type
     const formatBookSearchResults = (searchResults: any): Book[] => {
         if (searchResults?.items) { // TODO: need to handle multiple authors
@@ -61,6 +78,7 @@ export const useBookSearchForm = () => {
         searchResults: formattedSearchResults,
         handleInputValueChange,
         handleBookSeach,
+        handleISBNSearch,
     }
 }
 

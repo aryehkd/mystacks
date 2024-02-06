@@ -21,9 +21,9 @@ export interface BookInfo {
 }
 
 export interface UserRating {
-  bookProgress: BookProgressState
-  rating: BookRating
-  notes: string
+  bookProgress?: BookProgressState
+  rating?: BookRating
+  notes?: string
   completedDate?: number
 }
 
