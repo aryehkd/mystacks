@@ -13,7 +13,7 @@ export const ISBNFieldStory = () => {
 
   return (
     <StoryContainer>
-      <ISBNField isbn={isbn} handleISBNChange={handleISBNChange}/>
+      <ISBNField isbn={isbn} handleISBNChange={handleISBNChange} isbnError={undefined} />
     </StoryContainer>
   )
 }

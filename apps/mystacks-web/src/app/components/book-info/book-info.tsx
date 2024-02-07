@@ -3,6 +3,7 @@ import { Grid, styled, Typography, Rating, ToggleButtonGroup, ToggleButton, Text
 import { PrimaryButton } from '../../elements/button/button'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import CircularProgress from '@mui/material/CircularProgress';
 
 import { Book, BookProgressStates, BookProgressState, BookRating } from '@mystacks/types'
 import ISBNField from '../../elements/isbn-field/isbn-field';
@@ -24,29 +25,29 @@ export interface BookInfoProps {
 }
 
 export const BookInfo = (props: BookInfoProps) => {
-    const { book, bookProgress, rating, notes, isbn, isbnError, handleBookProgressChange, handleBookRatingChange, handleNotesChange, saveBook, handleISBNChange } = props
+    const { book, bookProgress, rating, notes, isbn, isbnError, loading, handleBookProgressChange, handleBookRatingChange, handleNotesChange, saveBook, handleISBNChange } = props
 
     // TODO: make img component and reuse 
     return (
         <BookInfoContainer container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={2}>
                 {book.bookInfo.imgUrl &&
                     <img
                         src={`${book.bookInfo.imgUrl}?w=164&h=164&fit=crop&auto=format`}
                         alt={book.bookInfo.title+"-img"}
                         loading="lazy"
-                        style={{cursor: "pointer", width: "100px", height: "auto"}}
+                        style={{cursor: "pointer", height: "auto"}}
                     />
                 }
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={5}>
                 <Typography variant='subtitle1'>{book.bookInfo.title}</Typography>
                 <Typography variant='subtitle2'>{book.bookInfo.author}</Typography>
                 <ISBNField isbn={isbn} handleISBNChange={handleISBNChange} isbnError={isbnError} />
             </Grid>
-            <Grid item xs={12}  sx={{margin: "20px 0"}}>
+            <Grid item xs={5}>
                 <Grid container>
-                    <Grid item xs={6}>
+                    <CategoryContainer item xs={12}>
                         <ToggleButtonGroup
                             id="book-info-category"
                             color="secondary"
@@ -63,21 +64,22 @@ export const BookInfo = (props: BookInfoProps) => {
                             <CustomButton value={BookProgressStates.Recommended}>Recommended</CustomButton>
                             <CustomButton value={BookProgressStates.Completed}>Completed</CustomButton>
                         </ToggleButtonGroup>
-                    </Grid>
-                    <RatingContainer item xs={6}>
-                        <Typography variant='subtitle1'>My Rating</Typography>
-                        <StyledRating
-                            name="customized-color"
-                            value={rating}
-                            onChange={(event, newValue) => {
-                                handleBookRatingChange(newValue as BookRating);
-                            }}
-                            getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
-                            precision={0.5}
-                            icon={<FavoriteIcon fontSize="inherit" />}
-                            emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
-                        />
-                    </RatingContainer>
+                    </CategoryContainer>
+                    {bookProgress === BookProgressStates.Completed &&
+                        <RatingContainer item xs={12}>
+                            <StyledRating
+                                name="customized-color"
+                                value={rating}
+                                onChange={(event, newValue) => {
+                                    handleBookRatingChange(newValue as BookRating);
+                                }}
+                                getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
+                                precision={0.5}
+                                icon={<FavoriteIcon fontSize="inherit" />}
+                                emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+                            />
+                        </RatingContainer>
+                    }
                     <Grid item xs={12} sx={{margin: "20px 0"}}>
                         <TextField
                             label="Notes"
@@ -89,7 +91,11 @@ export const BookInfo = (props: BookInfoProps) => {
                         />
                     </Grid>
                     <Grid item xs={12} sx={{margin: "20px 0"}}>
-                        <PrimaryButton onClick={saveBook}>Save</PrimaryButton>
+                        {loading ? 
+                            <CircularProgress  color="secondary"/>
+                        :
+                            <PrimaryButton onClick={saveBook}>Save</PrimaryButton>
+                        }
                     </Grid>
                 </Grid>
             </Grid>
@@ -103,10 +109,18 @@ const BookInfoContainer = styled(Grid)(({ theme }) => ({
     width: "100%",
 }));
 
+const CategoryContainer = styled(Grid)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
+}));
+
 const RatingContainer = styled(Grid)(({ theme }) => ({
     display: "flex",
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginTop: "20px"
 }));
 
 const CustomButton = styled(ToggleButton)(({ theme }) => ({
@@ -114,7 +128,6 @@ const CustomButton = styled(ToggleButton)(({ theme }) => ({
 }));
 
 const StyledRating = styled(Rating)({
-    marginLeft: "15px",
 
     '& .MuiRating-iconFilled': {
       color: '#ff6d75',

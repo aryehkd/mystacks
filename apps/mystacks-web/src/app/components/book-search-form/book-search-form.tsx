@@ -27,7 +27,7 @@ export function BookSearchForm(props: BookSearchFormProps) {
             handleChange={handleChange}
           />
         </StyledTextFieldContainer>
-        <Grid item xs={2}>
+        <Grid item xs={2} sx={{paddingTop: "15px"}}>
           <PrimaryButton onClick={handleBookSeach}>Search</PrimaryButton>
         </Grid>
       </Grid>
