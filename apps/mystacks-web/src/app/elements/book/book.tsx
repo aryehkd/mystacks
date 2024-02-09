@@ -2,6 +2,7 @@ import { Book } from "@mystacks/types"
 import { styled } from '@mui/material/styles';
 import { Box, Typography } from '@mui/material/';
 import { useNavigate } from "react-router-dom";
+import CoverImage from "../cover-image/CoverImage";
 
 export interface BookItemProps {
     book: Book
@@ -19,14 +20,7 @@ export const BookItem = (props: BookItemProps) => {
 
     return (
         <StyledBox className='card' onClick={handleBookClick}>
-            {bookInfo?.imgUrl &&
-                <img
-                    src={`${bookInfo.imgUrl}?w=164&h=164&fit=crop&auto=format`}
-                    alt={bookInfo.title+"-img"}
-                    loading="lazy"
-                    style={{cursor: "pointer", width: "80px", height: "auto"}}
-                />
-            }
+            <CoverImage imgUrl={bookInfo.imgUrl}/>
             
             <StyledTitle variant="subtitle1" className="card-text">
                 {bookInfo.title}

@@ -17,46 +17,50 @@ export const CustomAppBar = (props: AppBarProps) => {
     const theme = useTheme();
     const topBarSize = useMediaQuery(theme.breakpoints.up('md'));
 
-    const handleLogoClick = () => {
+    const handleHomeClick = () => {
         navigate('/');
     }
     
     return (
         <Box sx={{ flexGrow: 1 }}>
-            {topBarSize && <AppBar position="static" sx={{paddingBottom: "10px"}} elevation={2}>
+            {topBarSize && <StyledAppBar position="static" elevation={0}>
                 {props.logoSize == "lg" ? 
-                    <CustomToolbar onClick={handleLogoClick}>
+                    <CustomToolbar onClick={handleHomeClick}>
                         <img
                             src={AppLogo}
                             alt={"app-logo"}
-                            style={{cursor: "pointer", width: "90px", height: "auto"}}
+                            style={{cursor: "pointer", width: "90px", height: "auto", filter: "invert(100%)"}}
                         />
                     </CustomToolbar>
                 :
-                    <CustomToolbar onClick={handleLogoClick}>
-                        <img
+                    <CustomToolbar onClick={handleHomeClick}>
+                        {/* <img
                             src={AppLogo}
                             alt={"app-logo"}
-                            style={{cursor: "pointer", width: "60px", height: "auto"}}
-                        />
+                            style={{cursor: "pointer", width: "60px", height: "auto", filter: "invert(100%)"}}
+                        /> */}
                         <Typography 
-                            variant="h4" 
+                            variant="h3" 
                             component="h1"
                             sx={{
-                                fontWeight: "500"
+                                fontWeight: "600",
+                                color: "white",
+                                position: "fixed",
+                                top: "6px",
+                                left: "80px"
                             }}
                         >
-                            In My Stacks
+                           the stacks.
                         </Typography>
                     </CustomToolbar>
                 }
-            </AppBar>}
+            </StyledAppBar>}
             <ContentContainer sx={{marginBottom: "200px"}}>
                 {props.children}
             </ContentContainer>
             {!topBarSize && <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
                 <Toolbar>
-                    <IconButton color="inherit" aria-label="open drawer">
+                    <IconButton color="inherit" aria-label="open drawer" onClick={handleHomeClick}>
                         <HomeOutlined />
                     </IconButton>
                 </Toolbar>
@@ -89,6 +93,11 @@ export const LoginAppBar = (props: LoginAppBarProps) => {
     )
 }
 
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+    backgroundColor: "#006300",
+    height: "50px"
+}));
+
 
 const ContentContainer = styled(Box)(({ theme }) => ({
     display: "flex", 
@@ -96,5 +105,5 @@ const ContentContainer = styled(Box)(({ theme }) => ({
 }));
 
 const CustomToolbar = styled(Toolbar)(({ theme }) => ({
-    padding: "10px 0 0 20px", 
+    // padding: "10px 0 0 20px", 
 }));
