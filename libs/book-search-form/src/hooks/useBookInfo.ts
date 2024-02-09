@@ -5,6 +5,7 @@ import { useHookstate } from '@hookstate/core'
 import { useNavigate } from 'react-router-dom'
 import { AppStateType } from '@mystacks/types'
 import useBookSearchForm from './useBookSearchForm'
+import dayjs, { Dayjs } from 'dayjs'
 
 export const useBookInfo = (book: Book, appState:  AppStateType) => {
     const globalState = useHookstate(appState);
@@ -17,6 +18,7 @@ export const useBookInfo = (book: Book, appState:  AppStateType) => {
     const [ notes, setNotes ] = useState<string>(book.userRating?.notes || '')
     const [ isbn, setISBN ] = useState<string>(book.bookInfo.industryIdentifiers?.isbn13 || book.bookInfo.industryIdentifiers?.isbn10 || '')
     const [ isbnError, setISBNError ] = useState<string | undefined>(undefined)
+    const [ completedDate, setCompletedDate ] = useState<Dayjs | null>(dayjs())
 
     const [ loading, setLoading ] = useState<boolean>(false)
 
@@ -36,6 +38,12 @@ export const useBookInfo = (book: Book, appState:  AppStateType) => {
         newNotes: string,
       ) => {
         setNotes(newNotes);
+    };
+
+    const handleCompletedDateChange = (
+        newDate: Dayjs | null,
+      ) => {
+        setCompletedDate(newDate);
     };
 
     const searchNewISBN = async (newISBN: string) => {
@@ -133,11 +141,13 @@ export const useBookInfo = (book: Book, appState:  AppStateType) => {
         isbn,
         isbnError,
         loading,
+        completedDate,
         handleBookProgressChange,
         handleBookRatingChange,
         handleNotesChange,
         saveBook,
-        handleISBNChange
+        handleISBNChange,
+        handleCompletedDateChange
     }
 }
 

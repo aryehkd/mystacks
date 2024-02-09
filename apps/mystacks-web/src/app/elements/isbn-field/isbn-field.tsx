@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, TextField, IconButton, styled } from '@mui/material'
-import { PrimaryButton } from '../button/button';
+import { PrimaryButton, DeleteButton } from '../button/button';
 import EditIcon from '@mui/icons-material/Edit';
 import { useISBNField } from './useISBNField';
 
@@ -19,7 +19,7 @@ export const ISBNField: React.FC<ISBNFieldProps> = (props: ISBNFieldProps) => {
         <Box sx={{marginTop: "10px"}}>
             {editing ?
                 <StyledContainer>
-                    <TextField 
+                    <StyledInput 
                         value={tempISBN}
                         label="ISBN"
                         size='small'
@@ -28,16 +28,17 @@ export const ISBNField: React.FC<ISBNFieldProps> = (props: ISBNFieldProps) => {
                         error={isbnError ? true : false}
                         helperText={isbnError && isbnError}
                         onChange={(event) => handleTempISBNChange(event.target.value)}
-                        sx={{marginRight: "10px"}}
                     />
-                    <PrimaryButton onClick={handleSaveClick}>Update</PrimaryButton>
-                    <Box sx={{marginLeft: "5px"}}>
-                        <PrimaryButton onClick={handleCancelClick}>Cancel</PrimaryButton>
-                    </Box>
+                    <ButtonContainer>
+                        <PrimaryButton onClick={handleSaveClick}>Update</PrimaryButton>
+                        <Box sx={{marginLeft: "5px"}}>
+                            <DeleteButton onClick={handleCancelClick}>Cancel</DeleteButton>
+                        </Box>
+                    </ButtonContainer>
                 </StyledContainer>
                 :
                 <StyledContainer>
-                    <Typography variant="body1" sx={{marginRight: "10px"}}>ISBN: {isbn}</Typography>
+                    <Typography variant="subtitle2" sx={{marginRight: "10px", paddingTop: "5px"}}>ISBN: {isbn}</Typography>
                     <IconButton size='small' onClick={() => handleEditingChange(true)}><EditIcon fontSize="small" /></IconButton>
                 </StyledContainer>
             }
@@ -53,4 +54,33 @@ const StyledContainer = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "row",
     alignItems: "flex-start",
+    flexWrap: "wrap",
 }));
+
+const ButtonContainer = styled(Box)(({ theme }) => ({
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    marginTop: "10px",
+    [theme.breakpoints.down("sm")]: {
+        width: "100%",
+        justifyContent: "center",
+    },
+}));
+
+const StyledInput = styled(TextField)(({ theme }) => ({
+    width: "100%",
+    marginRight: "14px",
+    [theme.breakpoints.up("md")]: {
+        marginRight: "10px",
+    },
+    '& fieldset': {
+        borderColor: '#808080',
+        borderWidth: 3,
+    },
+    '& .MuiFormControl-root': {
+        color: "#808080"
+    }
+}));
+

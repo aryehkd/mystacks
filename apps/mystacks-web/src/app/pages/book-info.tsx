@@ -28,6 +28,9 @@ export const BookInfoPage = (props: BookInfoPageProps) => {
 export default BookInfoPage;
 
 const BookInfoInnerContainer = styled(Box)(({ theme }) => ({
-    width: "80%",
-    margin: "50px 0 0 0"
+    margin: "20px 0 0 0",
+
+    [theme.breakpoints.up("md")]: {
+        margin: "50px 0 0 0",
+    },
 }));

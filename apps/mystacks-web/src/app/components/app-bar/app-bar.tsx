@@ -1,8 +1,10 @@
 import React from 'react';
-import { Box, AppBar, Toolbar, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, AppBar, Toolbar, Typography, IconButton } from '@mui/material';
+import { styled, useTheme } from '@mui/material/styles';
 import AppLogo from '../../../assets/app-logo.png';
 import { useNavigate } from 'react-router-dom';
+import HomeOutlined from '@mui/icons-material/HomeOutlined';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 /* eslint-disable-next-line */
 export interface AppBarProps {
@@ -12,6 +14,8 @@ export interface AppBarProps {
 
 export const CustomAppBar = (props: AppBarProps) => {
     const navigate = useNavigate();
+    const theme = useTheme();
+    const topBarSize = useMediaQuery(theme.breakpoints.up('md'));
 
     const handleLogoClick = () => {
         navigate('/');
@@ -19,7 +23,7 @@ export const CustomAppBar = (props: AppBarProps) => {
     
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" elevation={0}>
+            {topBarSize && <AppBar position="static" sx={{paddingBottom: "10px"}} elevation={2}>
                 {props.logoSize == "lg" ? 
                     <CustomToolbar onClick={handleLogoClick}>
                         <img
@@ -46,6 +50,37 @@ export const CustomAppBar = (props: AppBarProps) => {
                         </Typography>
                     </CustomToolbar>
                 }
+            </AppBar>}
+            <ContentContainer sx={{marginBottom: "200px"}}>
+                {props.children}
+            </ContentContainer>
+            {!topBarSize && <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
+                <Toolbar>
+                    <IconButton color="inherit" aria-label="open drawer">
+                        <HomeOutlined />
+                    </IconButton>
+                </Toolbar>
+            </AppBar>}
+        </Box>
+    )
+}
+
+export interface LoginAppBarProps {
+    children: React.ReactNode;
+}
+
+export const LoginAppBar = (props: LoginAppBarProps) => {
+    
+    return (
+        <Box sx={{ flexGrow: 1 }}>
+            <AppBar position="static" elevation={0}>
+                <CustomToolbar>
+                    <img
+                        src={AppLogo}
+                        alt={"app-logo"}
+                        style={{cursor: "pointer", width: "90px", height: "auto"}}
+                    />
+                </CustomToolbar>
             </AppBar>
             <ContentContainer>
                 {props.children}
@@ -61,5 +96,5 @@ const ContentContainer = styled(Box)(({ theme }) => ({
 }));
 
 const CustomToolbar = styled(Toolbar)(({ theme }) => ({
-    padding: "20px 0 0 20px", 
+    padding: "10px 0 0 20px", 
 }));

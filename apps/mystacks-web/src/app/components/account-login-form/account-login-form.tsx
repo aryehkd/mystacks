@@ -35,12 +35,16 @@ export const AccountLoginForm = (props: AccountLoginFormProps) => {
                 type="password"
                 handleChange={handleChange}
             />
-            <PrimaryButton onClick={submitLogin}>Login</PrimaryButton>
+            <ActionsContainer>
+                <PrimaryButton onClick={submitLogin}>Login</PrimaryButton>
+            </ActionsContainer>
 
-            <Typography variant='body1'>Don't have an account?</Typography>
-            <StyledLink href="/sign-up" variant="body2" underline="hover">
-                Create One Now
-            </StyledLink>
+            <SubActionsContainer>
+                <Typography variant='h6'>Don't have an account?</Typography>
+                <StyledLink href="/sign-up" variant="subtitle1" underline="hover">
+                    Create One Now
+                </StyledLink>
+            </SubActionsContainer>
         </StyledBox>
     )
 }
@@ -52,6 +56,14 @@ const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start"
+}));
+
+const ActionsContainer = styled(Box)(({ theme }) => ({
+    marginTop: "20px",
+}));
+
+const SubActionsContainer = styled(Box)(({ theme }) => ({
+    marginTop: "20px",
 }));
 
 const ComponentHeadline = styled(Typography)(({ theme }) => ({

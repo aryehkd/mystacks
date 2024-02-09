@@ -1,10 +1,10 @@
 import React from 'react'
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import { PageProps } from '@mystacks/types'
 import { AccountLoginForm } from '../components/account-login-form';
-import { CustomAppBar } from '../components/app-bar/app-bar';
+import { LoginAppBar } from '../components/app-bar/app-bar';
 import { useLogin } from '@mystacks/account';
 
 /* eslint-disable-next-line */
@@ -17,19 +17,25 @@ export const LoginPage = (props: LoginPageProps) => {
 
     return (
       
-      <CustomAppBar logoSize='lg'>
-        <SignUpInnerContainer>
-          <AccountLoginForm 
-            {...AccountLoginProps}
-          />
-        </SignUpInnerContainer>
-      </CustomAppBar>
+      <LoginAppBar>
+        <LoginOuterContainer container>
+          <LoginInnerContainer xs={12} sm={8} md={6}>
+            <AccountLoginForm 
+              {...AccountLoginProps}
+            />
+          </LoginInnerContainer>
+        </LoginOuterContainer>
+      </LoginAppBar>
     )
 }
 
 export default LoginPage;
 
-const SignUpInnerContainer = styled(Box)(({ theme }) => ({
-  width: "50%",
-  margin: "50px 0 0 0"
+const LoginOuterContainer = styled(Grid)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+}));
+
+const LoginInnerContainer = styled(Grid)(({ theme }) => ({
+  padding: "40px 20px"
 }));
