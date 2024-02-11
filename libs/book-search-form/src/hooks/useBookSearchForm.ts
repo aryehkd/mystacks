@@ -1,23 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { request } from '@mystacks/utils'
 import { Book } from '@mystacks/types'
 
-export const useBookSearchForm = () => {
+export const useBookSearchForm = (navSearchQuery?: string) => {
     const [ inputValue, setInputValue ] = useState('')
 
     const [ formattedSearchResults, setFormattedSearchResults ] = useState<Book[]>([])
+
+    useEffect(() => {
+        if (navSearchQuery) {
+            handleBookSeach(navSearchQuery)
+            setInputValue(navSearchQuery)
+        }
+    }, [])
 
     const handleInputValueChange = (newInputValue: string) => {
         setInputValue(newInputValue)
     }
 
-    const handleBookSeach = () => {
+    const handleBookSeach = (searchQuery: string) => {
         const requestOptions = {
             method: 'GET',
             redirect: 'follow' as RequestRedirect
           };
           
-        request("https://www.googleapis.com/books/v1/volumes?q="+inputValue.replace("/ /g", "+"), requestOptions)
+        request("https://www.googleapis.com/books/v1/volumes?q="+searchQuery.replace("/ /g", "+"), requestOptions)
             .then(response => response.json())
             .then(result => formatBookSearchResults(result))
             .then(result => setFormattedSearchResults(result))

@@ -1,29 +1,27 @@
 import React from 'react';
-import { Box, AppBar, Toolbar, Typography, IconButton, InputAdornment, TextField } from '@mui/material';
+import { Box, AppBar, Toolbar, Typography, IconButton, InputAdornment, TextField, Autocomplete } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import AppLogo from '../../../assets/app-logo.png';
-import { useNavigate } from 'react-router-dom';
 import CabinIcon from '@mui/icons-material/Cabin';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SearchIcon from '@mui/icons-material/Search';
+import { useAppBar } from '@mystacks/book-search-form';
+import { BookSearchItem, AppStateType } from '@mystacks/types';
 
 /* eslint-disable-next-line */
 export interface AppBarProps {
     children: React.ReactNode;
+    appState:  AppStateType
     logoSize: "sm" | "lg"
 }
 
 
 
 export const CustomAppBar = (props: AppBarProps) => {
-    const navigate = useNavigate();
     const theme = useTheme();
     const topBarSize = useMediaQuery(theme.breakpoints.up('md'));
+    const { searchItems, handleSearchFieldSelect, handleHomeClick, customSearchFilter, handleTextFieldValueChange } = useAppBar(props.appState) 
 
-    const handleHomeClick = () => {
-        navigate('/');
-    }
-    
     return (
         <Box sx={{ flexGrow: 1 }}>
             {topBarSize && <StyledAppBar position="static" elevation={0}>
@@ -36,7 +34,7 @@ export const CustomAppBar = (props: AppBarProps) => {
                         />
                     </CustomToolbar>
                 :
-                    <CustomToolbar onClick={handleHomeClick}>
+                    <CustomToolbar>
                         {/* <img
                             src={AppLogo}
                             alt={"app-logo"}
@@ -50,25 +48,41 @@ export const CustomAppBar = (props: AppBarProps) => {
                                 color: "white",
                                 position: "absolute",
                                 top: "6px",
-                                left: "80px"
+                                left: "80px",
                             }}
+                            onClick={handleHomeClick}
                         >
                            the stacks.
                         </Typography>
-                        <StyledSearchField
-                            id="input-with-icon-textfield"
-                            variant="outlined"
-                            size="small"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <SearchIcon sx={{color: "white"}}/>
-                                    </InputAdornment>
-                                ),
-                                
-                            }}
-
-                        />
+                        <Autocomplete
+                                freeSolo
+                                sx={{minWidth: "300px"}}
+                                id="free-solo-2-demo"
+                                disableClearable
+                                filterOptions={customSearchFilter}
+                                options={searchItems.map((option: BookSearchItem) => option.title+" by "+option.author)}
+                                renderInput={(params: any) => (
+                                    <StyledSearchField
+                                        {...params}
+                                        variant="outlined"
+                                        size="small"
+                                        onChange={handleTextFieldValueChange}
+                                        InputProps={{
+                                            ...params.InputProps,
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <SearchIcon sx={{color: "white"}}/>
+                                                </InputAdornment>
+                                            ),
+                                            type: 'search',
+                                    
+                                        }}
+                                    />
+                                )}
+                                onChange={(event: any, newValue: string | null) => {
+                                    handleSearchFieldSelect(newValue)
+                                }}
+                            />
                     </CustomToolbar>
                 }
             </StyledAppBar>}
@@ -124,6 +138,8 @@ const ContentContainer = styled(Box)(({ theme }) => ({
 const CustomToolbar = styled(Toolbar)(({ theme }) => ({
     justifyContent: "flex-end",
 }));
+
+// TODO: fix hover / focus issue
 
 const StyledSearchField = styled(TextField)(({ theme }) => ({
     margin: "0 0 12px 0",

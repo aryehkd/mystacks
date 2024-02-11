@@ -7,7 +7,7 @@ import { BookSearchResults } from '../book-search-results';
 
 /* eslint-disable-next-line */
 export interface BookSearchProps {
-
+    navSearchQuery?: string
 }
 
 export const BookSearch = (props: BookSearchProps) => {
@@ -17,7 +17,7 @@ export const BookSearch = (props: BookSearchProps) => {
         searchResults,
         handleInputValueChange,
         handleBookSeach,
-     } = useBookSearchForm()
+     } = useBookSearchForm(props.navSearchQuery)
     
     return (
         <StyledBox>

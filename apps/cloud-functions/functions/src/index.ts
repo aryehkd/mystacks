@@ -61,7 +61,6 @@ export const getStoredBooks = onRequest(async (request, response) => {
     response.set("Access-Control-Max-Age", "3600");
     response.status(204).send("");
   } else {
-    // TODO: query param for user ID?
     const userId = request.query.userId;
 
     if (!userId) return;
@@ -81,6 +80,81 @@ export const getStoredBooks = onRequest(async (request, response) => {
 
     snapshot.forEach((doc) => {
       responseData.push({id: doc.id, ...doc.data()});
+    });
+
+
+    response.json({"data": responseData});
+  }
+});
+
+export const getStoredBook = onRequest(async (request, response) => {
+  response.set("Access-Control-Allow-Origin", "*");
+
+  if (request.method === "OPTIONS") {
+    // Send response to OPTIONS requests
+    response.set("Access-Control-Allow-Methods", "GET");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+  } else {
+    const userId = request.query.userId;
+    const bookId = request.query.bookId;
+
+    if (!userId) return;
+
+    const booksRef = db.collection("users")
+      .doc(String(userId))
+      .collection("books")
+      .doc(String(bookId));
+    const doc = await booksRef.get();
+
+    if (!doc.exists) {
+      console.log("No such document!");
+      return; // TODO: error code
+    }
+
+    const book = {id: doc.id, ...doc.data()};
+
+
+    response.json({"data": book});
+  }
+});
+
+export const getStoredBooksSearchKeys = onRequest(async (request, response) => {
+  response.set("Access-Control-Allow-Origin", "*");
+
+  if (request.method === "OPTIONS") {
+    // Send response to OPTIONS requests
+    response.set("Access-Control-Allow-Methods", "GET");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+  } else {
+    const userId = request.query.userId;
+
+    if (!userId) return;
+
+    const booksRef = db.collection("users")
+      .doc(String(userId))
+      .collection("books");
+
+    const snapshot = await booksRef.get();
+    if (snapshot.empty) {
+      console.log("No matching documents.");
+      return;
+    }
+
+    // get types
+    const responseData: any[] = [];
+
+    snapshot.forEach((doc) => {
+      responseData.push(
+        {
+          id: doc.id,
+          title: doc.data().bookInfo.title,
+          author: doc.data().bookInfo.author,
+        }
+      );
     });
 
 

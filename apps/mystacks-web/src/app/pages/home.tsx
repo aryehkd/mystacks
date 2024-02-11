@@ -15,8 +15,6 @@ export interface HomePageProps extends PageProps {
 export const HomePage = (props: HomePageProps) => {
     const [ ready, setReady ] = React.useState(false)
     const [ loadedBooks, setLoadedBooks ] = React.useState<Book[]>([])
-    const [progress, setProgress] = React.useState(24);
-
 
     // TODO: these need to be reading session storage once books get saved between loads
     const [ firstLoad, setFirstLoad ] = React.useState(true)
@@ -142,7 +140,7 @@ export const HomePage = (props: HomePageProps) => {
   // TODO: fancy animation for scroll to tab, when tab is at bottom, scroll to top, add the stacks to green part of tabs bar
 
     return (
-        <CustomAppBar logoSize='sm'>
+        <CustomAppBar logoSize='sm' appState={props.appState}>
             <BookInfoInnerContainer>
                 <BookTitleContainer container>
                     <Box sx={{padding: "0 100px 0 0", minWidth: "400px"}}>

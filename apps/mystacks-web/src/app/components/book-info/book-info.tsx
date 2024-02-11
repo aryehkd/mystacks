@@ -191,7 +191,6 @@ const CustomButton = styled(ToggleButton)(({ theme }) => ({
     textTransform: "none",
     borderWidth: "3px",
     borderColor: "#808080",
-    color: theme.palette.primary.contrastText,
 }));
 
 const StyledRating = styled(Rating)({

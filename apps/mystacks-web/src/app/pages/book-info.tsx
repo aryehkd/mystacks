@@ -1,5 +1,5 @@
 import React from 'react'
-import { PageProps } from '@mystacks/types'
+import { Book, PageProps } from '@mystacks/types'
 import { useLocation } from 'react-router-dom';
 import { BookInfo } from '../components/book-info'
 import { CustomAppBar } from '../components/app-bar/app-bar';
@@ -13,12 +13,13 @@ export interface BookInfoPageProps extends PageProps {
 
 export const BookInfoPage = (props: BookInfoPageProps) => {
     const { state } = useLocation();
-    const bookInfoProps = useBookInfo(state.book, props.appState)
+
+    const bookInfoProps = useBookInfo(props.appState, state?.book, state?.bookId)
 
     return (
-        <CustomAppBar logoSize='sm'>
+        <CustomAppBar logoSize='sm' appState={props.appState}>
             <BookInfoInnerContainer>
-                <BookInfo book={bookInfoProps.currentBook} {...bookInfoProps}/>
+                {bookInfoProps.bookLoaded && <BookInfo book={bookInfoProps.currentBook as Book} {...bookInfoProps}/>}
 
             </BookInfoInnerContainer>
         </CustomAppBar>

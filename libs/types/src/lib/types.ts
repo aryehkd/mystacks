@@ -7,6 +7,12 @@ export interface Book {
   userRating?: UserRating
 }
 
+export interface BookSearchItem {
+  id: string
+  title: string
+  author: string
+}
+
 export interface BookInfo {
   title: string
   author: string
