@@ -37,13 +37,11 @@ export const DeleteButton = (props: TextInputProps) => {
 
 
 const StyledPrimaryButton = styled(Button)(({ theme }) => ({
-    background: theme.palette.primary.contrastText,
     color: "white",
     height: "40px",
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
-    borderColor: theme.palette.primary.contrastText,
     color: "black",
     height: "40px",
 }));

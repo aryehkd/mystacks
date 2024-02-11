@@ -1,16 +1,19 @@
 import React from 'react';
-import { Box, AppBar, Toolbar, Typography, IconButton } from '@mui/material';
+import { Box, AppBar, Toolbar, Typography, IconButton, InputAdornment, TextField } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import AppLogo from '../../../assets/app-logo.png';
 import { useNavigate } from 'react-router-dom';
-import HomeOutlined from '@mui/icons-material/HomeOutlined';
+import CabinIcon from '@mui/icons-material/Cabin';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import SearchIcon from '@mui/icons-material/Search';
 
 /* eslint-disable-next-line */
 export interface AppBarProps {
     children: React.ReactNode;
     logoSize: "sm" | "lg"
 }
+
+
 
 export const CustomAppBar = (props: AppBarProps) => {
     const navigate = useNavigate();
@@ -45,13 +48,27 @@ export const CustomAppBar = (props: AppBarProps) => {
                             sx={{
                                 fontWeight: "600",
                                 color: "white",
-                                position: "fixed",
+                                position: "absolute",
                                 top: "6px",
                                 left: "80px"
                             }}
                         >
                            the stacks.
                         </Typography>
+                        <StyledSearchField
+                            id="input-with-icon-textfield"
+                            variant="outlined"
+                            size="small"
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon sx={{color: "white"}}/>
+                                    </InputAdornment>
+                                ),
+                                
+                            }}
+
+                        />
                     </CustomToolbar>
                 }
             </StyledAppBar>}
@@ -61,7 +78,7 @@ export const CustomAppBar = (props: AppBarProps) => {
             {!topBarSize && <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
                 <Toolbar>
                     <IconButton color="inherit" aria-label="open drawer" onClick={handleHomeClick}>
-                        <HomeOutlined />
+                        <CabinIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>}
@@ -77,14 +94,14 @@ export const LoginAppBar = (props: LoginAppBarProps) => {
     
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" elevation={0}>
-                <CustomToolbar>
+            <AppBar position="static" elevation={0} color="transparent">
+                <Toolbar>
                     <img
                         src={AppLogo}
                         alt={"app-logo"}
                         style={{cursor: "pointer", width: "90px", height: "auto"}}
                     />
-                </CustomToolbar>
+                </Toolbar>
             </AppBar>
             <ContentContainer>
                 {props.children}
@@ -105,5 +122,28 @@ const ContentContainer = styled(Box)(({ theme }) => ({
 }));
 
 const CustomToolbar = styled(Toolbar)(({ theme }) => ({
-    // padding: "10px 0 0 20px", 
+    justifyContent: "flex-end",
+}));
+
+const StyledSearchField = styled(TextField)(({ theme }) => ({
+    margin: "0 0 12px 0",
+
+    '& fieldset': {
+        borderColor: '#FFF',
+        borderWidth: 3,
+        borderRadius: "10px"
+    },
+    '& .MuiFormControl-root': {
+        color: "#FFF"
+    },
+    '& .MuiInputBase-input': {
+        color: "#FFF",
+    },
+
+    '& .MuiOutlinedInput-root': {
+        '&:hover fieldset': {
+          borderColor: '#FFF',
+        },
+    },
+
 }));

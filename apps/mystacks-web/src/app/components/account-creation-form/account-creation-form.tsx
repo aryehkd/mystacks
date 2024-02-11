@@ -80,5 +80,5 @@ const ComponentHeadline = styled(Typography)(({ theme }) => ({
 }));
 
 const StyledLink = styled(Link)(({ theme }) => ({
-    color: theme.palette.primary.contrastText
+    color: "#000"
 }));
