@@ -42,12 +42,17 @@ export const AccountCreationForm = (props: AccountCreationFormProps) => {
                 value={email}
                 handleChange={handleChange}
             />
-            <PrimaryButton onClick={submitSignUp}>Create</PrimaryButton>
 
-            <Typography variant='body1'>Already have an account?</Typography>
-            <StyledLink href="/login" variant="body2" underline="hover">
-                Sign In.
-            </StyledLink>
+            <ActionsContainer>
+                <PrimaryButton onClick={submitSignUp}>Create</PrimaryButton>
+            </ActionsContainer>
+
+            <SubActionsContainer>
+                <Typography variant='h6'>Already have an account?</Typography>
+                <StyledLink href="/login" variant="subtitle1" underline="hover">
+                    Sign In.
+                </StyledLink>
+            </SubActionsContainer>
         </StyledBox>
     )
 }
@@ -61,11 +66,19 @@ const StyledBox = styled(Box)(({ theme }) => ({
     alignItems: "flex-start"
 }));
 
+const ActionsContainer = styled(Box)(({ theme }) => ({
+    marginTop: "20px",
+}));
+
+const SubActionsContainer = styled(Box)(({ theme }) => ({
+    marginTop: "20px",
+}));
+
 const ComponentHeadline = styled(Typography)(({ theme }) => ({
     margin: "0 0 20px 0",
     fontWeight: 700
 }));
 
 const StyledLink = styled(Link)(({ theme }) => ({
-    color: theme.palette.primary.contrastText
+    color: "#000"
 }));

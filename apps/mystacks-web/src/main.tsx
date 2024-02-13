@@ -3,9 +3,8 @@ import * as ReactDOM from 'react-dom/client';
 import { hookstate } from '@hookstate/core';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from './theme'
-
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import {
   HomePage,
@@ -68,7 +67,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <RouterProvider router={router} />
+      </LocalizationProvider>
     </ThemeProvider>
   </StrictMode>
 );

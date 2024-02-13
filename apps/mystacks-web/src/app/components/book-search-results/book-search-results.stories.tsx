@@ -1,5 +1,7 @@
 import { BookSearchResults } from './book-search-results';
 import { StorybookThemeProvider } from '../../../../.storybook/decorators/storybook-theme-provider'
+import { BookProgressStates, BookRating } from '@mystacks/types';
+import { reactRouterParameters, withRouter } from 'storybook-addon-react-router-v6';
 
 export const BookSearchResultsStory = () => {
 
@@ -7,20 +9,24 @@ export const BookSearchResultsStory = () => {
     <BookSearchResults 
       SearchResults={[
         {
-          title: "Aliss at the Fire",
-          author: "Jon Fosse",
-          imgUrl: "http://books.google.com/books/content?id=UDXpzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+          id: 'string,',
+          savedDate: 123,
+          bookInfo: {
+            title: "Aliss at the Fire",
+            author: "Jon Fosse",
+            imgUrl: "http://books.google.com/books/content?id=UDXpzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+            industryIdentifiers: {
+              isbn13: '',
+              isbn10: ''
+            },
+          },
+          userRating: {
+            rating: 5 as BookRating,
+            notes: "This is a great book",
+            bookProgress: BookProgressStates.Completed,
+            
+          }
         },
-        {
-          title: "The Year of the Hare",
-          author: "Arto Paasilinna",
-          imgUrl: "http://books.google.com/books/content?id=LLlz8qszNG8C&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-        },
-        {
-          title: "Outline",
-          author: "Rachel Cusk",
-          imgUrl: "http://books.google.com/books/content?id=FuwCBAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
-        }
       ]}
     />
   )
@@ -29,5 +35,9 @@ export const BookSearchResultsStory = () => {
 export default {
   title: 'Search Results',
   render: () => <BookSearchResultsStory />,
-  decorators: [StorybookThemeProvider],
-};
+  decorators: [withRouter, StorybookThemeProvider],
+  parameters: {
+    reactRouter: reactRouterParameters({
+      routing: { path: '/login' },
+    }),
+  },};

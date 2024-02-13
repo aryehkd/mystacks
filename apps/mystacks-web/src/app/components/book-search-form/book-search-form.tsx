@@ -6,7 +6,7 @@ import { OutlinedTextInput, PrimaryButton } from "../../elements"
 export interface BookSearchFormProps {
   inputValue: string
   handleInputValueChange: (newInputValue: string) => void
-  handleBookSeach: () => void
+  handleBookSeach: (searchQuery: string) => void
 }
 
 export function BookSearchForm(props: BookSearchFormProps) {
@@ -27,8 +27,8 @@ export function BookSearchForm(props: BookSearchFormProps) {
             handleChange={handleChange}
           />
         </StyledTextFieldContainer>
-        <Grid item xs={2}>
-          <PrimaryButton onClick={handleBookSeach}>Search</PrimaryButton>
+        <Grid item xs={2} sx={{paddingTop: "15px"}}>
+          <PrimaryButton onClick={() => handleBookSeach(inputValue)}>Search</PrimaryButton>
         </Grid>
       </Grid>
     </Box>

@@ -1,5 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import { reactRouterParameters, withRouter } from 'storybook-addon-react-router-v6';
 
+import { StorybookThemeProvider } from '../../../../.storybook/decorators/storybook-theme-provider'
 import { BookSearch } from './book-search';
 
 export const BookSearchStory = () => {
@@ -11,14 +12,13 @@ export const BookSearchStory = () => {
   )
 }
 
-const meta: Meta<typeof BookSearchStory> = {
-  component: BookSearchStory,
-};
-
-export default meta;
-type Story = StoryObj<typeof BookSearchStory>;
-
-//👇 Throws a type error it the args don't match the component props
-export const Primary: Story = {
-  args: {},
+export default {
+  title: 'BookSearchStory',
+  render: () => <BookSearchStory />,
+  decorators: [withRouter, StorybookThemeProvider],
+  parameters: {
+    reactRouter: reactRouterParameters({
+      routing: { path: '/login' },
+    }),
+  },
 };

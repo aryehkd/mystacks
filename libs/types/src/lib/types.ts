@@ -1,13 +1,36 @@
 import { State } from "@hookstate/core"
 
 export interface Book {
-  id?: string
+  id: string
+  savedDate: number
+  bookInfo: BookInfo
+  userRating?: UserRating
+}
+
+export interface BookSearchItem {
+  id: string
+  title: string
+  author: string
+}
+
+export interface BookInfo {
   title: string
   author: string
   imgUrl: string
+  industryIdentifiers: {
+    isbn13?: string
+    isbn10?: string
+  }
+  publisher?: string
+  publishedDate?: string
+  pageCount?: number
+}
+
+export interface UserRating {
   bookProgress?: BookProgressState
   rating?: BookRating
   notes?: string
+  completedDate?: number
 }
 
 export type AppStateType = State<Partial<AppState>>

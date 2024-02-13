@@ -11,9 +11,24 @@ export const PrimaryButton = (props: TextInputProps) => {
     const { onClick, children} = props
     
     return (
-        <StyledButton 
+        <StyledPrimaryButton 
             onClick={onClick}
             variant="contained"
+            color="secondary"
+        >
+            {children}
+        </StyledPrimaryButton>
+    )
+}
+
+export const DeleteButton = (props: TextInputProps) => {
+    const { onClick, children} = props
+    
+    return (
+        <StyledButton 
+            onClick={onClick}
+            variant="outlined"
+            color="secondary"
         >
             {children}
         </StyledButton>
@@ -21,8 +36,12 @@ export const PrimaryButton = (props: TextInputProps) => {
 }
 
 
+const StyledPrimaryButton = styled(Button)(({ theme }) => ({
+    color: "white",
+    height: "40px",
+}));
+
 const StyledButton = styled(Button)(({ theme }) => ({
-    margin: "20px 0 15px 0",
-    background: theme.palette.primary.contrastText,
-    color: "white"
+    color: "black",
+    height: "40px",
 }));
