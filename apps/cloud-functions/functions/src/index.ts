@@ -8,10 +8,13 @@
  */
 
 import {onRequest} from "firebase-functions/v2/https";
+
 // import * as logger from "firebase-functions/logger";
 
 import {initializeApp} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
+import {bookRecomendationPrompt, promptOpenAI} from "./gpt";
+
 
 initializeApp();
 const db = getFirestore();
@@ -159,6 +162,26 @@ export const getStoredBooksSearchKeys = onRequest(async (request, response) => {
 
 
     response.json({"data": responseData});
+  }
+});
+
+export const getAIRecommendations = onRequest(async (request, response) => {
+  response.set("Access-Control-Allow-Origin", "*");
+
+  if (request.method === "OPTIONS") {
+    // Send response to OPTIONS requests
+    response.set("Access-Control-Allow-Methods", "POST");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+  } else {
+    // TODO: check user quota
+
+    const books = request.body.books;
+
+    const aiRes = await promptOpenAI(bookRecomendationPrompt(books));
+
+    response.json({"data": aiRes});
   }
 });
 
