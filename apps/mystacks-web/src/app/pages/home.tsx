@@ -4,6 +4,7 @@ import { Box, styled, Typography, Grid, Tab, Tabs } from '@mui/material';
 import { CustomAppBar } from '../components/app-bar/app-bar';
 import { useSavedBooks } from '@mystacks/saved-books';
 import { BookItem } from '../elements/book/book';
+import { useNavigate } from 'react-router-dom';
 
 /* eslint-disable-next-line */
 export interface HomePageProps extends PageProps {
@@ -11,10 +12,12 @@ export interface HomePageProps extends PageProps {
 }
 
 // TODO: this will require a lot of cleanup, for initial load, further loads, caching books etc
+// TODO: make this logic in a hook
 
 export const HomePage = (props: HomePageProps) => {
     const [ ready, setReady ] = React.useState(false)
     const [ loadedBooks, setLoadedBooks ] = React.useState<Book[]>([])
+    const navigate = useNavigate();
 
     // TODO: these need to be reading session storage once books get saved between loads
     const [ firstLoad, setFirstLoad ] = React.useState(true)
@@ -191,6 +194,7 @@ export const HomePage = (props: HomePageProps) => {
                                 </ReadingNowInnerContainer>                             
                             </ShelfContainer>
                     </CustomTabPanel>
+                    <button onClick={() => navigate('/recommendations')}>click me!</button>
                 </>
                 }
                 
@@ -215,12 +219,6 @@ const BookTitleContainer = styled(Grid)(({ theme }) => ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-}));
-
-const BookTitleInnerContainer = styled(Grid)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'flex-start',
-    width: "100%"
 }));
 
 const ReadingNowContainer = styled(Grid)(({ theme }) => ({
@@ -257,10 +255,4 @@ const QuickStatsContainer = styled(Grid)(({ theme }) => ({
     backgroundRepeat: "no-repeat",  
     marginTop: "60px",
     minHeight: "100px",
-})); 
-
-const QuickStatsInnerContainer = styled(Grid)(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'flex-start',
-    width: "100%"
 })); 

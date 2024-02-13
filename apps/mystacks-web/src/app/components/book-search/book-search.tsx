@@ -16,12 +16,12 @@ export const BookSearch = (props: BookSearchProps) => {
         inputValue,
         searchResults,
         handleInputValueChange,
-        handleBookSeach,
+        handleSearchClick,
      } = useBookSearchForm(props.navSearchQuery)
     
     return (
         <StyledBox>
-            <BookSearchForm inputValue={inputValue} handleInputValueChange={handleInputValueChange} handleBookSeach={handleBookSeach}/>
+            <BookSearchForm inputValue={inputValue} handleInputValueChange={handleInputValueChange} handleSearchClick={handleSearchClick}/>
             <BookSearchResults SearchResults={searchResults}/>
 
         </StyledBox>

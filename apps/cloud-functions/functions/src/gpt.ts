@@ -20,6 +20,8 @@ export const bookRecomendationPrompt = (books:
   prompt += "Please recommend 3 in a numbered list, ";
   prompt += "each with a short description. ";
   prompt += "Please consider books that are not mainstream.";
+  prompt += "format the answer as only an array of JSON objects ";
+  prompt += "with the keys title, author, and description";
 
   return prompt;
 };
@@ -62,8 +64,7 @@ export const promptOpenAI = async (prompt: string) => {
   });
 
   if (chatCompletion) {
-    console.log(chatCompletion.choices[0]);
-    return chatCompletion.choices[0];
+    return chatCompletion.choices[0].message.content;
   }
 
   return null;

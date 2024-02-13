@@ -11,7 +11,8 @@ import {
   BookInfoPage,
   LoginPage,
   SignUpPage,
-  BookSearchPage
+  BookSearchPage,
+  RecommendationsPage
 } from './app/pages'
 
 import { AppState } from '@mystacks/types'
@@ -57,6 +58,11 @@ const router = createBrowserRouter([
   {
     path: "/search",
     element: <BookSearchPage appState={appState}/>,
+    loader: requireLogin,
+  },
+  {
+    path: "/recommendations",
+    element: <RecommendationsPage appState={appState}/>,
     loader: requireLogin,
   },
 ]);

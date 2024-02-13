@@ -9,7 +9,7 @@ export const useBookSearchForm = (navSearchQuery?: string) => {
 
     useEffect(() => {
         if (navSearchQuery) {
-            handleBookSeach(navSearchQuery)
+            handleSearchClick(navSearchQuery)
             setInputValue(navSearchQuery)
         }
     }, [])
@@ -18,17 +18,26 @@ export const useBookSearchForm = (navSearchQuery?: string) => {
         setInputValue(newInputValue)
     }
 
-    const handleBookSeach = (searchQuery: string) => {
+    const handleBookSeach = async (searchQuery: string): Promise<void | Book[]> => {
+        console.log('searchQuery', searchQuery)
         const requestOptions = {
             method: 'GET',
             redirect: 'follow' as RequestRedirect
           };
           
-        request("https://www.googleapis.com/books/v1/volumes?q="+searchQuery.replace("/ /g", "+"), requestOptions)
+        const searchResults = await request("https://www.googleapis.com/books/v1/volumes?q="+searchQuery.replace("/ /g", "+"), requestOptions)
             .then(response => response.json())
             .then(result => formatBookSearchResults(result))
-            .then(result => setFormattedSearchResults(result))
             .catch(error => console.log('error', error));
+
+        return searchResults
+    }
+
+    const handleSearchClick = async (searchQuery: string) => {
+        const searchResults = await handleBookSeach(searchQuery)
+        if (searchResults) {
+            setFormattedSearchResults(searchResults)
+        }
     }
 
     const handleISBNSearch = async (isbn: string): Promise<Book | undefined> => {
@@ -85,7 +94,9 @@ export const useBookSearchForm = (navSearchQuery?: string) => {
         searchResults: formattedSearchResults,
         handleInputValueChange,
         handleBookSeach,
+        handleSearchClick,
         handleISBNSearch,
+        formatBookSearchResults
     }
 }
 

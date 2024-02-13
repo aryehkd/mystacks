@@ -7,6 +7,10 @@ export interface Book {
   userRating?: UserRating
 }
 
+export interface AIRecommendation extends Book {
+  recommendation: string
+}
+
 export interface BookSearchItem {
   id: string
   title: string
