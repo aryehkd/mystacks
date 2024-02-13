@@ -16,7 +16,7 @@ export const CustomDatePicker: React.FC<DatePickerProps> = (props) => {
         <StyledDatePicker 
             value={value}
             label={label || "Date"}
-            onChange={(newValue) => handleDateChange(newValue)}
+            onChange={(newValue) => handleDateChange(newValue as  Dayjs | null)}
             sx={{
                 width: "100%"
             }}
