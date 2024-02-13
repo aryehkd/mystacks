@@ -36,7 +36,7 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
-      - run: npx nx affected -t build --parallel=3
+      - run: npx nx build mystacks-web --prod
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
