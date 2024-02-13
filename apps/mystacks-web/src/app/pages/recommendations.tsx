@@ -11,6 +11,8 @@ export interface RecommendationsPageProps extends PageProps {
 
 }
 
+// TODO: move this logic to hook and clean up
+
 export const RecommendationsPage = (props: RecommendationsPageProps) => {
     const {
         savedBooks,

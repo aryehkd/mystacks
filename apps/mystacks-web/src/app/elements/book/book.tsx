@@ -34,6 +34,8 @@ export const BookItem = (props: BookItemProps) => {
     )
 }
 
+// TODO: move this to its own component
+
 export interface AIRecommendationItemProps {
     book: AIRecommendation
 }  
