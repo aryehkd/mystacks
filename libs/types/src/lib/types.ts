@@ -44,7 +44,7 @@ export interface AppState {
 }
 
 export interface PageProps {
-  appState: State<Partial<AppState>>
+  appState: AppStateType
 }
 
 export enum LoginFieldNames {

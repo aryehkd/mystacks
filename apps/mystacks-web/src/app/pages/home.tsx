@@ -1,8 +1,8 @@
 import React from 'react'
-import { Book, BookProgressStates, PageProps } from '@mystacks/types'
+import { BookProgressStates, PageProps } from '@mystacks/types'
 import { Box, styled, Typography, Grid, Tab, Tabs } from '@mui/material';
 import { CustomAppBar } from '../components/app-bar/app-bar';
-import { useSavedBooks } from '@mystacks/hooks';
+import { useHome } from '@mystacks/hooks';
 import { BookItem } from '../elements/book/book';
 
 /* eslint-disable-next-line */
@@ -14,127 +14,14 @@ export interface HomePageProps extends PageProps {
 // TODO: make this logic in a hook
 
 export const HomePage = (props: HomePageProps) => {
-    const [ ready, setReady ] = React.useState(false)
-    const [ loadedBooks, setLoadedBooks ] = React.useState<Book[]>([])
-
-    // TODO: these need to be reading session storage once books get saved between loads
-    const [ firstLoad, setFirstLoad ] = React.useState(true)
-    const [ firstLoadComplete, setFirstLoadComplete ] = React.useState(false)
-
-
-    const { savedBooks, loadSavedBooks } = useSavedBooks(props.appState)
-
-    React.useEffect(() => {        
-        firstLoad && typewriter()
-        setFirstLoad(false)
-
-        loadSavedBooks()
-    }, [])
-
-    React.useEffect(() => {
-        if (savedBooks.length && ready == true && loadedBooks.length == 0) {
-            setTimeout(() => addBooks(), 1000);
-        }
-    }, [savedBooks, ready])
-
-
-
-    const addBooks = () => {
-        let added = 0
-
-        const addBook = () => {
-            const currentlyReading = savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading)
-
-            if (currentlyReading.length > added) {
-                setLoadedBooks(currentlyReading.slice(0, added + 1))
-                added += 1
-    
-                setTimeout(() => addBook(), 1000);
-            }
-            else {
-                setFirstLoadComplete(true)
-                window.sessionStorage.setItem('firstLoadComplete', 'true')
-            }
-        }
-
-        addBook()
-    }
-
-    const today = new Date();
-    const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-
-    const typewriter = () => {
-        const pt1 = `it's ${month[today.getMonth()]}...`
-        const pt2 = "and this is what you're reading"
-
-        let index1 = 1
-        let index2 = 1
-
-        const destination = document.getElementById("typedtext");
-        const destination2 = document.getElementById("typedtext2");
-        if (!destination || !destination2) return;
-
-        destination.innerHTML = ''
-        destination2.innerHTML = ''
-        
-        const write = () => {
-            if (index1 <= pt1.length) {
-                destination.innerHTML = pt1.substring(0, index1)
-                index1 += 1
-                if (index1 > pt1.length) setTimeout(() => write(), 1000)
-                else setTimeout(() => write(), 100);
-            } else if (index2 <= pt2.length) {
-                destination2.innerHTML = pt2.substring(0, index2)
-                index2 += 1
-                setTimeout(() => write(), 40);
-            } else {
-                setReady(true)
-            }     
-        }
-
-        console.log('WRITE start', destination)
-        setTimeout(() => write(), 100);
-
-    }
-
-    interface TabPanelProps {
-        children?: React.ReactNode;
-        index: number;
-        value: number;
-      }
-
-    function CustomTabPanel(props: TabPanelProps) {
-        const { children, value, index, ...other } = props;
-      
-        return (
-          <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-          >
-            {value === index && (
-              <Box sx={{ p: 3 }}>
-                {children}
-              </Box>
-            )}
-          </div>
-        );
-      }
-
-    function a11yProps(index: number) {
-        return {
-          id: `simple-tab-${index}`,
-          'aria-controls': `simple-tabpanel-${index}`,
-        };
-      }
-
-      const [value, setValue] = React.useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
+    const {
+        currentShelfTab,
+        savedBooks,
+        loadedBooks,
+        firstLoadComplete,
+        handleTabChange,
+        tabA11yProps
+    } = useHome(props.appState)
 
   // TODO: fancy animation for scroll to tab, when tab is at bottom, scroll to top, add the stacks to green part of tabs bar
 
@@ -161,29 +48,29 @@ export const HomePage = (props: HomePageProps) => {
                         
                     </QuickStatsContainer>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', background: "#6fbc31" }}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" indicatorColor="secondary"
+                        <Tabs value={currentShelfTab} onChange={handleTabChange} aria-label="basic tabs example" indicatorColor="secondary"
           textColor="secondary"
 >
-                        <Tab label="to read" {...a11yProps(0)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
-                        <Tab label="completed" {...a11yProps(1)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
-                        <Tab label="recommended" {...a11yProps(2)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
+                        <Tab label="to read" {...tabA11yProps(0)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
+                        <Tab label="completed" {...tabA11yProps(1)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
+                        <Tab label="recommended" {...tabA11yProps(2)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
                         </Tabs>
                     </Box>
-                    <CustomTabPanel value={value} index={0}>
+                    <CustomTabPanel value={currentShelfTab} index={0}>
                         <ShelfContainer container> 
                             <ReadingNowInnerContainer item xs={12} md={8}>
                                 {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.ToRead).map((book, index) => <Box sx={{margin: "0 50px"}} key={index}><BookItem book={book}/></Box>)}
                             </ReadingNowInnerContainer>
                         </ShelfContainer>
                         </CustomTabPanel>
-                        <CustomTabPanel value={value} index={1}>
+                        <CustomTabPanel value={currentShelfTab} index={1}>
                             <ShelfContainer container> 
                                 <ReadingNowInnerContainer item xs={12} md={8}>
                                     {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed).map((book, index) => <Box sx={{margin: "0 50px"}} key={index}><BookItem book={book}/></Box>)}
                                 </ReadingNowInnerContainer>                           
                             </ShelfContainer>
                         </CustomTabPanel>
-                        <CustomTabPanel value={value} index={2}>
+                        <CustomTabPanel value={currentShelfTab} index={2}>
                             <ShelfContainer container> 
                                 <ReadingNowInnerContainer item xs={12} md={8}>
                                     {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.Recommended).map((book, index) => <Box sx={{margin: "0 50px"}} key={index}><BookItem book={book}/></Box>)}
@@ -246,3 +133,29 @@ const QuickStatsContainer = styled(Grid)(({ theme }) => ({
     marginTop: "60px",
     minHeight: "100px",
 })); 
+
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+  }
+
+function CustomTabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            {children}
+          </Box>
+        )}
+      </div>
+    );
+  }
