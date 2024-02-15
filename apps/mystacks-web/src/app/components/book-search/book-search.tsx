@@ -1,38 +1,39 @@
-import React from 'react'
+import React from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useBookSearchForm } from '@mystacks/book-search-form'
+import { useBookSearchForm } from '@mystacks/hooks';
 import { BookSearchForm } from '../book-search-form';
 import { BookSearchResults } from '../book-search-results';
 
 /* eslint-disable-next-line */
 export interface BookSearchProps {
-    navSearchQuery?: string
+  navSearchQuery?: string;
 }
 
 export const BookSearch = (props: BookSearchProps) => {
+  const {
+    inputValue,
+    searchResults,
+    handleInputValueChange,
+    handleSearchClick,
+  } = useBookSearchForm(props.navSearchQuery);
 
-    const { 
-        inputValue,
-        searchResults,
-        handleInputValueChange,
-        handleSearchClick,
-     } = useBookSearchForm(props.navSearchQuery)
-    
-    return (
-        <StyledBox>
-            <BookSearchForm inputValue={inputValue} handleInputValueChange={handleInputValueChange} handleSearchClick={handleSearchClick}/>
-            <BookSearchResults SearchResults={searchResults}/>
-
-        </StyledBox>
-    )
-}
+  return (
+    <StyledBox>
+      <BookSearchForm
+        inputValue={inputValue}
+        handleInputValueChange={handleInputValueChange}
+        handleSearchClick={handleSearchClick}
+      />
+      <BookSearchResults SearchResults={searchResults} />
+    </StyledBox>
+  );
+};
 
 export default BookSearch;
 
-
 const StyledBox = styled(Box)(({ theme }) => ({
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
 }));

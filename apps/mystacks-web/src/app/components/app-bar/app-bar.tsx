@@ -1,165 +1,244 @@
 import React from 'react';
-import { Box, AppBar, Toolbar, Typography, IconButton, InputAdornment, TextField, Autocomplete } from '@mui/material';
+import {
+  Box,
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Autocomplete,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import AppLogo from '../../../assets/app-logo.png';
 import CabinIcon from '@mui/icons-material/Cabin';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import SearchIcon from '@mui/icons-material/Search';
-import { useAppBar } from '@mystacks/book-search-form';
+import { useAppBar } from '@mystacks/hooks';
 import { BookSearchItem, AppStateType } from '@mystacks/types';
+import MenuIcon from '@mui/icons-material/Menu';
 
 /* eslint-disable-next-line */
 export interface AppBarProps {
-    children: React.ReactNode;
-    appState:  AppStateType
-    logoSize: "sm" | "lg"
+  children: React.ReactNode;
+  appState: AppStateType;
+  logoSize: 'sm' | 'lg';
 }
 
-
-
 export const CustomAppBar = (props: AppBarProps) => {
-    const theme = useTheme();
-    const topBarSize = useMediaQuery(theme.breakpoints.up('md'));
-    const { searchItems, handleSearchFieldSelect, handleHomeClick, customSearchFilter, handleTextFieldValueChange } = useAppBar(props.appState) 
+  const theme = useTheme();
+  const topBarSize = useMediaQuery(theme.breakpoints.up('md'));
+  const {
+    searchItems,
+    anchorEl,
+    handleMenu,
+    handleClose,
+    handleNavigate,
+    customSearchFilter,
+    handleTextFieldValueChange,
+    handleSearchFieldSelect,
+  } = useAppBar(props.appState);
 
-    return (
-        <Box sx={{ flexGrow: 1 }}>
-            {topBarSize && <StyledAppBar position="static" elevation={0}>
-                {props.logoSize == "lg" ? 
-                    <CustomToolbar onClick={handleHomeClick}>
-                        <img
-                            src={AppLogo}
-                            alt={"app-logo"}
-                            style={{cursor: "pointer", width: "90px", height: "auto", filter: "invert(100%)"}}
-                        />
-                    </CustomToolbar>
-                :
-                    <CustomToolbar>
-                        {/* <img
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      {topBarSize && (
+        <StyledAppBar position="static" elevation={0}>
+          {props.logoSize == 'lg' ? (
+            <CustomToolbar onClick={() => handleNavigate('/')}>
+              <img
+                src={AppLogo}
+                alt={'app-logo'}
+                style={{
+                  cursor: 'pointer',
+                  width: '90px',
+                  height: 'auto',
+                  filter: 'invert(100%)',
+                }}
+              />
+            </CustomToolbar>
+          ) : (
+            <CustomToolbar>
+              {/* <img
                             src={AppLogo}
                             alt={"app-logo"}
                             style={{cursor: "pointer", width: "60px", height: "auto", filter: "invert(100%)"}}
                         /> */}
-                        <Typography 
-                            variant="h3" 
-                            component="h1"
-                            sx={{
-                                fontWeight: "600",
-                                color: "white",
-                                position: "absolute",
-                                top: "6px",
-                                left: "80px",
-                            }}
-                            onClick={handleHomeClick}
-                        >
-                           the stacks.
-                        </Typography>
-                        <Autocomplete
-                                freeSolo
-                                sx={{minWidth: "300px"}}
-                                id="free-solo-2-demo"
-                                disableClearable
-                                filterOptions={customSearchFilter}
-                                options={searchItems.map((option: BookSearchItem) => option.title+" by "+option.author)}
-                                renderInput={(params: any) => (
-                                    <StyledSearchField
-                                        {...params}
-                                        variant="outlined"
-                                        size="small"
-                                        onChange={handleTextFieldValueChange}
-                                        InputProps={{
-                                            ...params.InputProps,
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <SearchIcon sx={{color: "white"}}/>
-                                                </InputAdornment>
-                                            ),
-                                            type: 'search',
-                                    
-                                        }}
-                                    />
-                                )}
-                                onChange={(event: any, newValue: string | null) => {
-                                    handleSearchFieldSelect(newValue)
-                                }}
-                            />
-                    </CustomToolbar>
-                }
-            </StyledAppBar>}
-            <ContentContainer sx={{marginBottom: "200px"}}>
-                {props.children}
-            </ContentContainer>
-            {!topBarSize && <AppBar position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
-                <Toolbar>
-                    <IconButton color="inherit" aria-label="open drawer" onClick={handleHomeClick}>
-                        <CabinIcon />
-                    </IconButton>
-                </Toolbar>
-            </AppBar>}
-        </Box>
-    )
-}
+              <Typography
+                variant="h3"
+                component="h1"
+                sx={{
+                  fontWeight: '600',
+                  color: 'white',
+                  position: 'absolute',
+                  top: '6px',
+                  left: '80px',
+                }}
+                onClick={() => handleNavigate('/')}
+              >
+                the stacks.
+              </Typography>
+              <Autocomplete
+                freeSolo
+                sx={{ minWidth: '300px' }}
+                id="free-solo-2-demo"
+                disableClearable
+                filterOptions={customSearchFilter}
+                options={searchItems.map(
+                  (option: BookSearchItem) =>
+                    option.title + ' by ' + option.author
+                )}
+                renderInput={(params: any) => (
+                  <StyledSearchField
+                    {...params}
+                    variant="outlined"
+                    size="small"
+                    onChange={handleTextFieldValueChange}
+                    InputProps={{
+                      ...params.InputProps,
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SearchIcon sx={{ color: 'white' }} />
+                        </InputAdornment>
+                      ),
+                      type: 'search',
+                    }}
+                  />
+                )}
+                onChange={(event: any, newValue: string | null) => {
+                  handleSearchFieldSelect(newValue);
+                }}
+              />
+              <IconButton
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ ml: 2, mb: 1.5 }}
+                onClick={handleMenu}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={() => handleNavigate('/')}>Home</MenuItem>
+                <MenuItem onClick={() => handleNavigate('/')} disabled>
+                  Profile
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigate('/')} disabled>
+                  My saved books
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigate('/')} disabled>
+                  My reading list
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigate('/')} disabled>
+                  My reading habits
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigate('/')} disabled>
+                  Book Clubs
+                </MenuItem>
+                <MenuItem onClick={() => handleNavigate('/recommendations')}>
+                  AI Recommendations
+                </MenuItem>
+              </Menu>
+            </CustomToolbar>
+          )}
+        </StyledAppBar>
+      )}
+      <ContentContainer sx={{ marginBottom: '200px' }}>
+        {props.children}
+      </ContentContainer>
+      {!topBarSize && (
+        <AppBar
+          position="fixed"
+          color="primary"
+          sx={{ top: 'auto', bottom: 0 }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={() => handleNavigate('/')}
+            >
+              <CabinIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      )}
+    </Box>
+  );
+};
 
 export interface LoginAppBarProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
 export const LoginAppBar = (props: LoginAppBarProps) => {
-    
-    return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static" elevation={0} color="transparent">
-                <Toolbar>
-                    <img
-                        src={AppLogo}
-                        alt={"app-logo"}
-                        style={{cursor: "pointer", width: "90px", height: "auto"}}
-                    />
-                </Toolbar>
-            </AppBar>
-            <ContentContainer>
-                {props.children}
-            </ContentContainer>
-        </Box>
-    )
-}
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" elevation={0} color="transparent">
+        <Toolbar>
+          <img
+            src={AppLogo}
+            alt={'app-logo'}
+            style={{ cursor: 'pointer', width: '90px', height: 'auto' }}
+          />
+        </Toolbar>
+      </AppBar>
+      <ContentContainer>{props.children}</ContentContainer>
+    </Box>
+  );
+};
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-    backgroundColor: "#006300",
-    height: "50px"
+  backgroundColor: '#006300',
+  height: '50px',
 }));
 
-
 const ContentContainer = styled(Box)(({ theme }) => ({
-    display: "flex", 
-    justifyContent: "center"
+  display: 'flex',
+  justifyContent: 'center',
 }));
 
 const CustomToolbar = styled(Toolbar)(({ theme }) => ({
-    justifyContent: "flex-end",
+  justifyContent: 'flex-end',
+  alignItems: 'center',
 }));
 
 // TODO: fix hover / focus issue
 
 const StyledSearchField = styled(TextField)(({ theme }) => ({
-    margin: "0 0 12px 0",
+  margin: '0 0 12px 0',
 
-    '& fieldset': {
-        borderColor: '#FFF',
-        borderWidth: 3,
-        borderRadius: "10px"
-    },
-    '& .MuiFormControl-root': {
-        color: "#FFF"
-    },
-    '& .MuiInputBase-input': {
-        color: "#FFF",
-    },
+  '& fieldset': {
+    borderColor: '#FFF',
+    borderWidth: 3,
+    borderRadius: '10px',
+  },
+  '& .MuiFormControl-root': {
+    color: '#FFF',
+  },
+  '& .MuiInputBase-input': {
+    color: '#FFF',
+  },
 
-    '& .MuiOutlinedInput-root': {
-        '&:hover fieldset': {
-          borderColor: '#FFF',
-        },
+  '& .MuiOutlinedInput-root': {
+    '&:hover fieldset': {
+      borderColor: '#FFF',
     },
-
+  },
 }));
