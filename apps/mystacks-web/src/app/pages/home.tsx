@@ -1,5 +1,5 @@
 import React from 'react'
-import { BookProgressStates, PageProps } from '@mystacks/types'
+import { BookProgressStates, PageProps, HomeLoadingStates } from '@mystacks/types'
 import { Box, styled, Typography, Grid, Tab, Tabs } from '@mui/material';
 import { CustomAppBar } from '../components/app-bar/app-bar';
 import { useHome } from '@mystacks/hooks';
@@ -18,7 +18,7 @@ export const HomePage = (props: HomePageProps) => {
         currentShelfTab,
         savedBooks,
         loadedBooks,
-        firstLoadComplete,
+        loadingState,
         handleTabChange,
         tabA11yProps
     } = useHome(props.appState)
@@ -42,7 +42,7 @@ export const HomePage = (props: HomePageProps) => {
                     </ReadingNowInnerContainer>
                 </ReadingNowContainer>
 
-                {firstLoadComplete && 
+                {(loadingState == HomeLoadingStates.LoadComplete || loadingState == HomeLoadingStates.LoadingRegular) && 
                 <>
                     <QuickStatsContainer container>
                         

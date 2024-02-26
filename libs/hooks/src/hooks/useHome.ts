@@ -1,14 +1,12 @@
-import { AppStateType, Book, BookProgressStates } from '@mystacks/types';
+import { AppStateType, Book, BookProgressStates, HomeLoadingStates, HomeLoadingState } from '@mystacks/types';
 import { useEffect, useState } from 'react';
 import { useSavedBooks } from './useSavedBooks';
 
 export const useHome = (appState: AppStateType) => {
-    const [ ready, setReady ] = useState(false)
     const [ loadedBooks, setLoadedBooks ] = useState<Book[]>([])
 
    // TODO: these need to be reading session storage once books get saved between loads
-   const [ firstLoad, setFirstLoad ] = useState(true)
-   const [ firstLoadComplete, setFirstLoadComplete ] = useState(false)
+   const [ loadingState, setLoadingState ] = useState<HomeLoadingState>(HomeLoadingStates.LoadNotStarted)
    const [  currentShelfTab, setCurrentShelfTab ] = useState(0);
 
    const { savedBooks, loadSavedBooks } = useSavedBooks(appState)
@@ -26,12 +24,19 @@ export const useHome = (appState: AppStateType) => {
                 setTimeout(() => addNextBook(), 1000);
             }
             else {
-                setFirstLoadComplete(true)
-                window.sessionStorage.setItem('firstLoadComplete', 'true')
+                setLoadingState(HomeLoadingStates.LoadComplete)
+                window.sessionStorage.setItem('storedFirstLoadComplete', 'true')
             }
         }
 
         addNextBook()
+    }
+
+    const addCurrentlyReadingHomepageAll = () => {
+        const currentlyReading = savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading)
+
+        setLoadedBooks(currentlyReading.slice(0, 5))
+        setLoadingState(HomeLoadingStates.LoadComplete)
     }
 
     const getCurrentMonth = () => {
@@ -40,37 +45,53 @@ export const useHome = (appState: AppStateType) => {
         return month[today.getMonth()]
     }
 
-    const typewriter = () => {
-        const pt1 = `it's ${getCurrentMonth()}...`
-        const pt2 = "and this is what you're reading"
-
-        let index1 = 1
-        let index2 = 1
+    const addHeadline = (typewriter: boolean) => {
+        const heading = `it's ${getCurrentMonth()}...`
+        const subHeading = "and this is what you're reading"
 
         const destination = document.getElementById("typedtext");
         const destination2 = document.getElementById("typedtext2");
+
         if (!destination || !destination2) return;
 
         destination.innerHTML = ''
         destination2.innerHTML = ''
-        
-        const write = () => {
-            if (index1 <= pt1.length) {
-                destination.innerHTML = pt1.substring(0, index1)
-                index1 += 1
-                if (index1 > pt1.length) setTimeout(() => write(), 1000)
-                else setTimeout(() => write(), 100);
-            } else if (index2 <= pt2.length) {
-                destination2.innerHTML = pt2.substring(0, index2)
-                index2 += 1
-                setTimeout(() => write(), 40);
-            } else {
-                setReady(true)
-            }     
+
+        if (typewriter) {
+            let indexHeading = 1
+            let indexSubheading = 1
+            
+            const write = () => {
+                if (indexHeading <= heading.length) {
+                    destination.innerHTML = heading.substring(0, indexHeading)
+                    indexHeading += 1
+                    if (indexHeading > heading.length) setTimeout(() => write(), 1000)
+                    else setTimeout(() => write(), 100);
+                } else if (indexSubheading <= subHeading.length) {
+                    destination2.innerHTML = subHeading.substring(0, indexSubheading)
+                    indexSubheading += 1
+                    setTimeout(() => write(), 40);
+                } else {
+                    setLoadingState(HomeLoadingStates.LoadingFirstTimeBooks)
+                }     
+            }
+
+            setTimeout(() => write(), 100);
+        } else {
+            destination.innerHTML = heading
+            destination2.innerHTML = subHeading
         }
 
-        setTimeout(() => write(), 100);
+    }
 
+    const initFirstLoad = () => {
+        setLoadingState(HomeLoadingStates.LoadingFirstTimeText)
+        addHeadline(true)
+    }
+
+    const initRegularLoad = () => {
+        addHeadline(false)
+        setLoadingState(HomeLoadingStates.LoadingRegular)
     }
 
     const tabA11yProps = (index: number) => {
@@ -84,24 +105,29 @@ export const useHome = (appState: AppStateType) => {
         setCurrentShelfTab(newValue);
     };
 
-   useEffect(() => {        
-        firstLoad && typewriter()
-        setFirstLoad(false)
+   useEffect(() => {
+        const storedFirstLoadComplete = window.sessionStorage.getItem("storedFirstLoadComplete")   
+
+        if (storedFirstLoadComplete !== "true") initFirstLoad()
+        else initRegularLoad()
 
         loadSavedBooks()
     }, [])
 
     useEffect(() => {
-        if (savedBooks.length && ready == true && loadedBooks.length == 0) {
+        if (loadingState == HomeLoadingStates.LoadingFirstTimeBooks && savedBooks.length && loadedBooks.length == 0) {
             setTimeout(() => addCurrentlyReadingHomepageStaggered(), 1000);
         }
-    }, [savedBooks, ready])
+        if (loadingState == HomeLoadingStates.LoadingRegular && savedBooks.length && loadedBooks.length == 0) {
+            addCurrentlyReadingHomepageAll()
+        }
+    }, [savedBooks, loadingState])
 
     return {
         currentShelfTab,
         savedBooks,
         loadedBooks,
-        firstLoadComplete,
+        loadingState,
         handleTabChange,
         tabA11yProps
     }

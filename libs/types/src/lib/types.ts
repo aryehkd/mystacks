@@ -41,6 +41,7 @@ export type AppStateType = State<Partial<AppState>>
 
 export interface AppState {
   userId: string
+  books: Book[]
 }
 
 export interface PageProps {
@@ -71,3 +72,12 @@ export enum BookProgressStates {
 export type BookProgressState = 'toRead' | 'currentlyReading' | 'recommended' | 'completed'
 
 export type BookRating = 0 | .5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5
+
+export enum HomeLoadingStates {
+  LoadNotStarted = "loadNotStarted",
+  LoadingFirstTimeText = "loadingFirstTimeText",
+  LoadingFirstTimeBooks = "loadingFirstTimeBooks",
+  LoadComplete = "loadComplete",
+  LoadingRegular = "loadingRegular",
+}
+export type HomeLoadingState = 'loadNotStarted' | 'loadingFirstTimeText' | 'loadingFirstTimeBooks' | 'loadComplete' | 'loadingRegular'
