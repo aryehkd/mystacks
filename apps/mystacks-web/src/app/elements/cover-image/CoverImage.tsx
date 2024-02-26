@@ -14,7 +14,6 @@ export const CoverImage = (props: CoverImageProps) => {
             <img
                 src={`${props.imgUrl}?w=164&h=164&fit=crop&auto=format`}
                 alt={props.alt+"-img"}
-                loading="lazy"
                 style={{cursor: "pointer", height: "auto"}}
             /> 
             : 

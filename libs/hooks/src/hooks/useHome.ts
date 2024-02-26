@@ -5,7 +5,6 @@ import { useSavedBooks } from './useSavedBooks';
 export const useHome = (appState: AppStateType) => {
     const [ loadedBooks, setLoadedBooks ] = useState<Book[]>([])
 
-   // TODO: these need to be reading session storage once books get saved between loads
    const [ loadingState, setLoadingState ] = useState<HomeLoadingState>(HomeLoadingStates.LoadNotStarted)
    const [  currentShelfTab, setCurrentShelfTab ] = useState(0);
 
