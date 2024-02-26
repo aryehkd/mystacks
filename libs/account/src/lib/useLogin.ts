@@ -52,6 +52,7 @@ export const useLogin = (appState:  AppStateType) => {
           if (result?.error) throw new Error(result?.error)
           else {
             console.log('login successful', result.data.account)
+            window.sessionStorage.setItem("userId", result.data.account)
             globalState.set(currentState => {return {...currentState, userId: result.data.account}})
             console.log('redirect')
             navigate("/")

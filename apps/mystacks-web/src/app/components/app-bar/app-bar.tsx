@@ -10,6 +10,7 @@ import {
   Autocomplete,
   Menu,
   MenuItem,
+  Grid,
 } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import AppLogo from '../../../assets/app-logo.png';
@@ -25,6 +26,7 @@ export interface AppBarProps {
   children: React.ReactNode;
   appState: AppStateType;
   logoSize: 'sm' | 'lg';
+  hideFooter?: boolean
 }
 
 export const CustomAppBar = (props: AppBarProps) => {
@@ -40,6 +42,8 @@ export const CustomAppBar = (props: AppBarProps) => {
     handleTextFieldValueChange,
     handleSearchFieldSelect,
   } = useAppBar(props.appState);
+
+  console.log(props.hideFooter, 'hi')
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -136,14 +140,8 @@ export const CustomAppBar = (props: AppBarProps) => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={() => handleNavigate('/')}>Home</MenuItem>
-                <MenuItem onClick={() => handleNavigate('/')} disabled>
+                <MenuItem onClick={() => handleNavigate('/account')}>
                   Profile
-                </MenuItem>
-                <MenuItem onClick={() => handleNavigate('/')} disabled>
-                  My saved books
-                </MenuItem>
-                <MenuItem onClick={() => handleNavigate('/')} disabled>
-                  My reading list
                 </MenuItem>
                 <MenuItem onClick={() => handleNavigate('/')} disabled>
                   My reading habits
@@ -162,6 +160,7 @@ export const CustomAppBar = (props: AppBarProps) => {
       <ContentContainer sx={{ marginBottom: '200px' }}>
         {props.children}
       </ContentContainer>
+      {props.hideFooter !== true && <Footer />}
       {!topBarSize && (
         <AppBar
           position="fixed"
@@ -204,9 +203,47 @@ export const LoginAppBar = (props: LoginAppBarProps) => {
   );
 };
 
+export const Footer = () => {
+
+  return (
+    <StyledFooter container>
+      <Grid item>
+        <img
+            src={AppLogo}
+            alt={'app-logo'}
+            style={{ cursor: 'pointer', width: '90px', height: 'auto', filter: "invert(1)" }}
+          />
+      </Grid>
+      <Grid item>
+        <FooterText variant='body2'>contact me!</FooterText>
+        <FooterText variant='body2'>found a bug?</FooterText>
+
+      </Grid>
+    </StyledFooter>
+  )
+}
+
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: '#006300',
   height: '50px',
+}));
+
+const StyledFooter = styled(Grid)(({ theme }) => ({
+  backgroundColor: '#006300',
+  minHeight: '50px',
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+  padding: "40px",
+  justifyContent: "space-between"
+}));
+
+const FooterText = styled(Typography)(({ theme }) => ({
+  color: 'white',
+  fontWeight: "600",
+  fontSize: "12px",
+  textAlign: "right",
+  marginBottom: "5px",
 }));
 
 const ContentContainer = styled(Box)(({ theme }) => ({

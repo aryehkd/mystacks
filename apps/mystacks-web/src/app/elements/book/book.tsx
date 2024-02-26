@@ -14,7 +14,7 @@ export const BookItem = (props: BookItemProps) => {
     const navigate = useNavigate();
 
     const handleBookClick = () => {
-        navigate('/book-info', { state: { book: { ...props.book } } });
+        navigate('/book-info', { state: { bookId: props.book.id }})
     }
 
 

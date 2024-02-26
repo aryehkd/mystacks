@@ -59,7 +59,10 @@ export const useSignUp = (appState:  AppStateType) => {
         .then(result => {
             console.log(result)
             // TODO: get id
-            globalState.set(currentState => {return {...currentState, userId: "getID"}})
+            const userId = "getID"
+
+            window.sessionStorage.setItem("userId", userId)
+            globalState.set(currentState => {return {...currentState, userId: userId}})
             navigate("/")
         })
         .catch(error => console.log('error', error));

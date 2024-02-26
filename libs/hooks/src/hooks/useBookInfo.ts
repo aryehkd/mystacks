@@ -40,14 +40,19 @@ export const useBookInfo = (
   const [loading, setLoading] = useState<boolean>(false);
   const [bookLoaded, setBookLoaded] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (book) {
-      setCurrentBook(book);
-      setBookLoaded(true);
-    } else if (bookId) {
-      loadBook(bookId);
-    }
-  }, []);
+  const updateBookFields = (loadedBook: Book) => {
+    setCurrentBook(loadedBook);
+    setBookProgress(
+      loadedBook.userRating?.bookProgress || BookProgressStates.ToRead
+    );
+    setRating(loadedBook.userRating?.rating || 0);
+    setNotes(loadedBook.userRating?.notes || '');
+    setISBN(
+      loadedBook.bookInfo?.industryIdentifiers?.isbn13 ||
+        loadedBook.bookInfo?.industryIdentifiers?.isbn10 ||
+        ''
+    );
+  }
 
   const loadBook = (bookId: string) => {
     try {
@@ -69,18 +74,7 @@ export const useBookInfo = (
       request(url, requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          const loadedBook = result.data as Book;
-          setCurrentBook(loadedBook);
-          setBookProgress(
-            loadedBook.userRating?.bookProgress || BookProgressStates.ToRead
-          );
-          setRating(loadedBook.userRating?.rating || 0);
-          setNotes(loadedBook.userRating?.notes || '');
-          setISBN(
-            loadedBook.bookInfo?.industryIdentifiers?.isbn13 ||
-              loadedBook.bookInfo?.industryIdentifiers?.isbn10 ||
-              ''
-          );
+          updateBookFields(result.data as Book)
           setBookLoaded(true);
         })
         .catch(
@@ -196,6 +190,17 @@ export const useBookInfo = (
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const allSavedBooks = globalState.get().books
+    const book = allSavedBooks?.find(savedBook => savedBook.id == bookId)
+    if (book) {
+      updateBookFields(book)
+      setBookLoaded(true);
+    } else {
+      bookId && loadBook(bookId);
+    }
+  }, []);
 
   return {
     currentBook,

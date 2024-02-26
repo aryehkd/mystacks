@@ -26,7 +26,7 @@ export const HomePage = (props: HomePageProps) => {
   // TODO: fancy animation for scroll to tab, when tab is at bottom, scroll to top, add the stacks to green part of tabs bar
 
     return (
-        <CustomAppBar logoSize='sm' appState={props.appState}>
+        <CustomAppBar logoSize='sm' appState={props.appState} hideFooter={loadingState !== HomeLoadingStates.LoadComplete && loadingState !== HomeLoadingStates.LoadingRegular}>
             <BookInfoInnerContainer>
                 <BookTitleContainer container>
                     <Box sx={{padding: "0 100px 0 0", minWidth: "400px"}}>

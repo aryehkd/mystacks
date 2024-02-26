@@ -12,7 +12,8 @@ import {
   LoginPage,
   SignUpPage,
   BookSearchPage,
-  RecommendationsPage
+  RecommendationsPage,
+  AccountPage
 } from './app/pages'
 
 import { AppState } from '@mystacks/types'
@@ -28,9 +29,12 @@ const appState = hookstate<Partial<AppState>>({});
 
 const requireLogin = async (args: LoaderFunctionArgs) => {
   const currentState = appState.get()
+  const savedUserId = window.sessionStorage.getItem("userId")
 
-  if (!currentState?.userId) {
+  if (!currentState?.userId && !savedUserId) {
     return redirect("/login");
+  } else if (savedUserId) {
+    appState.set(currentState => {return {...currentState, userId: savedUserId}})
   }
 
   return null
@@ -63,6 +67,11 @@ const router = createBrowserRouter([
   {
     path: "/recommendations",
     element: <RecommendationsPage appState={appState}/>,
+    loader: requireLogin,
+  },
+  {
+    path: "/account",
+    element: <AccountPage appState={appState}/>,
     loader: requireLogin,
   },
 ]);
