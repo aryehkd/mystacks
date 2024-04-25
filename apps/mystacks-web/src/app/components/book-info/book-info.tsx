@@ -194,14 +194,14 @@ const CustomButton = styled(ToggleButton)(({ theme }) => ({
 }));
 
 const StyledRating = styled(Rating)({
-    paddingTop: "5px",
-    fontSize: "40px",
-    '& .MuiRating-iconFilled': {
-      color: '#ff6d75',
-    },
-    '& .MuiRating-iconHover': {
-      color: '#ff3d47',
-    },
+paddingTop: "5px",
+fontSize: "40px",
+'& .MuiRating-iconFilled': {
+    color: '#ff6d75',
+},
+'& .MuiRating-iconHover': {
+    color: '#ff3d47',
+},
 });
 
 const StyledNotesField = styled(TextField)(({ theme }) => ({
