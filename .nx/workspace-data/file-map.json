@@ -1,0 +1,1032 @@
+{
+  "version": "6.0",
+  "nxVersion": "20.4.6",
+  "pathMappings": {
+    "@mystacks/account": [
+      "libs/account/src/index.ts"
+    ],
+    "@mystacks/hooks": [
+      "libs/hooks/src/index.ts"
+    ],
+    "@mystacks/types": [
+      "libs/types/src/index.ts"
+    ],
+    "@mystacks/utils": [
+      "libs/utils/src/index.ts"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": ".editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": ".eslintignore",
+        "hash": "7663861978715868291"
+      },
+      {
+        "file": ".eslintrc.json",
+        "hash": "17866138117546000433"
+      },
+      {
+        "file": ".firebase/hosting.ZGlzdA.cache",
+        "hash": "12725423516699938414"
+      },
+      {
+        "file": ".firebaserc",
+        "hash": "10071639559425493563"
+      },
+      {
+        "file": ".github/workflows/merge.yml",
+        "hash": "7766751625356095985"
+      },
+      {
+        "file": ".github/workflows/pr-check.yml",
+        "hash": "10783861315492429254"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "7061758256327956985"
+      },
+      {
+        "file": ".prettierignore",
+        "hash": "16448050467312557263"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": ".vscode/extensions.json",
+        "hash": "4637156562308165301"
+      },
+      {
+        "file": "README.md",
+        "hash": "2661184425988550228"
+      },
+      {
+        "file": "firebase.json",
+        "hash": "8890549756532558993"
+      },
+      {
+        "file": "jest.config.ts",
+        "hash": "12333515226966617182"
+      },
+      {
+        "file": "jest.preset.js",
+        "hash": "9430166341120122740"
+      },
+      {
+        "file": "nx.json",
+        "hash": "17131010840518479315"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "12017303911733722952"
+      },
+      {
+        "file": "package.json",
+        "hash": "3343786183113112432"
+      },
+      {
+        "file": "tsconfig.base.json",
+        "hash": "17050453277670271195"
+      }
+    ],
+    "projectFileMap": {
+      "account": [
+        {
+          "file": "libs/account/.babelrc",
+          "hash": "12229791027711577977"
+        },
+        {
+          "file": "libs/account/.eslintrc.json",
+          "hash": "11012487992710232822"
+        },
+        {
+          "file": "libs/account/README.md",
+          "hash": "16170698865032044158"
+        },
+        {
+          "file": "libs/account/jest.config.ts",
+          "hash": "4199390199299160865"
+        },
+        {
+          "file": "libs/account/project.json",
+          "hash": "7023662906540850212"
+        },
+        {
+          "file": "libs/account/src/index.ts",
+          "hash": "1476709496412945269"
+        },
+        {
+          "file": "libs/account/src/lib/useLogin.ts",
+          "hash": "2692049743227338698",
+          "deps": [
+            "npm:react",
+            "utils",
+            "npm:@hookstate/core",
+            "types",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "libs/account/src/lib/useSignUp.ts",
+          "hash": "707048071345781529",
+          "deps": [
+            "npm:react",
+            "utils",
+            "npm:react-router-dom",
+            "npm:@hookstate/core",
+            "types"
+          ]
+        },
+        {
+          "file": "libs/account/tsconfig.json",
+          "hash": "871659642299958311"
+        },
+        {
+          "file": "libs/account/tsconfig.lib.json",
+          "hash": "15147195313780277677"
+        },
+        {
+          "file": "libs/account/tsconfig.spec.json",
+          "hash": "6514620907549802163"
+        }
+      ],
+      "mystacks-web": [
+        {
+          "file": "apps/mystacks-web/.eslintrc.json",
+          "hash": "11012487992710232822"
+        },
+        {
+          "file": "apps/mystacks-web/.gitignore",
+          "hash": "17136960116902586272"
+        },
+        {
+          "file": "apps/mystacks-web/.storybook/decorators/storybook-theme-provider.tsx",
+          "hash": "7338332370305122707",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material",
+            "npm:@mui/x-date-pickers"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/.storybook/main.ts",
+          "hash": "626839594412607920",
+          "deps": [
+            "npm:@storybook/react-vite"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/.storybook/preview.ts",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/mystacks-web/index.html",
+          "hash": "12423315313329612213"
+        },
+        {
+          "file": "apps/mystacks-web/project.json",
+          "hash": "5100206606885751732"
+        },
+        {
+          "file": "apps/mystacks-web/public/favicon.ico",
+          "hash": "9303420814833116677"
+        },
+        {
+          "file": "apps/mystacks-web/public/index.html",
+          "hash": "11270313301783142907"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/account-creation-form/account-creation-form.spec.tsx",
+          "hash": "12433189373470342349",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/account-creation-form/account-creation-form.stories.tsx",
+          "hash": "15460631725801199952",
+          "deps": [
+            "account",
+            "npm:storybook-addon-react-router-v6",
+            "types",
+            "npm:@hookstate/core"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/account-creation-form/account-creation-form.tsx",
+          "hash": "2562466449738966077",
+          "deps": [
+            "npm:@mui/material",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/account-creation-form/index.ts",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/account-login-form/account-login-form.spec.tsx",
+          "hash": "12845395097021840856",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/account-login-form/account-login-form.stories.tsx",
+          "hash": "10816550226299456761",
+          "deps": [
+            "npm:@mui/material",
+            "npm:storybook-addon-react-router-v6",
+            "types",
+            "account"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/account-login-form/account-login-form.tsx",
+          "hash": "13836765667241882879",
+          "deps": [
+            "npm:@mui/material",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/account-login-form/index.ts",
+          "hash": "1314313131788499087"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/app-bar/app-bar.spec.tsx",
+          "hash": "1862022887061728134",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/app-bar/app-bar.stories.tsx",
+          "hash": "791404846071660587",
+          "deps": [
+            "npm:@mui/material",
+            "npm:storybook-addon-react-router-v6"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/app-bar/app-bar.tsx",
+          "hash": "12737207670039025007",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material",
+            "npm:@mui/icons-material",
+            "hooks",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/app-bar/index.tsx",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-info/book-info.spec.tsx",
+          "hash": "14165844499526913447",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-info/book-info.stories.tsx",
+          "hash": "10301101606566017627",
+          "deps": [
+            "npm:@mui/material",
+            "npm:storybook-addon-react-router-v6",
+            "hooks",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-info/book-info.tsx",
+          "hash": "1684643008411920147",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material",
+            "npm:@mui/icons-material",
+            "types",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-info/index.tsx",
+          "hash": "4747233405083972256"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search-form/book-search-form.spec.tsx",
+          "hash": "14286862297197881811",
+          "deps": [
+            "npm:@testing-library/react"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search-form/book-search-form.stories.tsx",
+          "hash": "14093848377950998304",
+          "deps": [
+            "npm:@mui/material",
+            "hooks"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search-form/book-search-form.tsx",
+          "hash": "13981735811959353296",
+          "deps": [
+            "npm:@mui/material"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search-form/index.ts",
+          "hash": "7513159383430448894"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search-results/book-search-results.spec.tsx",
+          "hash": "9094788864211013823",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search-results/book-search-results.stories.tsx",
+          "hash": "13658163795154496348",
+          "deps": [
+            "types",
+            "npm:storybook-addon-react-router-v6"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search-results/book-search-results.tsx",
+          "hash": "609960857866500473",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search-results/index.ts",
+          "hash": "1912336953147312571"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search/book-search.spec.tsx",
+          "hash": "3803691657937738379",
+          "deps": [
+            "npm:@testing-library/react"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search/book-search.stories.tsx",
+          "hash": "5249345821265997119",
+          "deps": [
+            "npm:storybook-addon-react-router-v6"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/book-search/book-search.tsx",
+          "hash": "11775848440939424084",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material",
+            "hooks"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/homepage-accordion/homepage-accordion.spec.tsx",
+          "hash": "3030824859151326970",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/homepage-accordion/homepage-accordion.stories.tsx",
+          "hash": "11552890880928092309",
+          "deps": [
+            "npm:@mui/material",
+            "npm:storybook-addon-react-router-v6",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/homepage-accordion/homepage-accordion.tsx",
+          "hash": "17071800116487967579",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material",
+            "npm:@mui/icons-material",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/homepage-accordion/index.ts",
+          "hash": "16760242780105737434"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/components/index.ts",
+          "hash": "8980892510516965551"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/book/book.tsx",
+          "hash": "15784631587810979978",
+          "deps": [
+            "types",
+            "npm:@mui/material",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/button/button.tsx",
+          "hash": "6339956421615431571",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/card/card.spec.tsx",
+          "hash": "11873982752229383295",
+          "deps": [
+            "npm:@testing-library/react",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/card/card.stories.tsx",
+          "hash": "13745589204624816517",
+          "deps": [
+            "npm:@storybook/react",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/card/card.tsx",
+          "hash": "812362720200931035",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material",
+            "npm:@mui/icons-material",
+            "npm:react-router-dom",
+            "types"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/card/index.ts",
+          "hash": "5817505018484012602"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/cover-image/CoverImage.stories.tsx",
+          "hash": "14423677604286914800",
+          "deps": [
+            "npm:react",
+            "npm:@storybook/react"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/cover-image/CoverImage.tsx",
+          "hash": "3564314872323985237",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/date-picker/date-picker.stories.tsx",
+          "hash": "2701038270775406507",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/date-picker/date-picker.tsx",
+          "hash": "9171763617353751940",
+          "deps": [
+            "npm:react",
+            "npm:@mui/x-date-pickers",
+            "npm:dayjs",
+            "npm:@mui/material"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/index.ts",
+          "hash": "11652841529455545028"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/isbn-field/isbn-field.stories.tsx",
+          "hash": "17825654509156377468",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/isbn-field/isbn-field.tsx",
+          "hash": "15344698727809222898",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material",
+            "npm:@mui/icons-material"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/isbn-field/useISBNField.tsx",
+          "hash": "833252820815521536",
+          "deps": [
+            "npm:react"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/elements/text-input/text-input.tsx",
+          "hash": "6421196636172043680",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/pages/account.tsx",
+          "hash": "4617699348680528449",
+          "deps": [
+            "npm:react",
+            "types",
+            "npm:@mui/material"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/pages/book-info.tsx",
+          "hash": "11664120834583478919",
+          "deps": [
+            "npm:react",
+            "types",
+            "npm:react-router-dom",
+            "npm:@mui/material",
+            "hooks"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/pages/home.tsx",
+          "hash": "2946499923230441702",
+          "deps": [
+            "npm:react",
+            "types",
+            "npm:@mui/material",
+            "hooks"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/pages/index.tsx",
+          "hash": "10201658227921819444"
+        },
+        {
+          "file": "apps/mystacks-web/src/app/pages/login.tsx",
+          "hash": "17949453251729646011",
+          "deps": [
+            "npm:react",
+            "npm:@mui/material",
+            "types",
+            "account"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/pages/recommendations.tsx",
+          "hash": "12590805618954728630",
+          "deps": [
+            "npm:react",
+            "types",
+            "npm:@mui/material",
+            "hooks",
+            "npm:@mui/icons-material"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/pages/search.tsx",
+          "hash": "10820015198608315760",
+          "deps": [
+            "npm:react",
+            "types",
+            "npm:@mui/material",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/app/pages/signup.tsx",
+          "hash": "14185175814081673713",
+          "deps": [
+            "npm:react",
+            "types",
+            "npm:@mui/material",
+            "account"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/mystacks-web/src/assets/app-logo.png",
+          "hash": "4423279509271863518"
+        },
+        {
+          "file": "apps/mystacks-web/src/main.tsx",
+          "hash": "2212243065582824925",
+          "deps": [
+            "npm:react",
+            "npm:react-dom",
+            "npm:@hookstate/core",
+            "npm:@mui/material",
+            "npm:@mui/x-date-pickers",
+            "types",
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/src/theme.ts",
+          "hash": "4695257552673169589",
+          "deps": [
+            "npm:@mui/material"
+          ]
+        },
+        {
+          "file": "apps/mystacks-web/styles.css",
+          "hash": "7975379282871144872"
+        },
+        {
+          "file": "apps/mystacks-web/tsconfig.app.json",
+          "hash": "12915898107119045980"
+        },
+        {
+          "file": "apps/mystacks-web/tsconfig.json",
+          "hash": "1286836882576921350"
+        },
+        {
+          "file": "apps/mystacks-web/tsconfig.spec.json",
+          "hash": "9472099605191632308"
+        },
+        {
+          "file": "apps/mystacks-web/tsconfig.storybook.json",
+          "hash": "9877693811502968150"
+        },
+        {
+          "file": "apps/mystacks-web/vite.config.ts",
+          "hash": "13951468140002906275",
+          "deps": [
+            "npm:vite",
+            "npm:@vitejs/plugin-react",
+            "npm:@nx/vite"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "file": "libs/types/.eslintrc.json",
+          "hash": "16896711999632553762"
+        },
+        {
+          "file": "libs/types/README.md",
+          "hash": "11044687697001944704"
+        },
+        {
+          "file": "libs/types/package.json",
+          "hash": "2747256073115726560",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "libs/types/project.json",
+          "hash": "6123575033447766891"
+        },
+        {
+          "file": "libs/types/src/index.ts",
+          "hash": "1748383720051645230"
+        },
+        {
+          "file": "libs/types/src/lib/types.ts",
+          "hash": "16147764083344412026",
+          "deps": [
+            "npm:@hookstate/core"
+          ]
+        },
+        {
+          "file": "libs/types/tsconfig.json",
+          "hash": "634795086719220447"
+        },
+        {
+          "file": "libs/types/tsconfig.lib.json",
+          "hash": "14395347339939751103"
+        }
+      ],
+      "mystacks-e2e": [
+        {
+          "file": "apps/mystacks-e2e/.eslintrc.json",
+          "hash": "14060216369337943343"
+        },
+        {
+          "file": "apps/mystacks-e2e/cypress.config.ts",
+          "hash": "828370864697436263",
+          "deps": [
+            "npm:@nx/cypress",
+            "npm:cypress"
+          ]
+        },
+        {
+          "file": "apps/mystacks-e2e/project.json",
+          "hash": "738267621015079515"
+        },
+        {
+          "file": "apps/mystacks-e2e/src/e2e/app.cy.ts",
+          "hash": "14954939868353094988"
+        },
+        {
+          "file": "apps/mystacks-e2e/src/fixtures/example.json",
+          "hash": "11785586596216172004"
+        },
+        {
+          "file": "apps/mystacks-e2e/src/support/app.po.ts",
+          "hash": "11157016311132186162"
+        },
+        {
+          "file": "apps/mystacks-e2e/src/support/commands.ts",
+          "hash": "5397443931564808659"
+        },
+        {
+          "file": "apps/mystacks-e2e/src/support/e2e.ts",
+          "hash": "1054106023200826784"
+        },
+        {
+          "file": "apps/mystacks-e2e/tsconfig.json",
+          "hash": "10740392072068377465"
+        }
+      ],
+      "hooks": [
+        {
+          "file": "libs/hooks/.babelrc",
+          "hash": "12229791027711577977"
+        },
+        {
+          "file": "libs/hooks/.eslintrc.json",
+          "hash": "11012487992710232822"
+        },
+        {
+          "file": "libs/hooks/README.md",
+          "hash": "3701425405971344161"
+        },
+        {
+          "file": "libs/hooks/jest.config.ts",
+          "hash": "16800842366586068530"
+        },
+        {
+          "file": "libs/hooks/project.json",
+          "hash": "13278144338622502872"
+        },
+        {
+          "file": "libs/hooks/src/hooks/useAIRecommendations.ts",
+          "hash": "14129414091770989202",
+          "deps": [
+            "npm:react",
+            "utils",
+            "types"
+          ]
+        },
+        {
+          "file": "libs/hooks/src/hooks/useAppBar.ts",
+          "hash": "12127992146648857526",
+          "deps": [
+            "npm:react",
+            "types",
+            "npm:@hookstate/core",
+            "utils",
+            "npm:react-router-dom",
+            "npm:match-sorter"
+          ]
+        },
+        {
+          "file": "libs/hooks/src/hooks/useBookInfo.ts",
+          "hash": "3737669611266862464",
+          "deps": [
+            "npm:react",
+            "utils",
+            "types",
+            "npm:@hookstate/core",
+            "npm:react-router-dom",
+            "npm:dayjs"
+          ]
+        },
+        {
+          "file": "libs/hooks/src/hooks/useBookSearchForm.ts",
+          "hash": "4442932056328438503",
+          "deps": [
+            "npm:react",
+            "utils",
+            "types"
+          ]
+        },
+        {
+          "file": "libs/hooks/src/hooks/useHome.ts",
+          "hash": "2064925845065036775",
+          "deps": [
+            "types",
+            "npm:react"
+          ]
+        },
+        {
+          "file": "libs/hooks/src/hooks/useSavedBooks.ts",
+          "hash": "18039670083554533429",
+          "deps": [
+            "npm:react",
+            "utils",
+            "types",
+            "npm:@hookstate/core"
+          ]
+        },
+        {
+          "file": "libs/hooks/src/index.ts",
+          "hash": "9699907400998187425"
+        },
+        {
+          "file": "libs/hooks/tsconfig.json",
+          "hash": "2418983742884804031"
+        },
+        {
+          "file": "libs/hooks/tsconfig.lib.json",
+          "hash": "15147195313780277677"
+        },
+        {
+          "file": "libs/hooks/tsconfig.spec.json",
+          "hash": "6514620907549802163"
+        }
+      ],
+      "cloud-functions": [
+        {
+          "file": "apps/cloud-functions/.eslintrc.json",
+          "hash": "11012487992710232822"
+        },
+        {
+          "file": "apps/cloud-functions/.gitignore",
+          "hash": "17136960116902586272"
+        },
+        {
+          "file": "apps/cloud-functions/functions/.eslintrc.js",
+          "hash": "2085356502265247676"
+        },
+        {
+          "file": "apps/cloud-functions/functions/.gitignore",
+          "hash": "7080444811012829751"
+        },
+        {
+          "file": "apps/cloud-functions/functions/package-lock.json",
+          "hash": "7983101436379726680"
+        },
+        {
+          "file": "apps/cloud-functions/functions/package.json",
+          "hash": "3156065700401160394"
+        },
+        {
+          "file": "apps/cloud-functions/functions/src/gpt.ts",
+          "hash": "7916680637394735"
+        },
+        {
+          "file": "apps/cloud-functions/functions/src/index.ts",
+          "hash": "15038966216520403211"
+        },
+        {
+          "file": "apps/cloud-functions/functions/tsconfig.dev.json",
+          "hash": "9598676606082611501"
+        },
+        {
+          "file": "apps/cloud-functions/functions/tsconfig.json",
+          "hash": "15320153656829258325"
+        },
+        {
+          "file": "apps/cloud-functions/index.html",
+          "hash": "1289120835524854918"
+        },
+        {
+          "file": "apps/cloud-functions/project.json",
+          "hash": "5699433738688757180"
+        },
+        {
+          "file": "apps/cloud-functions/public/favicon.ico",
+          "hash": "9303420814833116677"
+        },
+        {
+          "file": "apps/cloud-functions/src/app/app.spec.tsx",
+          "hash": "1643697843857163367",
+          "deps": [
+            "npm:@testing-library/react"
+          ]
+        },
+        {
+          "file": "apps/cloud-functions/src/app/app.tsx",
+          "hash": "1700910370204363183",
+          "deps": [
+            "npm:@emotion/styled"
+          ]
+        },
+        {
+          "file": "apps/cloud-functions/src/app/nx-welcome.tsx",
+          "hash": "13758118578713308242"
+        },
+        {
+          "file": "apps/cloud-functions/src/assets/.gitkeep",
+          "hash": "3244421341483603138"
+        },
+        {
+          "file": "apps/cloud-functions/src/main.tsx",
+          "hash": "4731961929376199421",
+          "deps": [
+            "npm:react",
+            "npm:react-dom"
+          ]
+        },
+        {
+          "file": "apps/cloud-functions/tsconfig.app.json",
+          "hash": "7232119452847825095"
+        },
+        {
+          "file": "apps/cloud-functions/tsconfig.json",
+          "hash": "17994410774201614780"
+        },
+        {
+          "file": "apps/cloud-functions/tsconfig.spec.json",
+          "hash": "9472099605191632308"
+        },
+        {
+          "file": "apps/cloud-functions/vite.config.ts",
+          "hash": "8346380504425073717",
+          "deps": [
+            "npm:vite",
+            "npm:@vitejs/plugin-react",
+            "npm:@nx/vite"
+          ]
+        }
+      ],
+      "utils": [
+        {
+          "file": "libs/utils/.eslintrc.json",
+          "hash": "16896711999632553762"
+        },
+        {
+          "file": "libs/utils/README.md",
+          "hash": "3816604565008484386"
+        },
+        {
+          "file": "libs/utils/jest.config.ts",
+          "hash": "5669222313238020651"
+        },
+        {
+          "file": "libs/utils/package.json",
+          "hash": "13854573320684977233",
+          "deps": [
+            "npm:tslib"
+          ]
+        },
+        {
+          "file": "libs/utils/project.json",
+          "hash": "15911764110008598016"
+        },
+        {
+          "file": "libs/utils/src/index.ts",
+          "hash": "8413496305734322334"
+        },
+        {
+          "file": "libs/utils/src/lib/request.ts",
+          "hash": "3374848037845253325"
+        },
+        {
+          "file": "libs/utils/src/lib/useNavigateWrapper.ts",
+          "hash": "682110911284363411",
+          "deps": [
+            "npm:react-router-dom"
+          ]
+        },
+        {
+          "file": "libs/utils/tsconfig.json",
+          "hash": "5840880287502376438"
+        },
+        {
+          "file": "libs/utils/tsconfig.lib.json",
+          "hash": "3632393694954060084"
+        },
+        {
+          "file": "libs/utils/tsconfig.spec.json",
+          "hash": "11550347367511341917"
+        }
+      ]
+    }
+  }
+}

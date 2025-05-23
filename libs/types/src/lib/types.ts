@@ -7,6 +7,10 @@ export interface Book {
   userRating?: UserRating
 }
 
+export interface AIRecommendation extends Book {
+  recommendation: string
+}
+
 export interface BookSearchItem {
   id: string
   title: string
@@ -37,10 +41,12 @@ export type AppStateType = State<Partial<AppState>>
 
 export interface AppState {
   userId: string
+  books: Book[]
+  firstLogin?: boolean
 }
 
 export interface PageProps {
-  appState: State<Partial<AppState>>
+  appState: AppStateType
 }
 
 export enum LoginFieldNames {
@@ -67,3 +73,12 @@ export enum BookProgressStates {
 export type BookProgressState = 'toRead' | 'currentlyReading' | 'recommended' | 'completed'
 
 export type BookRating = 0 | .5 | 1 | 1.5 | 2 | 2.5 | 3 | 3.5 | 4 | 4.5 | 5
+
+export enum HomeLoadingStates {
+  LoadNotStarted = "loadNotStarted",
+  LoadingFirstTimeText = "loadingFirstTimeText",
+  LoadingFirstTimeBooks = "loadingFirstTimeBooks",
+  LoadComplete = "loadComplete",
+  LoadingRegular = "loadingRegular",
+}
+export type HomeLoadingState = 'loadNotStarted' | 'loadingFirstTimeText' | 'loadingFirstTimeBooks' | 'loadComplete' | 'loadingRegular'

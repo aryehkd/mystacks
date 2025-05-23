@@ -8,10 +8,13 @@
  */
 
 import {onRequest} from "firebase-functions/v2/https";
+
 // import * as logger from "firebase-functions/logger";
 
 import {initializeApp} from "firebase-admin/app";
 import {getFirestore} from "firebase-admin/firestore";
+import {bookRecomendationPrompt, promptOpenAI} from "./gpt";
+
 
 initializeApp();
 const db = getFirestore();
@@ -35,7 +38,22 @@ export const storeBook = onRequest((request, response) => {
       db.collection("users")
         .doc(String(userId))
         .collection("books")
-        .add(book);
+        .add(book).then((docRef) => {
+          response.status(200).json(
+            {
+              "message": "success",
+              "data": {
+                "bookId": docRef.id,
+              },
+            });
+        })
+        .catch((error) => {
+          response.status(500).json(
+            {
+              "message": "book not stored",
+              "error": error,
+            });
+        });
     } else {
       db.collection("users")
         .doc(String(userId))
@@ -44,10 +62,23 @@ export const storeBook = onRequest((request, response) => {
         .set({
           id: book.id,
           ...book,
-        }, {merge: true});
+        }, {merge: true}).then(() => {
+          response.status(200).json(
+            {
+              "message": "success",
+              "data": {
+                "bookId": book.id,
+              },
+            });
+        })
+        .catch((error) => {
+          response.status(500).json(
+            {
+              "message": "book not stored",
+              "error": error,
+            });
+        });
     }
-
-    response.send("Book saved!");
   }
 });
 
@@ -162,6 +193,26 @@ export const getStoredBooksSearchKeys = onRequest(async (request, response) => {
   }
 });
 
+export const getAIRecommendations = onRequest(async (request, response) => {
+  response.set("Access-Control-Allow-Origin", "*");
+
+  if (request.method === "OPTIONS") {
+    // Send response to OPTIONS requests
+    response.set("Access-Control-Allow-Methods", "POST");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+  } else {
+    // TODO: check user quota
+
+    const books = request.body.books;
+
+    const aiRes = await promptOpenAI(bookRecomendationPrompt(books));
+
+    response.json({"data": aiRes});
+  }
+});
+
 export const createUserAccount = onRequest(async (request, response) => {
   response.set("Access-Control-Allow-Origin", "*");
 
@@ -175,9 +226,22 @@ export const createUserAccount = onRequest(async (request, response) => {
     const account = request.body.account;
 
     // TODO: add server side validation
-    db.collection("users").add(account);
-
-    response.send("Account Created!");
+    db.collection("users").add(account).then((docRef) => {
+      response.status(200).json(
+        {
+          "message": "success",
+          "data": {
+            "account": docRef.id,
+          },
+        });
+    })
+      .catch((error) => {
+        response.status(500).json(
+          {
+            "message": "account not created",
+            "error": error,
+          });
+      });
   }
 });
 

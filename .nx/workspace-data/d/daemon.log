@@ -1,0 +1,138 @@
+[NX Daemon Server] - 2025-02-27T15:19:48.278Z - Started listening on: /var/folders/j_/3j9m98ln3tv1lyl3mfh7d4v80000gn/T/ccafe67c133cf1d4c714/d.sock
+[NX Daemon Server] - 2025-02-27T15:19:48.280Z - [WATCHER]: Subscribed to changes within: /Users/aryeh/Code/mystacks (native)
+[NX Daemon Server] - 2025-02-27T15:19:48.283Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-02-27T15:19:48.283Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-02-27T15:19:48.284Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-02-27T15:19:48.284Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-02-27T15:19:48.287Z - Time taken for 'loadSpecifiedNxPlugins' 0.5603750000000076ms
+[NX Daemon Server] - 2025-02-27T15:19:48.340Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-02-27T15:19:48.395Z - Time taken for 'Load Nx Plugin: /Users/aryeh/Code/mystacks/node_modules/nx/src/plugins/project-json/build-nodes/project-json' 110.37133299999999ms
+[NX Daemon Server] - 2025-02-27T15:19:48.396Z - Time taken for 'Load Nx Plugin: /Users/aryeh/Code/mystacks/node_modules/nx/src/plugins/package-json' 111.05545799999999ms
+[NX Daemon Server] - 2025-02-27T15:19:48.403Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-02-27T15:19:48.403Z - [REQUEST]: 
+[NX Daemon Server] - 2025-02-27T15:19:48.403Z - [REQUEST]: 
+[NX Daemon Server] - 2025-02-27T15:19:48.407Z - Time taken for 'loadDefaultNxPlugins' 118.55149999999999ms
+[NX Daemon Server] - 2025-02-27T15:19:48.436Z - Time taken for 'build-project-configs' 18.830666999999977ms
+[NX Daemon Server] - 2025-02-27T15:19:48.488Z - [SYNC]: collect registered sync generators
+[NX Daemon Server] - 2025-02-27T15:19:48.488Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2025-02-27T15:19:48.489Z - Time taken for 'total for creating and serializing project graph' 204.353292ms
+[NX Daemon Server] - 2025-02-27T15:19:48.490Z - Done responding to the client project-graph
+[NX Daemon Server] - 2025-02-27T15:19:48.490Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 204. Response time: 2.
+[NX Daemon Server] - 2025-02-27T15:19:48.494Z - [REQUEST]: Responding to the client. handleRunPreTasksExecution
+[NX Daemon Server] - 2025-02-27T15:19:48.494Z - Done responding to the client handleRunPreTasksExecution
+[NX Daemon Server] - 2025-02-27T15:19:48.494Z - Handled PRE_TASKS_EXECUTION. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:19:48.494Z - Time taken for 'preTasksExecution' 0.1436249999999859ms
+[NX Daemon Server] - 2025-02-27T15:19:48.596Z - [REQUEST]: Responding to the client. handleHashTasks
+[NX Daemon Server] - 2025-02-27T15:19:48.596Z - Done responding to the client handleHashTasks
+[NX Daemon Server] - 2025-02-27T15:19:48.596Z - Handled HASH_TASKS. Handling time: 10. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:19:48.757Z - [REQUEST]: Responding to the client. handleGetEstimatedTaskTimings
+[NX Daemon Server] - 2025-02-27T15:19:48.757Z - Done responding to the client handleGetEstimatedTaskTimings
+[NX Daemon Server] - 2025-02-27T15:19:48.757Z - Handled GET_ESTIMATED_TASK_TIMINGS. Handling time: 66. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:19:49.320Z - [REQUEST]: Responding to the client. recordOutputsHash
+[NX Daemon Server] - 2025-02-27T15:19:49.320Z - Done responding to the client recordOutputsHash
+[NX Daemon Server] - 2025-02-27T15:19:49.320Z - Handled RECORD_OUTPUTS_HASH. Handling time: 1. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:19:49.453Z - [REQUEST]: Responding to the client. PROCESS_IN_BACKGROUND
+[NX Daemon Server] - 2025-02-27T15:19:49.453Z - Done responding to the client PROCESS_IN_BACKGROUND
+[NX Daemon Server] - 2025-02-27T15:19:49.453Z - Handled PROCESS_IN_BACKGROUND. Handling time: 68. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:19:49.453Z - Uploading file artifacts
+[NX Daemon Server] - 2025-02-27T15:19:49.453Z - Done uploading file artifacts
+[NX Daemon Server] - 2025-02-27T15:19:49.453Z - Sending EndRun request
+[NX Daemon Server] - 2025-02-27T15:19:49.483Z - [REQUEST]: Responding to the client. handleRunPostTasksExecution
+[NX Daemon Server] - 2025-02-27T15:19:49.483Z - Done responding to the client handleRunPostTasksExecution
+[NX Daemon Server] - 2025-02-27T15:19:49.483Z - Handled POST_TASKS_EXECUTION. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:19:49.483Z - Time taken for 'postTasksExecution' 0.07500000000004547ms
+[NX Daemon Server] - 2025-02-27T15:19:49.486Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-02-27T15:19:49.606Z - Error when sending EndRun
+Error: This workspace is more than three days old and is not connected. Workspaces must be connected within 3 days of creation. Claim your workspace at https://cloud.nx.app
+    at Timeout._onTimeout (/Users/aryeh/Code/mystacks/.nx/cache/cloud/2502.19.1.hotfix1/lib/daemon/process-run-end.js:1:907175)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[NX Daemon Server] - 2025-02-27T15:20:06.997Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-02-27T15:20:06.997Z - [WATCHER]: Stopping the watcher for /Users/aryeh/Code/mystacks (sources)
+[NX Daemon Server] - 2025-02-27T15:20:10.995Z - Started listening on: /var/folders/j_/3j9m98ln3tv1lyl3mfh7d4v80000gn/T/ccafe67c133cf1d4c714/d.sock
+[NX Daemon Server] - 2025-02-27T15:20:10.996Z - [WATCHER]: Subscribed to changes within: /Users/aryeh/Code/mystacks (native)
+[NX Daemon Server] - 2025-02-27T15:20:10.998Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-02-27T15:20:10.999Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2025-02-27T15:20:10.999Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-02-27T15:20:11.000Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-02-27T15:20:11.002Z - Time taken for 'loadSpecifiedNxPlugins' 0.41312499999999375ms
+[NX Daemon Server] - 2025-02-27T15:20:11.057Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-02-27T15:20:11.097Z - Time taken for 'Load Nx Plugin: /Users/aryeh/Code/mystacks/node_modules/nx/src/plugins/package-json' 96.64025000000001ms
+[NX Daemon Server] - 2025-02-27T15:20:11.100Z - Time taken for 'Load Nx Plugin: /Users/aryeh/Code/mystacks/node_modules/nx/src/plugins/js' 99.330709ms
+[NX Daemon Server] - 2025-02-27T15:20:11.107Z - [REQUEST]: Updated workspace context based on watched changes, recomputing project graph...
+[NX Daemon Server] - 2025-02-27T15:20:11.107Z - [REQUEST]: 
+[NX Daemon Server] - 2025-02-27T15:20:11.107Z - [REQUEST]: 
+[NX Daemon Server] - 2025-02-27T15:20:11.111Z - Time taken for 'loadDefaultNxPlugins' 106.75691600000002ms
+[NX Daemon Server] - 2025-02-27T15:20:11.136Z - Time taken for 'build-project-configs' 18.34004200000001ms
+[NX Daemon Server] - 2025-02-27T15:20:11.285Z - [SYNC]: collect registered sync generators
+[NX Daemon Server] - 2025-02-27T15:20:11.286Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2025-02-27T15:20:11.286Z - Time taken for 'total for creating and serializing project graph' 285.849208ms
+[NX Daemon Server] - 2025-02-27T15:20:11.287Z - Done responding to the client project-graph
+[NX Daemon Server] - 2025-02-27T15:20:11.287Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 286. Response time: 1.
+[NX Daemon Server] - 2025-02-27T15:20:11.291Z - [REQUEST]: Responding to the client. handleRunPreTasksExecution
+[NX Daemon Server] - 2025-02-27T15:20:11.291Z - Done responding to the client handleRunPreTasksExecution
+[NX Daemon Server] - 2025-02-27T15:20:11.291Z - Handled PRE_TASKS_EXECUTION. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:11.291Z - Time taken for 'preTasksExecution' 0.14612499999998363ms
+[NX Daemon Server] - 2025-02-27T15:20:11.381Z - [REQUEST]: Responding to the client. handleHashTasks
+[NX Daemon Server] - 2025-02-27T15:20:11.381Z - Done responding to the client handleHashTasks
+[NX Daemon Server] - 2025-02-27T15:20:11.381Z - Handled HASH_TASKS. Handling time: 10. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:11.552Z - [REQUEST]: Responding to the client. handleGetEstimatedTaskTimings
+[NX Daemon Server] - 2025-02-27T15:20:11.552Z - Done responding to the client handleGetEstimatedTaskTimings
+[NX Daemon Server] - 2025-02-27T15:20:11.552Z - Handled GET_ESTIMATED_TASK_TIMINGS. Handling time: 75. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:11.804Z - [REQUEST]: Responding to the client. recordOutputsHash
+[NX Daemon Server] - 2025-02-27T15:20:11.804Z - Done responding to the client recordOutputsHash
+[NX Daemon Server] - 2025-02-27T15:20:11.804Z - Handled RECORD_OUTPUTS_HASH. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:11.933Z - [REQUEST]: Responding to the client. PROCESS_IN_BACKGROUND
+[NX Daemon Server] - 2025-02-27T15:20:11.933Z - Done responding to the client PROCESS_IN_BACKGROUND
+[NX Daemon Server] - 2025-02-27T15:20:11.933Z - Handled PROCESS_IN_BACKGROUND. Handling time: 66. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:11.934Z - Uploading file artifacts
+[NX Daemon Server] - 2025-02-27T15:20:11.934Z - Done uploading file artifacts
+[NX Daemon Server] - 2025-02-27T15:20:11.934Z - Sending EndRun request
+[NX Daemon Server] - 2025-02-27T15:20:11.961Z - [REQUEST]: Responding to the client. handleRunPostTasksExecution
+[NX Daemon Server] - 2025-02-27T15:20:11.961Z - Done responding to the client handleRunPostTasksExecution
+[NX Daemon Server] - 2025-02-27T15:20:11.961Z - Handled POST_TASKS_EXECUTION. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:11.961Z - Time taken for 'postTasksExecution' 0.060791999999992186ms
+[NX Daemon Server] - 2025-02-27T15:20:11.964Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-02-27T15:20:12.082Z - Error when sending EndRun
+Error: This workspace is more than three days old and is not connected. Workspaces must be connected within 3 days of creation. Claim your workspace at https://cloud.nx.app
+    at Timeout._onTimeout (/Users/aryeh/Code/mystacks/.nx/cache/cloud/2502.19.1.hotfix1/lib/daemon/process-run-end.js:1:907175)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[NX Daemon Server] - 2025-02-27T15:20:20.837Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-02-27T15:20:20.837Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-02-27T15:20:20.838Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2025-02-27T15:20:20.838Z - [REQUEST]: Client Request for Project Graph Received
+[NX Daemon Server] - 2025-02-27T15:20:20.838Z - [REQUEST]: Responding to the client. project-graph
+[NX Daemon Server] - 2025-02-27T15:20:20.838Z - Time taken for 'total for creating and serializing project graph' 0.09920899999997346ms
+[NX Daemon Server] - 2025-02-27T15:20:20.840Z - Done responding to the client project-graph
+[NX Daemon Server] - 2025-02-27T15:20:20.840Z - Handled REQUEST_PROJECT_GRAPH. Handling time: 0. Response time: 2.
+[NX Daemon Server] - 2025-02-27T15:20:20.843Z - [REQUEST]: Responding to the client. handleRunPreTasksExecution
+[NX Daemon Server] - 2025-02-27T15:20:20.843Z - Done responding to the client handleRunPreTasksExecution
+[NX Daemon Server] - 2025-02-27T15:20:20.843Z - Handled PRE_TASKS_EXECUTION. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:20.843Z - Time taken for 'preTasksExecution' 0.04604099999960454ms
+[NX Daemon Server] - 2025-02-27T15:20:20.930Z - [REQUEST]: Responding to the client. handleHashTasks
+[NX Daemon Server] - 2025-02-27T15:20:20.931Z - Done responding to the client handleHashTasks
+[NX Daemon Server] - 2025-02-27T15:20:20.931Z - Handled HASH_TASKS. Handling time: 5. Response time: 1.
+[NX Daemon Server] - 2025-02-27T15:20:21.029Z - [REQUEST]: Responding to the client. handleGetEstimatedTaskTimings
+[NX Daemon Server] - 2025-02-27T15:20:21.029Z - Done responding to the client handleGetEstimatedTaskTimings
+[NX Daemon Server] - 2025-02-27T15:20:21.029Z - Handled GET_ESTIMATED_TASK_TIMINGS. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:21.250Z - [REQUEST]: Responding to the client. recordOutputsHash
+[NX Daemon Server] - 2025-02-27T15:20:21.250Z - Done responding to the client recordOutputsHash
+[NX Daemon Server] - 2025-02-27T15:20:21.250Z - Handled RECORD_OUTPUTS_HASH. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:21.347Z - [REQUEST]: Responding to the client. PROCESS_IN_BACKGROUND
+[NX Daemon Server] - 2025-02-27T15:20:21.347Z - Done responding to the client PROCESS_IN_BACKGROUND
+[NX Daemon Server] - 2025-02-27T15:20:21.347Z - Handled PROCESS_IN_BACKGROUND. Handling time: 30. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:21.348Z - Uploading file artifacts
+[NX Daemon Server] - 2025-02-27T15:20:21.348Z - Done uploading file artifacts
+[NX Daemon Server] - 2025-02-27T15:20:21.348Z - Sending EndRun request
+[NX Daemon Server] - 2025-02-27T15:20:21.351Z - [REQUEST]: Responding to the client. handleRunPostTasksExecution
+[NX Daemon Server] - 2025-02-27T15:20:21.351Z - Done responding to the client handleRunPostTasksExecution
+[NX Daemon Server] - 2025-02-27T15:20:21.351Z - Handled POST_TASKS_EXECUTION. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2025-02-27T15:20:21.352Z - Time taken for 'postTasksExecution' 0.0687500000003638ms
+[NX Daemon Server] - 2025-02-27T15:20:21.355Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2025-02-27T15:20:21.476Z - Error when sending EndRun
+Error: This workspace is more than three days old and is not connected. Workspaces must be connected within 3 days of creation. Claim your workspace at https://cloud.nx.app
+    at Timeout._onTimeout (/Users/aryeh/Code/mystacks/.nx/cache/cloud/2502.19.1.hotfix1/lib/daemon/process-run-end.js:1:907175)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+[NX Daemon Server] - 2025-02-27T15:20:55.928Z - [WATCHER]: Processing file changes in outputs
+[NX Daemon Server] - 2025-02-27T15:20:55.928Z - [WATCHER]: Stopping the watcher for /Users/aryeh/Code/mystacks (sources)
+[NX Daemon Server] - 2025-02-27T15:20:55.928Z - [WATCHER]: Stopping the watcher for /Users/aryeh/Code/mystacks (outputs)
+[NX Daemon Server] - 2025-02-27T15:20:55.929Z - Server stopped because: "NX_VERSION_CHANGED"

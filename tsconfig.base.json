@@ -16,8 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@mystacks/account": ["libs/account/src/index.ts"],
-      "@mystacks/book-search-form": ["libs/book-search-form/src/index.ts"],
-      "@mystacks/saved-books": ["libs/saved-books/src/index.ts"],
+      "@mystacks/hooks": ["libs/hooks/src/index.ts"],
       "@mystacks/types": ["libs/types/src/index.ts"],
       "@mystacks/utils": ["libs/utils/src/index.ts"]
     }

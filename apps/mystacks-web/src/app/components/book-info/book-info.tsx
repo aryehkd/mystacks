@@ -22,12 +22,14 @@ export interface BookInfoProps {
     isbnError: string | undefined
     loading: boolean
     completedDate: Dayjs | null
+    imageUrl: string
     handleBookProgressChange: (newBookProgressState: BookProgressState) => void
     handleBookRatingChange: (newBookRating: BookRating) => void
     handleNotesChange: (newNotes: string) => void
     handleISBNChange: (newISBN: string) => void
     handleCompletedDateChange: (newDate: Dayjs | null) => void
     saveBook: () => void
+    handleImageURLChange: (newUrl: string) => void
 }
 
 export const BookInfo = (props: BookInfoProps) => {
@@ -40,19 +42,23 @@ export const BookInfo = (props: BookInfoProps) => {
         isbnError, 
         loading, 
         completedDate,
+        imageUrl,
         handleBookProgressChange, 
         handleBookRatingChange, 
         handleNotesChange, 
         handleISBNChange,
         handleCompletedDateChange,
         saveBook, 
+        handleImageURLChange
     } = props
+
+    console.log(imageUrl)
 
     // TODO: make img component and reuse 
     return (
         <BookInfoContainer container spacing={2}>
             <Grid item xs={5} md={2}>
-                <CoverImage imgUrl={book.bookInfo.imgUrl} alt={book.bookInfo.title}/>
+                <CoverImage imgUrl={imageUrl} alt={book.bookInfo.title} canEdit={true} onEdit={handleImageURLChange}/>
             </Grid>
             <Grid item xs={7} md={4}>
                 <Typography variant='h4'>{book.bookInfo.title}</Typography>

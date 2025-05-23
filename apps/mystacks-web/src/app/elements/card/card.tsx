@@ -18,7 +18,7 @@ export const Card = (props: CardProps) => {
     const navigate = useNavigate();
 
     const handleAdd = () => {
-        navigate('/book-info', { state: { book: {...props.book} } });
+        navigate('/book-info', { state: { book: {...props.book}, lastPage: "/search" } });
     }
 
     return (
