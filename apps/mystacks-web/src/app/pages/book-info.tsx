@@ -12,7 +12,7 @@ export interface BookInfoPageProps extends PageProps {}
 export const BookInfoPage = (props: BookInfoPageProps) => {
   const { state } = useLocation();
 
-  const bookInfoProps = useBookInfo(props.appState, state?.book, state?.bookId);
+  const bookInfoProps = useBookInfo(props.appState, state?.book, state?.bookId, state?.lastPage);
 
   return (
     <CustomAppBar logoSize="sm" appState={props.appState}>
@@ -32,6 +32,7 @@ export default BookInfoPage;
 
 const BookInfoInnerContainer = styled(Box)(({ theme }) => ({
   margin: '20px 0 0 0',
+  minHeight: '0vh',
 
   [theme.breakpoints.up('md')]: {
     margin: '50px 0 0 0',

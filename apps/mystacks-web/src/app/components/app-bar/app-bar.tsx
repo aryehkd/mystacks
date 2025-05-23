@@ -41,6 +41,7 @@ export const CustomAppBar = (props: AppBarProps) => {
     customSearchFilter,
     handleTextFieldValueChange,
     handleSearchFieldSelect,
+    handleLogout
   } = useAppBar(props.appState);
 
   console.log(props.hideFooter, 'hi')
@@ -140,7 +141,7 @@ export const CustomAppBar = (props: AppBarProps) => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={() => handleNavigate('/')}>Home</MenuItem>
-                <MenuItem onClick={() => handleNavigate('/account')}>
+                <MenuItem onClick={() => handleNavigate('/account')} disabled>
                   Profile
                 </MenuItem>
                 <MenuItem onClick={() => handleNavigate('/')} disabled>
@@ -149,8 +150,11 @@ export const CustomAppBar = (props: AppBarProps) => {
                 <MenuItem onClick={() => handleNavigate('/')} disabled>
                   Book Clubs
                 </MenuItem>
-                <MenuItem onClick={() => handleNavigate('/recommendations')}>
+                <MenuItem onClick={() => handleNavigate('/recommendations')} disabled>
                   AI Recommendations
+                </MenuItem>
+                <MenuItem onClick={() => handleLogout()}>
+                  Logout
                 </MenuItem>
               </Menu>
             </CustomToolbar>

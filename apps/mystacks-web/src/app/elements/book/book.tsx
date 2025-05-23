@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import { Box, Typography, Button } from '@mui/material/';
 import { useNavigate } from "react-router-dom";
 import CoverImage from "../cover-image/CoverImage";
+import { LastPage } from "@mui/icons-material";
 
 export interface BookItemProps {
     book: Book
@@ -14,7 +15,7 @@ export const BookItem = (props: BookItemProps) => {
     const navigate = useNavigate();
 
     const handleBookClick = () => {
-        navigate('/book-info', { state: { bookId: props.book.id }})
+        navigate('/book-info', { state: { bookId: props.book.id, LastPage: '/' } });
     }
 
 

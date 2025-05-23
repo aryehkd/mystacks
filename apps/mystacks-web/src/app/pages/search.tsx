@@ -27,5 +27,6 @@ export default BookSearchPage;
 
 const SearchInnerContainer = styled(Box)(({ theme }) => ({
     width: "80%",
-    margin: "50px 0 0 0"
+    margin: "50px 0 0 0",
+    minHeight: "65vh",
 }));

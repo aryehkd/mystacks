@@ -42,6 +42,7 @@ export type AppStateType = State<Partial<AppState>>
 export interface AppState {
   userId: string
   books: Book[]
+  firstLogin?: boolean
 }
 
 export interface PageProps {

@@ -38,7 +38,22 @@ export const storeBook = onRequest((request, response) => {
       db.collection("users")
         .doc(String(userId))
         .collection("books")
-        .add(book);
+        .add(book).then((docRef) => {
+          response.status(200).json(
+            {
+              "message": "success",
+              "data": {
+                "bookId": docRef.id,
+              },
+            });
+        })
+        .catch((error) => {
+          response.status(500).json(
+            {
+              "message": "book not stored",
+              "error": error,
+            });
+        });
     } else {
       db.collection("users")
         .doc(String(userId))
@@ -47,10 +62,23 @@ export const storeBook = onRequest((request, response) => {
         .set({
           id: book.id,
           ...book,
-        }, {merge: true});
+        }, {merge: true}).then(() => {
+          response.status(200).json(
+            {
+              "message": "success",
+              "data": {
+                "bookId": book.id,
+              },
+            });
+        })
+        .catch((error) => {
+          response.status(500).json(
+            {
+              "message": "book not stored",
+              "error": error,
+            });
+        });
     }
-
-    response.send("Book saved!");
   }
 });
 
@@ -198,9 +226,22 @@ export const createUserAccount = onRequest(async (request, response) => {
     const account = request.body.account;
 
     // TODO: add server side validation
-    db.collection("users").add(account);
-
-    response.send("Account Created!");
+    db.collection("users").add(account).then((docRef) => {
+      response.status(200).json(
+        {
+          "message": "success",
+          "data": {
+            "account": docRef.id,
+          },
+        });
+    })
+      .catch((error) => {
+        response.status(500).json(
+          {
+            "message": "account not created",
+            "error": error,
+          });
+      });
   }
 });
 

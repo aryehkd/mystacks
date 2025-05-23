@@ -15,7 +15,8 @@ import dayjs, { Dayjs } from 'dayjs';
 export const useBookInfo = (
   appState: AppStateType,
   book?: Book,
-  bookId?: string
+  bookId?: string,
+  lastPage?: string
 ) => {
   const globalState = useHookstate(appState);
   const navigate = useNavigate();
@@ -28,7 +29,11 @@ export const useBookInfo = (
   const [rating, setRating] = useState<BookRating>(
     book?.userRating?.rating || 0
   );
+
   const [notes, setNotes] = useState<string>(book?.userRating?.notes || '');
+  const [pageCount, setPageCount] = useState<number>(book?.bookInfo?.pageCount || 0);
+  const [imageUrl, setImageUrl] = useState<string>(book?.bookInfo?.imgUrl || '');
+
   const [isbn, setISBN] = useState<string>(
     book?.bookInfo?.industryIdentifiers?.isbn13 ||
       book?.bookInfo?.industryIdentifiers?.isbn10 ||
@@ -39,7 +44,7 @@ export const useBookInfo = (
 
   const [loading, setLoading] = useState<boolean>(false);
   const [bookLoaded, setBookLoaded] = useState<boolean>(false);
-
+  
   const updateBookFields = (loadedBook: Book) => {
     setCurrentBook(loadedBook);
     setBookProgress(
@@ -52,6 +57,8 @@ export const useBookInfo = (
         loadedBook.bookInfo?.industryIdentifiers?.isbn10 ||
         ''
     );
+    setImageUrl(loadedBook.bookInfo?.imgUrl || '');
+    setCompletedDate(dayjs.unix(Number(loadedBook.userRating?.completedDate)));
   }
 
   const loadBook = (bookId: string) => {
@@ -103,6 +110,14 @@ export const useBookInfo = (
     setCompletedDate(newDate);
   };
 
+  const handleImageURLChange = (newUrl: string) => {
+    setImageUrl(newUrl);
+  };
+
+  const handlePageCountChange = (newPageCount: number) => {
+    setPageCount(newPageCount);
+  };
+
   const searchNewISBN = async (newISBN: string) => {
     const result = await handleISBNSearch(newISBN);
 
@@ -133,7 +148,7 @@ export const useBookInfo = (
 
       if (!userId) throw new Error('no logged in user!');
 
-      if (!book) throw new Error('no book loaded!');
+      if (!currentBook) throw new Error('no book loaded!');
 
       const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
@@ -141,25 +156,31 @@ export const useBookInfo = (
       const isbnKey = isbn.length === 10 ? 'isbn10' : 'isbn13';
 
       const industryIdentifiers = {
-        ...book?.bookInfo.industryIdentifiers,
+        ...currentBook?.bookInfo.industryIdentifiers,
         [isbnKey]: isbn,
       };
 
-      const raw = JSON.stringify({
-        book: {
-          id: book.id,
-          bookInfo: {
-            ...book.bookInfo,
-            industryIdentifiers: {
-              ...industryIdentifiers,
-            },
+      const bookToSave: Book = {
+        id: currentBook.id,
+        savedDate: currentBook.savedDate,
+        bookInfo: {
+          ...currentBook.bookInfo,
+          industryIdentifiers: {
+            ...industryIdentifiers,
           },
-          userRating: {
-            bookProgress: bookProgress,
-            rating: rating,
-            notes: notes,
-          },
+          imgUrl: imageUrl,
+          pageCount: pageCount,
         },
+        userRating: {
+          bookProgress: bookProgress,
+          rating: rating,
+          notes: notes,
+          completedDate: completedDate?.unix() || 0,
+        },
+      }
+
+      const raw = JSON.stringify({
+        book: bookToSave
       });
 
       const requestOptions = {
@@ -176,11 +197,29 @@ export const useBookInfo = (
         });
 
       request(url, requestOptions)
-        .then((response) => response.text())
+        .then((response) => response.json())
         .then((result) => {
-          console.log(result);
 
-          navigate('/');
+          if (result?.error) throw new Error(result?.error)
+          else {
+              console.log('book stored successfully', result.data.account)
+          }
+
+          globalState.merge((state) => {
+            if (!state.books) return state;
+            const bookIndex = state.books.findIndex(
+              (book) => book.id === (currentBook?.id ?? result?.data?.bookId)
+            );
+
+            if (bookIndex !== -1) {
+              state.books[bookIndex] = bookToSave;
+            } else {
+              state.books.push(bookToSave);
+            }
+            return state
+          });
+
+          lastPage ? navigate(lastPage) : navigate('/');
           setLoading(false);
           // navigate back home
         })
@@ -193,9 +232,9 @@ export const useBookInfo = (
 
   useEffect(() => {
     const allSavedBooks = globalState.get().books
-    const book = allSavedBooks?.find(savedBook => savedBook.id == bookId)
-    if (book) {
-      updateBookFields(book)
+    const foundBook = allSavedBooks?.find(savedBook => savedBook.id == bookId) || book
+    if (foundBook) {
+      updateBookFields(foundBook)
       setBookLoaded(true);
     } else {
       bookId && loadBook(bookId);
@@ -205,6 +244,7 @@ export const useBookInfo = (
   return {
     currentBook,
     bookProgress,
+    imageUrl,
     rating,
     notes,
     isbn,
@@ -218,6 +258,7 @@ export const useBookInfo = (
     saveBook,
     handleISBNChange,
     handleCompletedDateChange,
+    handleImageURLChange
   };
 };
 

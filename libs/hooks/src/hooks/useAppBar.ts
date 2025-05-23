@@ -27,6 +27,12 @@ export const useAppBar = (appState: AppStateType) => {
     navigate(url);
   };
 
+
+  const handleLogout = () => {
+    globalState.set({ userId: '', books: [] });
+    navigate('/login');
+  }
+
   const loadSeachTerms = () => {
     try {
       const requestOptions = {
@@ -107,6 +113,7 @@ export const useAppBar = (appState: AppStateType) => {
     customSearchFilter,
     handleTextFieldValueChange,
     handleSearchFieldSelect,
+    handleLogout,
   };
 };
 

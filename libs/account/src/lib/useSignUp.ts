@@ -55,14 +55,17 @@ export const useSignUp = (appState:  AppStateType) => {
       
       
     request("https://createuseraccount-u6erzcpcda-uc.a.run.app", requestOptions)
-        .then(response => response.text())
+        .then(response => response.json())
         .then(result => {
-            console.log(result)
-            // TODO: get id
-            const userId = "getID"
+            if (result?.error) throw new Error(result?.error)
+            else {
+                console.log('login successful', result.data.account)
+            }
+
+            const userId = result.data.account
 
             window.sessionStorage.setItem("userId", userId)
-            globalState.set(currentState => {return {...currentState, userId: userId}})
+            globalState.set(currentState => {return {...currentState, userId: userId, firstLogin: true}})
             navigate("/")
         })
         .catch(error => console.log('error', error));

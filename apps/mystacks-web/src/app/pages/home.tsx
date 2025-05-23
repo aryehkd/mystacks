@@ -4,7 +4,8 @@ import { Box, styled, Typography, Grid, Tab, Tabs } from '@mui/material';
 import { CustomAppBar } from '../components/app-bar/app-bar';
 import { useHome } from '@mystacks/hooks';
 import { BookItem } from '../elements/book/book';
-
+import { Link } from '@mui/material';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 /* eslint-disable-next-line */
 export interface HomePageProps extends PageProps {
 
@@ -20,27 +21,45 @@ export const HomePage = (props: HomePageProps) => {
         loadedBooks,
         loadingState,
         handleTabChange,
-        tabA11yProps
+        tabA11yProps,
+        getBooksReadThisYear
     } = useHome(props.appState)
 
   // TODO: fancy animation for scroll to tab, when tab is at bottom, scroll to top, add the stacks to green part of tabs bar
-
+   
     return (
         <CustomAppBar logoSize='sm' appState={props.appState} hideFooter={loadingState !== HomeLoadingStates.LoadComplete && loadingState !== HomeLoadingStates.LoadingRegular}>
             <BookInfoInnerContainer>
-                <BookTitleContainer container>
-                    <Box sx={{padding: "0 100px 0 0", minWidth: "400px"}}>
-                        <Typography variant="h2" sx={{fontWeight: "600", color: "#000"}} id="typedtext"></Typography>
-                    </Box>
-                    <Box sx={{padding: "0 0 0 100px", "alignContent": "flex-end", minWidth: "500px"}}>
-                        <Typography variant="h4" sx={{fontWeight: "500", color: "#000"}} id="typedtext2"></Typography>
-                    </Box>
-                </BookTitleContainer>
-                <ReadingNowContainer container> 
-                    <ReadingNowInnerContainer item xs={12} md={8}>
-                        {loadedBooks.map((book, index) => <Box sx={{margin: "0 50px"}} key={index}><BookItem book={book}/></Box>)}
-                    </ReadingNowInnerContainer>
-                </ReadingNowContainer>
+                <HomeSectionContainer>
+                    <ReadingNowOuterContainer>
+                        <BookTitleContainer container>
+                            <BookTitleInnerContainer >
+                                <Typography variant="h2" sx={{fontWeight: "600", color: "#000"}} id="typedtext"></Typography>
+                            </BookTitleInnerContainer>
+                            <ReadingNowSubtitleContainer>
+                                <Typography variant="h4" sx={{fontWeight: "500", color: "#000"}} id="typedtext2"></Typography>
+                            </ReadingNowSubtitleContainer>
+                        </BookTitleContainer>
+                        <ReadingNowContainer container> 
+                            <ReadingNowInnerContainer item xs={12} md={8}>
+                                {loadedBooks.map((book, index) => <Box sx={{margin: "0 50px"}} key={index}><BookItem book={book}/></Box>)}
+                            </ReadingNowInnerContainer>
+                        </ReadingNowContainer>
+                    </ReadingNowOuterContainer>
+                    {(loadingState == HomeLoadingStates.LoadComplete || loadingState == HomeLoadingStates.LoadingRegular) && 
+                        <StatOuterContainer>
+                                <Box sx={{padding: "0"}}>
+                                    <Typography variant="h5" sx={{fontWeight: "600", color: "#000"}}>You've completed</Typography>
+                                </Box>
+                                <Box sx={{padding: "0"}} display="flex" flexDirection="row">
+                                        <Typography variant="h1" sx={{fontWeight: "600", color: "#AF5784"}}>{getBooksReadThisYear()}</Typography>
+                                </Box>
+                                <Box sx={{padding: "0"}}>
+                                    <Typography variant="h5" sx={{fontWeight: "600", color: "#000"}}>books this year</Typography>
+                                </Box>
+                        </StatOuterContainer>
+                    }
+                </HomeSectionContainer>
 
                 {(loadingState == HomeLoadingStates.LoadComplete || loadingState == HomeLoadingStates.LoadingRegular) && 
                 <>
@@ -49,34 +68,42 @@ export const HomePage = (props: HomePageProps) => {
                     </QuickStatsContainer>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider', background: "#6fbc31" }}>
                         <Tabs value={currentShelfTab} onChange={handleTabChange} aria-label="basic tabs example" indicatorColor="secondary"
-          textColor="secondary"
->
-                        <Tab label="to read" {...tabA11yProps(0)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
-                        <Tab label="completed" {...tabA11yProps(1)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
-                        <Tab label="recommended" {...tabA11yProps(2)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
+                            textColor="secondary"
+                        >
+                            <Tab label="completed recently" {...tabA11yProps(1)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
+                            <Tab label="up next" {...tabA11yProps(0)} sx={{color: "white", textTransform: "none", fontWeight: "600", fontSize: "16px"}}/>
                         </Tabs>
                     </Box>
                     <CustomTabPanel value={currentShelfTab} index={0}>
+                            <ShelfContainer container> 
+                                <ShelfInnerContainer item xs={12} md={12}>
+                                    {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed).sort((a,b) => (b.userRating?.completedDate??0) - (a.userRating?.completedDate??0)).splice(0,5).map((book, index) => <BookWrapper key={index}><BookItem book={book}/></BookWrapper>)}
+                                    {!!savedBooks.length && 
+                                        <BookWrapper  >
+                                            <Link href="/shelf" variant="body1" display="flex" alignItems="center">
+                                                Go to my shelf
+                                                <ArrowForwardIcon style={{ marginLeft: 8 }} />
+                                            </Link>
+                                        </BookWrapper>                     
+                                   }
+                                </ShelfInnerContainer>                           
+                            </ShelfContainer>
+                        </CustomTabPanel>
+                    <CustomTabPanel value={currentShelfTab} index={1}>
                         <ShelfContainer container> 
-                            <ReadingNowInnerContainer item xs={12} md={8}>
-                                {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.ToRead).map((book, index) => <Box sx={{margin: "0 50px"}} key={index}><BookItem book={book}/></Box>)}
-                            </ReadingNowInnerContainer>
+                            <ShelfInnerContainer item xs={12} md={12}>
+                                {!!savedBooks.length && 
+                                    <BookWrapper  >
+                                        <Link href="/shelf" variant="body1" display="flex" alignItems="center">
+                                            Go to my shelf
+                                            <ArrowForwardIcon style={{ marginLeft: 8 }} />
+                                        </Link>
+                                    </BookWrapper>                     
+                                }
+                            </ShelfInnerContainer>
                         </ShelfContainer>
                         </CustomTabPanel>
-                        <CustomTabPanel value={currentShelfTab} index={1}>
-                            <ShelfContainer container> 
-                                <ReadingNowInnerContainer item xs={12} md={8}>
-                                    {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed).map((book, index) => <Box sx={{margin: "0 50px"}} key={index}><BookItem book={book}/></Box>)}
-                                </ReadingNowInnerContainer>                           
-                            </ShelfContainer>
-                        </CustomTabPanel>
-                        <CustomTabPanel value={currentShelfTab} index={2}>
-                            <ShelfContainer container> 
-                                <ReadingNowInnerContainer item xs={12} md={8}>
-                                    {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.Recommended).map((book, index) => <Box sx={{margin: "0 50px"}} key={index}><BookItem book={book}/></Box>)}
-                                </ReadingNowInnerContainer>                             
-                            </ShelfContainer>
-                    </CustomTabPanel>
+
                 </>
                 }
             </BookInfoInnerContainer>
@@ -88,14 +115,40 @@ export default HomePage;
 
 const BookInfoInnerContainer = styled(Box)(({ theme }) => ({
     width: "100%",
-    margin: "55px 0"
+    margin: "55px 0",
+    minHeight: "60vh",
 }));
 
 const BookTitleContainer = styled(Grid)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+
+    [theme.breakpoints.up("md")]: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+}));
+
+
+const HomeSectionContainer = styled(Grid)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+
+    [theme.breakpoints.up("md")]: {
+        flexDirection: 'row',
+    }
+}));
+
+const BookTitleInnerContainer = styled(Grid)(({ theme }) => ({
+    padding: "0 0 0 0",
+    [theme.breakpoints.up("md")]: {
+        padding: "0 100px 0 0", 
+        minWidth: "400px",
+    }
+    
 }));
 
 const ReadingNowContainer = styled(Grid)(({ theme }) => ({
@@ -121,6 +174,58 @@ const ReadingNowInnerContainer = styled(Grid)(({ theme }) => ({
     alignContent: "center",
     width: "100%"
 })); 
+
+const ReadingNowOuterContainer = styled(Grid)(({ theme }) => ({
+    width: "100%",
+
+    [theme.breakpoints.up("md")]: {
+        width: "66.6%",
+
+    }
+})); 
+
+const StatOuterContainer = styled(Grid)(({ theme }) => ({
+    width: "100%",
+    marginTop: "40px",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: "center",
+
+    [theme.breakpoints.up("md")]: {
+        margin: 0,
+        width: "25%",
+    }
+})); 
+
+const ReadingNowSubtitleContainer = styled(Box)(({ theme }) => ({
+    paddingLeft: "40px",
+    [theme.breakpoints.up("md")]: {
+        padding: "0 0 0 100px", 
+        alignContent: "flex-end", 
+        minWidth: "500px"
+    }
+})); 
+
+const ShelfInnerContainer = styled(Grid)(({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+
+    [theme.breakpoints.up("md")]: {
+        justifyContent: 'flex-start',
+        alignContent: "center",
+        width: "100%"
+    }
+})); 
+
+const BookWrapper = styled(Grid)(({ theme }) => ({
+    margin: "20px 20px",
+
+    [theme.breakpoints.up("md")]: {
+        margin: "0 50px"
+    }
+}));
 
 const QuickStatsContainer = styled(Grid)(({ theme }) => ({
     display: 'flex',

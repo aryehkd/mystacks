@@ -1,11 +1,11 @@
-import OpenAI from "openai";
-import {defineString} from "firebase-functions/params";
+// import OpenAI from "openai";
+// import {defineString} from "firebase-functions/params";
 
-const openAIKey = defineString("OPENAI_API_KEY");
+// const openAIKey = defineString("OPENAI_API_KEY");
 
-const openai = new OpenAI({
-  apiKey: openAIKey.value(),
-});
+// const openai = new OpenAI({
+//   apiKey: openAIKey.value(),
+// });
 
 export const bookRecomendationPrompt = (books:
     {title: string, author: string}[]
@@ -27,45 +27,45 @@ export const bookRecomendationPrompt = (books:
 };
 
 export const promptOpenAI = async (prompt: string) => {
-  const chatCompletion = await openai.chat.completions.create({
-    messages: [{role: "user", content: prompt}],
-    model: "gpt-3.5-turbo",
-  }).catch((err) => {
-    if (err instanceof OpenAI.APIError) {
-      switch (err.status) {
-      case 400:
-        console.log("Bad request");
-        break;
-      case 401:
-        console.log("Unauthorized");
-        break;
-      case 403:
-        console.log("Forbidden");
-        break;
-      case 404:
-        console.log("Not found");
-        break;
-      case 429:
-        console.log("Too many requests");
-        break;
-      case 500:
-        console.log("Internal server error");
-        break;
-      default:
-        console.log("Unknown error");
-        break;
-      }
-      console.log(err.status);
-      console.log(err.name);
-      console.log(err.headers);
-    } else {
-      throw err;
-    }
-  });
+  // const chatCompletion = await openai.chat.completions.create({
+  //   messages: [{role: "user", content: prompt}],
+  //   model: "gpt-3.5-turbo",
+  // }).catch((err) => {
+  //   if (err instanceof OpenAI.APIError) {
+  //     switch (err.status) {
+  //     case 400:
+  //       console.log("Bad request");
+  //       break;
+  //     case 401:
+  //       console.log("Unauthorized");
+  //       break;
+  //     case 403:
+  //       console.log("Forbidden");
+  //       break;
+  //     case 404:
+  //       console.log("Not found");
+  //       break;
+  //     case 429:
+  //       console.log("Too many requests");
+  //       break;
+  //     case 500:
+  //       console.log("Internal server error");
+  //       break;
+  //     default:
+  //       console.log("Unknown error");
+  //       break;
+  //     }
+  //     console.log(err.status);
+  //     console.log(err.name);
+  //     console.log(err.headers);
+  //   } else {
+  //     throw err;
+  //   }
+  // });
 
-  if (chatCompletion) {
-    return chatCompletion.choices[0].message.content;
-  }
+  // if (chatCompletion) {
+  //   return chatCompletion.choices[0].message.content;
+  // }
 
   return null;
 };
