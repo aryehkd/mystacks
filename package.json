@@ -3,6 +3,11 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
+    "build": "nx build mystacks-web",
+    "build:functions": "npm run build --prefix apps/cloud-functions/functions",
+    "lint:functions": "cd apps/cloud-functions/functions && npx eslint src --fix",
+    "deploy:hosting": "npm run build && firebase deploy --only hosting",
+    "deploy:functions": "npm run build:functions && firebase deploy --only functions",
     "start": "nx serve mystacks-web",
     "storybook": "nx run mystacks-web:storybook",
     "test": "echo test",

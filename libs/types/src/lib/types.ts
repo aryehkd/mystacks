@@ -39,10 +39,27 @@ export interface UserRating {
 
 export type AppStateType = State<Partial<AppState>>
 
+export type ReadingGoalPeriodType = 'month' | 'season' | 'year'
+export type ReadingGoalSeason = 'winter' | 'spring' | 'summer' | 'fall'
+
+export interface ReadingGoal {
+  id: string
+  periodType: ReadingGoalPeriodType
+  /** Year (e.g. 2026). For month/season/year. */
+  year: number
+  /** 1–12 for periodType 'month'. */
+  month?: number
+  /** For periodType 'season'. Winter=Jan–Mar, Spring=Apr–Jun, Summer=Jul–Sep, Fall=Oct–Dec. */
+  season?: ReadingGoalSeason
+  /** Target number of books to complete in the period. */
+  target: number
+}
+
 export interface AppState {
   userId: string
   books: Book[]
   firstLogin?: boolean
+  readingGoals?: ReadingGoal[]
 }
 
 export interface PageProps {

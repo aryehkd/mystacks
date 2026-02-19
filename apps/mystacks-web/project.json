@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "/dist"
+        "outputPath": "dist/apps/mystacks-web"
       },
       "configurations": {
         "development": {

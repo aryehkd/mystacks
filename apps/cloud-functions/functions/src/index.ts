@@ -151,6 +151,44 @@ export const getStoredBook = onRequest(async (request, response) => {
   }
 });
 
+export const deleteBook = onRequest(async (request, response) => {
+  response.set("Access-Control-Allow-Origin", "*");
+
+  if (request.method === "OPTIONS") {
+    response.set("Access-Control-Allow-Methods", "GET, POST");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+    return;
+  }
+
+  const userId = request.method === "POST" && request.body?.userId
+    ? request.body.userId
+    : request.query.userId;
+  const bookId = request.method === "POST" && request.body?.bookId
+    ? request.body.bookId
+    : request.query.bookId;
+
+  if (!userId || !bookId) {
+    response.status(400).json({error: "userId and bookId required"});
+    return;
+  }
+
+  const bookRef = db.collection("users")
+    .doc(String(userId))
+    .collection("books")
+    .doc(String(bookId));
+
+  const doc = await bookRef.get();
+  if (!doc.exists) {
+    response.status(404).json({error: "Book not found"});
+    return;
+  }
+
+  await bookRef.delete();
+  response.json({message: "success"});
+});
+
 export const getStoredBooksSearchKeys = onRequest(async (request, response) => {
   response.set("Access-Control-Allow-Origin", "*");
 
@@ -279,4 +317,68 @@ export const login = onRequest(async (request, response) => {
       response.json({"error": "account not found"});
     }
   }
+});
+
+/** Reading goals: stored at users/{userId}/readingGoals/goals with field goals: array */
+const READING_GOALS_DOC_ID = "goals";
+
+export const getReadingGoals = onRequest(async (request, response) => {
+  response.set("Access-Control-Allow-Origin", "*");
+
+  if (request.method === "OPTIONS") {
+    response.set("Access-Control-Allow-Methods", "GET");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+    return;
+  }
+
+  const userId = request.query.userId as string | undefined;
+  if (!userId) {
+    response.status(400).json({error: "userId required"});
+    return;
+  }
+
+  const ref = db.collection("users")
+    .doc(userId)
+    .collection("readingGoals")
+    .doc(READING_GOALS_DOC_ID);
+
+  const doc = await ref.get();
+  const goals = doc.exists && doc.data()?.goals ?
+    doc.data()?.goals as object[] :
+    [];
+
+  response.json({data: goals});
+});
+
+export const saveReadingGoals = onRequest(async (request, response) => {
+  response.set("Access-Control-Allow-Origin", "*");
+
+  if (request.method === "OPTIONS") {
+    response.set("Access-Control-Allow-Methods", "POST");
+    response.set("Access-Control-Allow-Headers", "Content-Type");
+    response.set("Access-Control-Max-Age", "3600");
+    response.status(204).send("");
+    return;
+  }
+
+  if (request.method !== "POST") {
+    response.status(405).json({error: "Method not allowed"});
+    return;
+  }
+
+  const {userId, goals} = request.body as { userId?: string; goals?: object[] };
+  if (!userId || !Array.isArray(goals)) {
+    response.status(400).json({error: "userId and goals (array) required"});
+    return;
+  }
+
+  const ref = db.collection("users")
+    .doc(userId)
+    .collection("readingGoals")
+    .doc(READING_GOALS_DOC_ID);
+
+  await ref.set({goals});
+  response.json({message: "success", data: {goals: goals.length}});
 });

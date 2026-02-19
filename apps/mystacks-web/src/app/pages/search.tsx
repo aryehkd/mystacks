@@ -26,7 +26,17 @@ export const BookSearchPage = (props: BookSearchPageProps) => {
 export default BookSearchPage;
 
 const SearchInnerContainer = styled(Box)(({ theme }) => ({
-    width: "80%",
+    width: "100%",
+    maxWidth: "800px",
     margin: "50px 0 0 0",
     minHeight: "65vh",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    boxSizing: "border-box",
+
+    [theme.breakpoints.up("sm")]: {
+        width: "80%",
+        paddingLeft: theme.spacing(3),
+        paddingRight: theme.spacing(3),
+    },
 }));

@@ -15,6 +15,7 @@ import {
   RecommendationsPage,
   AccountPage,
   Shelf,
+  InsightsPage,
 } from './app/pages'
 
 import { AppState } from '@mystacks/types'
@@ -78,6 +79,11 @@ const router = createBrowserRouter([
   {
     path: "/shelf",
     element: <Shelf appState={appState}/>,
+    loader: requireLogin,
+  },
+  {
+    path: "/insights",
+    element: <InsightsPage appState={appState}/>,
     loader: requireLogin,
   },
 ]);

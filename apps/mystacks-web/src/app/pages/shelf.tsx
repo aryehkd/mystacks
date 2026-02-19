@@ -37,7 +37,7 @@ export const Shelf = (props: ShelfPageProps) => {
                     <CustomTabPanel value={currentShelfTab} index={0}>
                             <ShelfContainer container> 
                                 <ShelfInnerContainer item xs={12} md={12}>
-                                    {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed).sort((a,b) => (b.userRating?.completedDate??0) - (a.userRating?.completedDate??0)).map((book, index) => <Box sx={{margin: "10px  50px"}} key={index}><BookItem book={book}/></Box>)}
+                                    {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed).sort((a,b) => (b.userRating?.completedDate??0) - (a.userRating?.completedDate??0)).map((book, index) => <ShelfBookWrapper key={book.id ?? index}><BookItem book={book}/></ShelfBookWrapper>)}
                      
                                 </ShelfInnerContainer>                           
                             </ShelfContainer>
@@ -45,7 +45,7 @@ export const Shelf = (props: ShelfPageProps) => {
                     <CustomTabPanel value={currentShelfTab} index={1}>
                         <ShelfContainer container> 
                             <ShelfInnerContainer item xs={12} md={12}>
-                                {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.ToRead).map((book, index) => <Box sx={{margin: "10px 50px"}} key={index}><BookItem book={book}/></Box>)}
+                                {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.ToRead).map((book, index) => <ShelfBookWrapper key={book.id ?? index}><BookItem book={book}/></ShelfBookWrapper>)}
 
                             </ShelfInnerContainer>
                         </ShelfContainer>
@@ -53,7 +53,7 @@ export const Shelf = (props: ShelfPageProps) => {
                     <CustomTabPanel value={currentShelfTab} index={2}>
                         <ShelfContainer container> 
                             <ShelfInnerContainer item xs={12} md={12}>
-                                {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading).map((book, index) => <Box sx={{margin: "10px  50px"}} key={index}><BookItem book={book}/></Box>)}
+                                {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading).map((book, index) => <ShelfBookWrapper key={book.id ?? index}><BookItem book={book}/></ShelfBookWrapper>)}
 
                             </ShelfInnerContainer>
                         </ShelfContainer>
@@ -119,6 +119,44 @@ const ShelfContainer = styled(Grid)(({ theme }) => ({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignContent: "center",
-    marginLeft: "40px",
-    paddingTop: "30px"
+    marginLeft: 0,
+    paddingTop: theme.spacing(2),
+    width: '100%',
+    boxSizing: 'border-box',
+    [theme.breakpoints.up('md')]: {
+        marginLeft: theme.spacing(5),
+        paddingTop: theme.spacing(3.75),
+    },
+}));
+
+const ShelfBookWrapper = styled(Box)(({ theme }) => ({
+    width: '100%',
+    margin: theme.spacing(1.25, 0),
+    boxSizing: 'border-box',
+    '& .card': {
+        width: '100% !important',
+        maxWidth: '240px !important',
+    },
+    '& img': {
+        width: '100% !important',
+        maxWidth: '240px !important',
+        height: 'auto !important',
+        aspectRatio: '2 / 3',
+        objectFit: 'cover',
+        display: 'block',
+    },
+    [theme.breakpoints.up('md')]: {
+        width: 'auto',
+        margin: theme.spacing(1.25, 5),
+        '& .card': {
+            width: '120px !important',
+            maxWidth: 120,
+        },
+        '& img': {
+            width: '120px !important',
+            height: '180px !important',
+            maxHeight: 'none',
+            aspectRatio: 'auto',
+        },
+    },
 })); 

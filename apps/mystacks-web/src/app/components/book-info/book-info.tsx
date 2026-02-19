@@ -1,9 +1,10 @@
-import React from 'react'
-import { Grid, styled, Typography, Rating, ToggleButtonGroup, ToggleButton, TextField, Box, Accordion, AccordionSummary, AccordionDetails } from '@mui/material'
+import React, { useState } from 'react'
+import { Grid, styled, Typography, Rating, ToggleButtonGroup, ToggleButton, TextField, Box, Accordion, AccordionSummary, AccordionDetails, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material'
 import { PrimaryButton, DeleteButton } from '../../elements/button/button'
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CircularProgress from '@mui/material/CircularProgress';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 
 import { Book, BookProgressStates, BookProgressState, BookRating } from '@mystacks/types'
 import ISBNField from '../../elements/isbn-field/isbn-field';
@@ -29,7 +30,9 @@ export interface BookInfoProps {
     handleISBNChange: (newISBN: string) => void
     handleCompletedDateChange: (newDate: Dayjs | null) => void
     saveBook: () => void
+    deleteBook: () => void
     handleImageURLChange: (newUrl: string) => void
+    deleteLoading?: boolean
 }
 
 export const BookInfo = (props: BookInfoProps) => {
@@ -48,21 +51,39 @@ export const BookInfo = (props: BookInfoProps) => {
         handleNotesChange, 
         handleISBNChange,
         handleCompletedDateChange,
-        saveBook, 
-        handleImageURLChange
+        saveBook,
+        deleteBook,
+        handleImageURLChange,
+        deleteLoading = false
     } = props
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+
+    const handleCancelClick = () => {
+        if (typeof window !== 'undefined' && window.history.length > 1) window.history.back()
+    }
+
+    const handleDeleteClick = () => {
+        setDeleteDialogOpen(true)
+    }
+
+    const handleDeleteConfirm = () => {
+        setDeleteDialogOpen(false)
+        deleteBook()
+    }
 
     console.log(imageUrl)
 
-    // TODO: make img component and reuse 
     return (
         <BookInfoContainer container spacing={2}>
-            <Grid item xs={5} md={2}>
-                <CoverImage imgUrl={imageUrl} alt={book.bookInfo.title} canEdit={true} onEdit={handleImageURLChange}/>
-            </Grid>
-            <Grid item xs={7} md={4}>
-                <Typography variant='h4'>{book.bookInfo.title}</Typography>
-                <Typography variant='h6'>{book.bookInfo.author}</Typography>
+            <ImageGridItem item xs={12} md={2}>
+                <ImageWrapper>
+                    <CoverImage imgUrl={imageUrl} alt={book.bookInfo.title} canEdit={true} onEdit={handleImageURLChange} size="large"/>
+                </ImageWrapper>
+            </ImageGridItem>
+            <DetailsGridItem item xs={12} md={4}>
+                <TitleText variant='h4'>{book.bookInfo.title}</TitleText>
+                <AuthorText variant='h6'>{book.bookInfo.author}</AuthorText>
                 <ISBNField isbn={isbn} handleISBNChange={handleISBNChange} isbnError={isbnError} />
                 <AccordionContainer>
                     <Accordion elevation={0}>
@@ -79,7 +100,7 @@ export const BookInfo = (props: BookInfoProps) => {
                         </AccordionDetails>
                     </Accordion>
                 </AccordionContainer>
-            </Grid>
+            </DetailsGridItem>
             <Grid item xs={12} md={4}>
                 <Grid container>
                     <CategoryContainer item xs={12}>
@@ -141,25 +162,94 @@ export const BookInfo = (props: BookInfoProps) => {
                         :
                             <PrimaryButton onClick={saveBook}>Save</PrimaryButton>
                         }
-                        <Box sx={{marginLeft: "10px"}}><DeleteButton onClick={() => console.log('')}>Cancel</DeleteButton></Box>
+                        <Box sx={{ marginLeft: '10px' }}>
+                            <DeleteButton onClick={handleCancelClick}>Cancel</DeleteButton>
+                        </Box>
+                        <Box sx={{ marginLeft: '10px' }}>
+                            <Button
+                                variant="outlined"
+                                color="error"
+                                startIcon={<DeleteOutlineIcon />}
+                                onClick={handleDeleteClick}
+                                disabled={deleteLoading}
+                            >
+                                {deleteLoading ? 'Removing…' : 'Remove from shelf'}
+                            </Button>
+                        </Box>
                     </CategoryContainer>
                 </Grid>
             </Grid>
 
+            <Dialog open={deleteDialogOpen} onClose={() => setDeleteDialogOpen(false)}>
+                <DialogTitle>Remove this book?</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        This will remove &quot;{book.bookInfo.title}&quot; from your shelf. This cannot be undone.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+                    <Button onClick={handleDeleteConfirm} color="error" variant="contained">
+                        Remove from shelf
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </BookInfoContainer>
     )
 }
 
 
 const BookInfoContainer = styled(Grid)(({ theme }) => ({
-    margin: "0",
-    width: "95%",
+    margin: 0,
+    width: "100%",
+    maxWidth: "100%",
+    boxSizing: "border-box",
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
     justifyContent: "center",
-    // border: "4px solid #000",
     [theme.breakpoints.up("md")]: {
         width: "100%",
         padding: "0 40px",
     },
+}));
+
+const ImageGridItem = styled(Grid)(({ theme }) => ({
+    display: "flex",
+    justifyContent: "center",
+    minWidth: 0,
+    [theme.breakpoints.up("md")]: {
+        justifyContent: "flex-start",
+    },
+}));
+
+const ImageWrapper = styled(Box)(({ theme }) => ({
+    maxWidth: "100%",
+    width: "fit-content",
+    "& img": {
+        maxWidth: "100% !important",
+        width: "auto !important",
+        height: "auto !important",
+        objectFit: "cover",
+    },
+}));
+
+const DetailsGridItem = styled(Grid)(({ theme }) => ({
+    minWidth: 0,
+    marginTop: theme.spacing(1),
+    [theme.breakpoints.up("md")]: {
+        marginTop: 0,
+        paddingLeft: theme.spacing(2),
+    },
+}));
+
+const TitleText = styled(Typography)(({ theme }) => ({
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
+}));
+
+const AuthorText = styled(Typography)(({ theme }) => ({
+    wordBreak: "break-word",
+    overflowWrap: "break-word",
 }));
 
 const CategoryContainer = styled(Grid)(({ theme }) => ({

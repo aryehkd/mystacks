@@ -1,14 +1,84 @@
-import React from 'react'
-import { BookProgressStates, PageProps, HomeLoadingStates } from '@mystacks/types'
-import { Box, styled, Typography, Grid, Tab, Tabs } from '@mui/material';
+import React, { useMemo, useEffect } from 'react'
+import { BookProgressStates, PageProps, HomeLoadingStates, Book, ReadingGoal } from '@mystacks/types'
+import { Box, styled, Typography, Grid, Tab, Tabs, Paper, useTheme } from '@mui/material';
 import { CustomAppBar } from '../components/app-bar/app-bar';
-import { useHome } from '@mystacks/hooks';
+import { useHome, useReadingGoals } from '@mystacks/hooks';
 import { BookItem } from '../elements/book/book';
 import { Link } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import dayjs from 'dayjs';
 /* eslint-disable-next-line */
 export interface HomePageProps extends PageProps {
 
+}
+
+function getGoalPeriodLabel(goal: ReadingGoal): string {
+  if (goal.periodType === 'month' && goal.month != null) {
+    return dayjs().month(goal.month - 1).format('MMMM YYYY');
+  }
+  if (goal.periodType === 'season' && goal.season != null) {
+    const cap = goal.season.charAt(0).toUpperCase() + goal.season.slice(1);
+    return `${cap} ${goal.year}`;
+  }
+  return String(goal.year);
+}
+
+function countCompletedInRange(books: Book[], start: number, end: number): number {
+  return books.filter((b) => {
+    const d = b?.userRating?.completedDate;
+    if (d == null) return false;
+    return d >= start && d <= end;
+  }).length;
+}
+
+function HomeSemiCircleChart({
+  value,
+  max,
+  label,
+}: {
+  value: number;
+  max: number;
+  label: string;
+}) {
+  const theme = useTheme();
+  const percent = max <= 0 ? 0 : Math.min(100, (value / max) * 100);
+  const r = 50;
+  const circumference = Math.PI * r;
+  const dashLength = (percent / 100) * circumference;
+  const trackColor = theme.palette.action.hover;
+  const progressColor = theme.palette.primary.main;
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+      <Box
+        sx={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '100%',
+          aspectRatio: '120 / 70',
+          [theme.breakpoints.up('sm')]: { maxWidth: 320 },
+        }}
+      >
+        <svg width="100%" height="100%" viewBox="0 0 120 70" style={{ overflow: 'visible', display: 'block' }} preserveAspectRatio="xMidYMax meet">
+          <path d={`M 10 70 A ${r} ${r} 0 0 1 110 70`} fill="none" stroke={trackColor} strokeWidth={10} strokeLinecap="round" />
+          {percent > 0 && (
+            <path d={`M 10 70 A ${r} ${r} 0 0 1 110 70`} fill="none" stroke={progressColor} strokeWidth={10} strokeLinecap="round" strokeDasharray={`${dashLength} ${circumference}`} strokeDashoffset={0} />
+          )}
+        </svg>
+        <Box
+          sx={{
+            position: 'absolute',
+            left: '50%',
+            bottom: 4,
+            transform: 'translateX(-50%)',
+            textAlign: 'center',
+          }}
+        >
+          <Typography variant="h4" fontWeight="700" color="text.primary">{value}/{max}</Typography>
+        </Box>
+      </Box>
+      <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>{label}</Typography>
+    </Box>
+  );
 }
 
 // TODO: this will require a lot of cleanup, for initial load, further loads, caching books etc
@@ -24,6 +94,29 @@ export const HomePage = (props: HomePageProps) => {
         tabA11yProps,
         getBooksReadThisYear
     } = useHome(props.appState)
+
+    const { goals, loadGoals, getGoalPeriodRange } = useReadingGoals(props.appState)
+    useEffect(() => {
+      loadGoals();
+      // Intentionally run once on mount only; loadGoals updates app state and can change identity, which would retrigger this effect and cause an infinite request loop.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const completedBooks = useMemo(
+      () => savedBooks.filter((b) => b?.userRating?.bookProgress === BookProgressStates.Completed),
+      [savedBooks]
+    )
+    const now = dayjs().unix()
+    const { currentGoals, goalProgress } = useMemo(() => {
+      const current: ReadingGoal[] = []
+      const progress: Record<string, number> = {}
+      goals.forEach((g) => {
+        const { start, end } = getGoalPeriodRange(g)
+        progress[g.id] = countCompletedInRange(completedBooks, start, end)
+        if (end >= now) current.push(g)
+      })
+      return { currentGoals: current, goalProgress: progress }
+    }, [goals, completedBooks, now, getGoalPeriodRange])
 
   // TODO: fancy animation for scroll to tab, when tab is at bottom, scroll to top, add the stacks to green part of tabs bar
    
@@ -59,6 +152,53 @@ export const HomePage = (props: HomePageProps) => {
                                 </Box>
                         </StatOuterContainer>
                     }
+                    {currentGoals.length > 0 && (loadingState === HomeLoadingStates.LoadComplete || loadingState === HomeLoadingStates.LoadingRegular) && (
+                        <HomeGoalsSection>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
+                                <Typography variant="subtitle1" fontWeight="600" color="text.secondary">
+                                    Goals
+                                </Typography>
+                                <Link href="/insights" variant="body2" sx={{ fontWeight: 600, textDecoration: 'none', color: 'inherit' }}>
+                                    View all
+                                </Link>
+                            </Box>
+                            <Box
+                                sx={(t) => ({
+                                    display: 'grid',
+                                    gridTemplateColumns: '1fr',
+                                    gap: 2,
+                                    width: '100%',
+                                    [t.breakpoints.up('sm')]: {
+                                        gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+                                    },
+                                })}
+                            >
+                                {currentGoals.map((g) => (
+                                    <Paper
+                                        key={g.id}
+                                        elevation={0}
+                                        sx={{
+                                            p: 2,
+                                            borderRadius: 2,
+                                            border: '1px solid',
+                                            borderColor: 'divider',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            width: '100%',
+                                            boxSizing: 'border-box',
+                                        }}
+                                    >
+                                        <HomeSemiCircleChart
+                                            value={goalProgress[g.id] ?? 0}
+                                            max={g.target}
+                                            label={getGoalPeriodLabel(g)}
+                                        />
+                                    </Paper>
+                                ))}
+                            </Box>
+                        </HomeGoalsSection>
+                    )}
                 </HomeSectionContainer>
 
                 {(loadingState == HomeLoadingStates.LoadComplete || loadingState == HomeLoadingStates.LoadingRegular) && 
@@ -76,31 +216,46 @@ export const HomePage = (props: HomePageProps) => {
                     </Box>
                     <CustomTabPanel value={currentShelfTab} index={0}>
                             <ShelfContainer container> 
-                                <ShelfInnerContainer item xs={12} md={12}>
-                                    {savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed).sort((a,b) => (b.userRating?.completedDate??0) - (a.userRating?.completedDate??0)).splice(0,5).map((book, index) => <BookWrapper key={index}><BookItem book={book}/></BookWrapper>)}
-                                    {!!savedBooks.length && 
-                                        <BookWrapper  >
-                                            <Link href="/shelf" variant="body1" display="flex" alignItems="center">
-                                                Go to my shelf
-                                                <ArrowForwardIcon style={{ marginLeft: 8 }} />
+                                <CompletedSectionInner item xs={12} md={12}>
+                                    {savedBooks
+                                        .filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed)
+                                        .sort((a, b) => (b.userRating?.completedDate ?? 0) - (a.userRating?.completedDate ?? 0))
+                                        .slice(0, 10)
+                                        .map((book, index) => (
+                                            <BookWrapper key={index}>
+                                                <BookItem book={book} />
+                                            </BookWrapper>
+                                        ))}
+                                    {!!savedBooks.length && (
+                                        <ViewAllWrapper>
+                                            <Link href="/shelf" variant="body1" display="flex" alignItems="center" justifyContent="center" sx={{ textDecoration: 'none', color: 'inherit', fontWeight: 600 }}>
+                                                View all
+                                                <ArrowForwardIcon sx={{ marginLeft: 1 }} />
                                             </Link>
-                                        </BookWrapper>                     
-                                   }
-                                </ShelfInnerContainer>                           
+                                        </ViewAllWrapper>
+                                    )}
+                                </CompletedSectionInner>
                             </ShelfContainer>
                         </CustomTabPanel>
                     <CustomTabPanel value={currentShelfTab} index={1}>
                         <ShelfContainer container> 
-                            <ShelfInnerContainer item xs={12} md={12}>
-                                {!!savedBooks.length && 
-                                    <BookWrapper  >
-                                        <Link href="/shelf" variant="body1" display="flex" alignItems="center">
+                            <CompletedSectionInner item xs={12} md={12}>
+                                {savedBooks
+                                    .filter(book => book?.userRating?.bookProgress == BookProgressStates.ToRead)
+                                    .map((book, index) => (
+                                        <BookWrapper key={book.id ?? index}>
+                                            <BookItem book={book} />
+                                        </BookWrapper>
+                                    ))}
+                                {!!savedBooks.length && (
+                                    <ViewAllWrapper>
+                                        <Link href="/shelf" variant="body1" display="flex" alignItems="center" justifyContent="center" sx={{ textDecoration: 'none', color: 'inherit', fontWeight: 600 }}>
                                             Go to my shelf
-                                            <ArrowForwardIcon style={{ marginLeft: 8 }} />
+                                            <ArrowForwardIcon sx={{ marginLeft: 1 }} />
                                         </Link>
-                                    </BookWrapper>                     
-                                }
-                            </ShelfInnerContainer>
+                                    </ViewAllWrapper>
+                                )}
+                            </CompletedSectionInner>
                         </ShelfContainer>
                         </CustomTabPanel>
 
@@ -164,8 +319,12 @@ const ShelfContainer = styled(Grid)(({ theme }) => ({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignContent: "center",
-    marginLeft: "40px",
-    paddingTop: "30px"
+    marginLeft: 0,
+    paddingTop: "30px",
+
+    [theme.breakpoints.up("md")]: {
+        marginLeft: "40px",
+    },
 })); 
 
 const ReadingNowInnerContainer = styled(Grid)(({ theme }) => ({
@@ -196,7 +355,22 @@ const StatOuterContainer = styled(Grid)(({ theme }) => ({
         margin: 0,
         width: "25%",
     }
-})); 
+}));
+
+const HomeGoalsSection = styled(Box)(({ theme }) => ({
+    width: '100%',
+    marginTop: theme.spacing(4),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    boxSizing: 'border-box',
+    [theme.breakpoints.up('md')]: {
+        maxWidth: 600,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        paddingLeft: 0,
+        paddingRight: 0,
+    },
+}));
 
 const ReadingNowSubtitleContainer = styled(Box)(({ theme }) => ({
     paddingLeft: "40px",
@@ -207,24 +381,89 @@ const ReadingNowSubtitleContainer = styled(Box)(({ theme }) => ({
     }
 })); 
 
-const ShelfInnerContainer = styled(Grid)(({ theme }) => ({
+const CAROUSEL_ITEM_WIDTH = 120;
+const CAROUSEL_GAP = 16;
+
+const CompletedSectionInner = styled(Grid)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
+    overflowX: 'auto',
+    overflowY: 'hidden',
+    WebkitOverflowScrolling: 'touch',
+    scrollbarWidth: 'none',
+    '&::-webkit-scrollbar': { display: 'none' },
+    marginLeft: 0,
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    gap: CAROUSEL_GAP,
+    alignItems: 'flex-start',
+
+    '& .card': {
+        width: '100%',
+        minWidth: 0,
+        maxWidth: `${CAROUSEL_ITEM_WIDTH}px`,
+    },
+    '& img': {
+        width: '100% !important',
+        maxWidth: '100% !important',
+        height: 'auto',
+        objectFit: 'cover',
+        display: 'block',
+    },
+    '& .card-text': {
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        display: '-webkit-box',
+        WebkitLineClamp: 3,
+        WebkitBoxOrient: 'vertical',
+    },
 
     [theme.breakpoints.up("md")]: {
+        flexWrap: 'wrap',
+        overflowX: 'visible',
+        overflowY: 'visible',
+        WebkitOverflowScrolling: 'auto',
+        scrollbarWidth: 'auto',
+        '&::-webkit-scrollbar': { display: 'block' },
         justifyContent: 'flex-start',
-        alignContent: "center",
-        width: "100%"
-    }
-})); 
+        alignContent: 'center',
+        width: '100%',
+        marginLeft: '40px',
+        paddingLeft: 0,
+        paddingRight: 0,
+        gap: 0,
+    },
+}));
+
+const ViewAllWrapper = styled(Box)(({ theme }) => ({
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: CAROUSEL_ITEM_WIDTH,
+    minWidth: CAROUSEL_ITEM_WIDTH,
+    marginLeft: 0,
+
+    [theme.breakpoints.up("md")]: {
+        marginLeft: theme.spacing(6),
+        minWidth: 'auto',
+        width: 'auto',
+    },
+}));
 
 const BookWrapper = styled(Grid)(({ theme }) => ({
-    margin: "20px 20px",
+    flexShrink: 0,
+    width: CAROUSEL_ITEM_WIDTH,
+    minWidth: CAROUSEL_ITEM_WIDTH,
+    margin: 0,
+    boxSizing: 'border-box',
 
     [theme.breakpoints.up("md")]: {
-        margin: "0 50px"
-    }
+        width: 'auto',
+        minWidth: 'auto',
+        margin: "0 50px",
+    },
 }));
 
 const QuickStatsContainer = styled(Grid)(({ theme }) => ({

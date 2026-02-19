@@ -7,21 +7,21 @@ import { useHookstate } from '@hookstate/core';
 export const useHome = (appState: AppStateType) => {
     const [ loadedBooks, setLoadedBooks ] = useState<Book[]>([])
     const globalState = useHookstate(appState);
+    const booksFromGlobal = globalState.books.get();
 
    const [ loadingState, setLoadingState ] = useState<HomeLoadingState>(HomeLoadingStates.LoadNotStarted)
    const [  currentShelfTab, setCurrentShelfTab ] = useState(0);
 
    const { savedBooks, loadSavedBooks } = useSavedBooks(appState)
 
-   console.log("state", globalState.get())
+   const booksToUse = (booksFromGlobal && booksFromGlobal.length > 0) ? booksFromGlobal : savedBooks;
 
    const addCurrentlyReadingHomepageStaggered = () => {
         let added = 0
+        const source = booksToUse
 
         const addNextBook = () => {
-            const currentlyReading = savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading)
-
-            console.log("currentlyReading", currentlyReading, savedBooks.map(book => ({progress: book?.userRating?.bookProgress, title: book?.bookInfo?.title})))
+            const currentlyReading = source.filter(book => book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading)
 
             if (currentlyReading.length > added) {
                 setLoadedBooks(currentlyReading.slice(0, added + 1))
@@ -39,8 +39,7 @@ export const useHome = (appState: AppStateType) => {
     }
 
     const addCurrentlyReadingHomepageAll = () => {
-        const currentlyReading = savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading)
-        console.log("currentlyReading", currentlyReading, savedBooks.map(book => ({progress: book?.userRating?.bookProgress, title: book?.bookInfo?.title})))
+        const currentlyReading = booksToUse.filter(book => book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading)
 
         setLoadedBooks(currentlyReading.slice(0, 5))
         setLoadingState(HomeLoadingStates.LoadComplete)
@@ -55,7 +54,7 @@ export const useHome = (appState: AppStateType) => {
     const getBooksReadThisYear = () => {
         const today = new Date();
         const year = today.getFullYear();
-        const booksReadThisYear = savedBooks.filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed && book?.userRating?.completedDate && dayjs.unix(book.userRating.completedDate).year() == year)
+        const booksReadThisYear = booksToUse.filter(book => book?.userRating?.bookProgress == BookProgressStates.Completed && book?.userRating?.completedDate && dayjs.unix(book.userRating.completedDate).year() == year)
         return booksReadThisYear.length
     }
 
@@ -126,26 +125,26 @@ export const useHome = (appState: AppStateType) => {
     };
 
     const syncSavedAndLoadedBooks = () => {
-        // TODO bug here with completed book showing as still reading
+        const sourceBooks = globalState.get().books ?? savedBooks;
         const tempLoadedBooks: Book[] = [...loadedBooks]
         let changed = 0
 
-        for (const book of savedBooks) {
+        for (const book of sourceBooks) {
             const foundIndex = tempLoadedBooks.findIndex((loadedBook) => loadedBook.id == book.id)
             
-            if(foundIndex == -1 && book?.userRating?.bookProgress == "currentlyReading"){
+            if(foundIndex == -1 && book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading){
                 tempLoadedBooks.push(book)
                 changed = 1
             }
-            if (foundIndex >= 0 && book?.userRating?.bookProgress == "currentlyReading") {
+            if (foundIndex >= 0 && book?.userRating?.bookProgress == BookProgressStates.CurrentlyReading) {
                 if (tempLoadedBooks[foundIndex].userRating?.bookProgress != book.userRating?.bookProgress) {
                     tempLoadedBooks[foundIndex].userRating = book.userRating
                     changed = 1
                 }
             }
-            // console.log(book?.userRating?.bookProgress, "==", "completed", tempLoadedBooks[foundIndex]?.userRating?.bookProgress, "==", "currentlyReading")
-            if (foundIndex >= 0 && tempLoadedBooks[foundIndex]?.userRating?.bookProgress == "currentlyReading" && book?.userRating?.bookProgress != "currentlyReading") {
+            if (foundIndex >= 0 && tempLoadedBooks[foundIndex]?.userRating?.bookProgress == BookProgressStates.CurrentlyReading && book?.userRating?.bookProgress != BookProgressStates.CurrentlyReading) {
                 tempLoadedBooks.splice(foundIndex, 1)
+                changed = 1
             }
         }
 
@@ -163,10 +162,10 @@ export const useHome = (appState: AppStateType) => {
     }, [])
 
     useEffect(() => {
-        if (loadingState == HomeLoadingStates.LoadingFirstTimeBooks && savedBooks.length && loadedBooks.length == 0) {
+        if (loadingState == HomeLoadingStates.LoadingFirstTimeBooks && booksToUse.length && loadedBooks.length == 0) {
             setTimeout(() => addCurrentlyReadingHomepageStaggered(), 1000);
         }
-        if (loadingState == HomeLoadingStates.LoadingRegular && savedBooks.length && loadedBooks.length == 0) {
+        if (loadingState == HomeLoadingStates.LoadingRegular && booksToUse.length && loadedBooks.length == 0) {
             addCurrentlyReadingHomepageAll()
         }
 
@@ -175,7 +174,7 @@ export const useHome = (appState: AppStateType) => {
         }
 
 
-    }, [savedBooks, loadingState])
+    }, [savedBooks, loadingState, booksFromGlobal])
 
     return {
         currentShelfTab,

@@ -82,15 +82,13 @@ export const RecommendationItem = (props: AIRecommendationItemProps) => {
 const StyledBox = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "column",
-    width: "100px",
-
-
+    width: "120px",
 }));
 
 const StyledRecommendationBox = styled(Box)(({ theme }) => ({
     display: "flex",
     flexDirection: "row",
-    width: "100px",
+    width: "120px",
     transition: "width .5s ease-in-out",
 
     "& .secondary-info": {

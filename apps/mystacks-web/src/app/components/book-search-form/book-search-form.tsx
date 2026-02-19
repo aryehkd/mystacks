@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
-import { Box, Grid } from '@mui/material'
-import { OutlinedTextInput, PrimaryButton } from "../../elements" 
+import { Box, Grid } from '@mui/material';
+import { OutlinedTextInput, PrimaryButton } from '../../elements';
 
 /* eslint-disable-next-line */
 export interface BookSearchFormProps {
@@ -17,26 +17,44 @@ export function BookSearchForm(props: BookSearchFormProps) {
   }
 
   return (
-     <Box sx={{ flexGrow: 1 }}>
-      <Grid container>
-        <StyledTextFieldContainer item xs={10}>
+    <FormRoot>
+      <Grid container spacing={2} alignItems="center">
+        <Grid item xs={12} sm={10}>
           <OutlinedTextInput 
             id="book-search-form" 
             label="Book Title" 
             value={inputValue}
             handleChange={handleChange}
           />
-        </StyledTextFieldContainer>
-        <Grid item xs={2} sx={{paddingTop: "15px"}}>
-          <PrimaryButton onClick={() => handleSearchClick(inputValue)}>Search</PrimaryButton>
         </Grid>
+        <ButtonGridItem item xs={12} sm={2}>
+          <SearchButton onClick={() => handleSearchClick(inputValue)}>
+            Search
+          </SearchButton>
+        </ButtonGridItem>
       </Grid>
-    </Box>
+    </FormRoot>
   );
 }
 
 export default BookSearchForm;
 
-const StyledTextFieldContainer = styled(Grid)(({ theme }) => ({
-  paddingRight: '10px'
+const FormRoot = styled(Box)(({ theme }) => ({
+  flexGrow: 1,
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+}));
+
+const ButtonGridItem = styled(Grid)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  [theme.breakpoints.up('sm')]: {
+    justifyContent: 'flex-start',
+  },
+}));
+
+const SearchButton = styled(PrimaryButton)(({ theme }) => ({
+  width: 'auto',
+  minWidth: 100,
 }));

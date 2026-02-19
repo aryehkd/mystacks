@@ -24,14 +24,14 @@ export const Card = (props: CardProps) => {
     return (
         <StyledBox className='card'>
             <BookInfoContainer>
-                {bookInfo.imgUrl &&
+                {bookInfo.imgUrl && (
                     <img
-                        src={`${bookInfo.imgUrl}?w=164&h=164&fit=crop&auto=format`}
-                        alt={bookInfo.title+"-img"}
+                        src={`${bookInfo.imgUrl}?w=240&h=360&fit=crop&auto=format`}
+                        alt={bookInfo.title + '-img'}
                         loading="lazy"
-                        style={{cursor: "pointer", width: "100px", height: "auto"}}
+                        style={{ cursor: 'pointer', width: '120px', height: '180px', objectFit: 'cover', display: 'block' }}
                     />
-                }
+                )}
                 <TextContainer>
                     <StyledTitle variant="h6" className="card-text">
                         {bookInfo.title}

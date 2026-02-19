@@ -2,17 +2,27 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, TextField, Button } from '@mui/material';
 
+export const COVER_IMAGE_SIZES = {
+    default: { width: 120, height: 180 },
+    large: { width: 200, height: 300 },
+} as const;
+
+export type CoverImageSize = keyof typeof COVER_IMAGE_SIZES;
+
 export interface CoverImageProps {
     imgUrl?: string;
     alt?: string;
     canEdit?: boolean;
     onEdit?: (newImgUrl: string) => void;
+    size?: CoverImageSize;
 }
 
 export const CoverImage = (props: CoverImageProps) => {
     const [editing, setEditing] = React.useState(false);
     const [imageUrl, setImageUrl] = React.useState(props.imgUrl || '');
-    
+    const sizeKey = props.size ?? 'default';
+    const { width, height } = COVER_IMAGE_SIZES[sizeKey];
+
     const handleImageClick = () => {
         if (props.canEdit) {
             setEditing(!editing);  // Toggle editing mode
@@ -35,16 +45,15 @@ export const CoverImage = (props: CoverImageProps) => {
         setImageUrl(event.target.value);  // Update the image URL state as user types
     };
 
-    console.log(props.imgUrl);
-
     return (
         <Box>
             {props.imgUrl ? (
                 <>
-                    <img
-                        src={`${props.imgUrl}?w=164&h=164&fit=crop&auto=format`}
-                        alt={props.alt + "-img"}
-                        style={{ cursor: "pointer", height: "auto", width: "150px" }}
+                    <StyledImg
+                        src={`${props.imgUrl}?w=240&h=360&fit=crop&auto=format`}
+                        alt={(props.alt ?? '') + '-img'}
+                        $width={width}
+                        $height={height}
                         onClick={handleImageClick}
                     />
                     {editing && (
@@ -67,7 +76,7 @@ export const CoverImage = (props: CoverImageProps) => {
                     )}
                 </>
             ) : (
-                <NoImage />
+                <NoImage $width={width} $height={height} />
             )}
         </Box>
     );
@@ -75,8 +84,16 @@ export const CoverImage = (props: CoverImageProps) => {
 
 export default CoverImage;
 
-const NoImage = styled(Box)(({ theme }) => ({
-    background: "grey",
-    height: "164px",
-    width: "120px",
+const StyledImg = styled('img')<{ $width: number; $height: number }>(({ $width, $height }) => ({
+    cursor: 'pointer',
+    width: `${$width}px`,
+    height: `${$height}px`,
+    objectFit: 'cover',
+    display: 'block',
+}));
+
+const NoImage = styled(Box)<{ $width: number; $height: number }>(({ $width, $height }) => ({
+    background: 'grey',
+    width: `${$width}px`,
+    height: `${$height}px`,
 }));

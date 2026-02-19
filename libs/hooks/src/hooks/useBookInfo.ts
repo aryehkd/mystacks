@@ -43,8 +43,9 @@ export const useBookInfo = (
   const [completedDate, setCompletedDate] = useState<Dayjs | null>(dayjs());
 
   const [loading, setLoading] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [bookLoaded, setBookLoaded] = useState<boolean>(false);
-  
+
   const updateBookFields = (loadedBook: Book) => {
     setCurrentBook(loadedBook);
     setBookProgress(
@@ -52,13 +53,31 @@ export const useBookInfo = (
     );
     setRating(loadedBook.userRating?.rating || 0);
     setNotes(loadedBook.userRating?.notes || '');
+    setPageCount(loadedBook.bookInfo?.pageCount || 0);
     setISBN(
       loadedBook.bookInfo?.industryIdentifiers?.isbn13 ||
         loadedBook.bookInfo?.industryIdentifiers?.isbn10 ||
         ''
     );
     setImageUrl(loadedBook.bookInfo?.imgUrl || '');
-    setCompletedDate(dayjs.unix(Number(loadedBook.userRating?.completedDate)));
+    setCompletedDate(
+      loadedBook.userRating?.completedDate
+        ? dayjs.unix(Number(loadedBook.userRating.completedDate))
+        : dayjs()
+    );
+  }
+
+  const resetBookState = () => {
+    setBookLoaded(false);
+    setCurrentBook(undefined);
+    setBookProgress(BookProgressStates.ToRead);
+    setRating(0);
+    setNotes('');
+    setPageCount(0);
+    setISBN('');
+    setImageUrl('');
+    setCompletedDate(dayjs());
+    setISBNError(undefined);
   }
 
   const loadBook = (bookId: string) => {
@@ -112,10 +131,6 @@ export const useBookInfo = (
 
   const handleImageURLChange = (newUrl: string) => {
     setImageUrl(newUrl);
-  };
-
-  const handlePageCountChange = (newPageCount: number) => {
-    setPageCount(newPageCount);
   };
 
   const searchNewISBN = async (newISBN: string) => {
@@ -219,6 +234,7 @@ export const useBookInfo = (
             return state
           });
 
+          resetBookState();
           lastPage ? navigate(lastPage) : navigate('/');
           setLoading(false);
           // navigate back home
@@ -230,16 +246,58 @@ export const useBookInfo = (
     }
   };
 
+  const deleteBook = () => {
+    const userId = globalState.get().userId;
+    const bookIdToDelete = currentBook?.id;
+
+    if (!userId || !bookIdToDelete) return;
+
+    setDeleteLoading(true);
+    const url = `https://deletebook-u6erzcpcda-uc.a.run.app?${new URLSearchParams({ userId, bookId: bookIdToDelete })}`;
+
+    request(url, { method: 'GET' })
+      .then((res) => {
+        if (!res.ok) return res.json().then((data) => Promise.reject(data));
+        return res.json();
+      })
+      .then(() => {
+        globalState.set((state) => {
+          if (!state.books || !Array.isArray(state.books)) return state;
+          return {
+            ...state,
+            books: state.books.filter((b: Book) => b.id !== bookIdToDelete),
+          };
+        });
+        resetBookState();
+        navigate(lastPage || '/shelf');
+      })
+      .catch((err) => {
+        console.error('deleteBook failed', err);
+        setDeleteLoading(false);
+      });
+  };
+
+  // When navigating to a different book, reset and load so we never show stale data
+  const bookKey = bookId ?? book?.id ?? (book ? `unsaved-${book?.bookInfo?.title}` : null);
   useEffect(() => {
-    const allSavedBooks = globalState.get().books
-    const foundBook = allSavedBooks?.find(savedBook => savedBook.id == bookId) || book
+    if (!bookKey) return;
+
+    resetBookState();
+
+    const allSavedBooks = globalState.get().books;
+    const foundBook =
+      allSavedBooks?.find((savedBook) => savedBook.id == bookId) || book;
     if (foundBook) {
-      updateBookFields(foundBook)
+      updateBookFields(foundBook);
       setBookLoaded(true);
-    } else {
-      bookId && loadBook(bookId);
+    } else if (bookId) {
+      loadBook(bookId);
+    } else if (book) {
+      updateBookFields(book);
+      setBookLoaded(true);
     }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- bookKey intentionally stabilizes identity; full deps would reset on every parent re-render
+  }, [bookKey]);
 
   return {
     currentBook,
@@ -250,12 +308,14 @@ export const useBookInfo = (
     isbn,
     isbnError,
     loading,
+    deleteLoading,
     completedDate,
     bookLoaded,
     handleBookProgressChange,
     handleBookRatingChange,
     handleNotesChange,
     saveBook,
+    deleteBook,
     handleISBNChange,
     handleCompletedDateChange,
     handleImageURLChange

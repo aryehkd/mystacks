@@ -20,6 +20,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useAppBar } from '@mystacks/hooks';
 import { BookSearchItem, AppStateType } from '@mystacks/types';
 import MenuIcon from '@mui/icons-material/Menu';
+import BarChartIcon from '@mui/icons-material/BarChart';
 
 /* eslint-disable-next-line */
 export interface AppBarProps {
@@ -77,7 +78,7 @@ export const CustomAppBar = (props: AppBarProps) => {
                   fontWeight: '600',
                   color: 'white',
                   position: 'absolute',
-                  top: '6px',
+                  top: '-2px',
                   left: '80px',
                 }}
                 onClick={() => handleNavigate('/')}
@@ -141,6 +142,9 @@ export const CustomAppBar = (props: AppBarProps) => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={() => handleNavigate('/')}>Home</MenuItem>
+                <MenuItem onClick={() => handleNavigate('/insights')}>
+                  Reading insights
+                </MenuItem>
                 <MenuItem onClick={() => handleNavigate('/account')} disabled>
                   Profile
                 </MenuItem>
@@ -171,13 +175,27 @@ export const CustomAppBar = (props: AppBarProps) => {
           color="primary"
           sx={{ top: 'auto', bottom: 0 }}
         >
-          <Toolbar>
+          <Toolbar sx={{ justifyContent: 'space-around' }}>
             <IconButton
               color="inherit"
-              aria-label="open drawer"
+              aria-label="Home"
               onClick={() => handleNavigate('/')}
             >
               <CabinIcon />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              aria-label="Search"
+              onClick={() => handleNavigate('/search')}
+            >
+              <SearchIcon />
+            </IconButton>
+            <IconButton
+              color="inherit"
+              aria-label="Reading insights"
+              onClick={() => handleNavigate('/insights')}
+            >
+              <BarChartIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -233,13 +251,16 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
 }));
 
 const StyledFooter = styled(Grid)(({ theme }) => ({
-  backgroundColor: '#006300',
-  minHeight: '50px',
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'row',
-  padding: "40px",
-  justifyContent: "space-between"
+  display: 'none',
+  [theme.breakpoints.up('md')]: {
+    display: 'flex',
+    backgroundColor: '#006300',
+    minHeight: '50px',
+    width: '100%',
+    flexDirection: 'row',
+    padding: '40px',
+    justifyContent: 'space-between',
+  },
 }));
 
 const FooterText = styled(Typography)(({ theme }) => ({
